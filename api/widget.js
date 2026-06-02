@@ -1,21 +1,41 @@
-'use strict';
+export default async function handler(req, res) {
+  const { username = "guest", mode = "full" } = req.query;
 
-const { renderWidget } = require('../lib/widgets');
+  const size = mode === "compact" ? 6 : 12;
 
-module.exports = async (req, res) => {
-  try {
-    const q = req.query || {};
-    const type = q.type || 'time';
+  const data = Array.from({ length: 35 }, () =>
+    Math.floor(Math.random() * 15)
+  );
 
-    const svg = await renderWidget(type, q);
-
-    res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=60, stale-while-revalidate=120');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    res.status(200).send(svg);
-  } catch (err) {
-    res.status(500).setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
-    res.end(`<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" width="320" height="60"><rect width="320" height="60" fill="#7f1d1d"/><text x="16" y="36" fill="#fff" font-family="monospace" font-size="12">Render error: ${String(err && err.message || err).replace(/[<>&]/g,'')}</text></svg>`);
+  function getColor(count) {
+    if (count === 0) return "#ebedf0";
+    if (count < 5) return "#c6e48b";
+    if (count < 10) return "#7bc96f";
+    return "#196127";
   }
-};
+
+  let rects = "";
+
+  data.forEach((count, i) => {
+    const cols = 7;
+    const x = (i % cols) * (size + 2);
+    const y = Math.floor(i / cols) * (size + 2);
+
+    rects += `<rect x="${x}" y="${y}" width="${size}" height="${size}" fill="${getColor(count)}" rx="2"/>`;
+  });
+
+  const width = 7 * (size + 2);
+  const height = Math.ceil(data.length / 7) * (size + 2);
+
+  const svg = `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      ${rects}
+      <text x="0" y="${height + 12}" font-size="10">
+        ${username}'s activity (${mode})
+      </text>
+    </svg>
+  `;
+
+  res.setHeader("Content-Type", "image/svg+xml");
+  res.send(svg);
+}
