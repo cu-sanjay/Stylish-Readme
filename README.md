@@ -220,7 +220,7 @@ npm install
 Start the development server:
 
 ```bash
-npm start (static preview only � no server.js needed, project is fully serverless)
+npm start (static preview only � no server.js needed, project is fully serverless)
 ```
 
 <<<<<<< HEAD
@@ -264,3 +264,24 @@ For full contribution guidelines, see:
 
 **[CONTRIBUTING.md](./CONTRIBUTING.md)**
 >>>>>>> upstream/main
+
+
+---
+
+## 🚀 Features
+
+* **Stylish UI/UX:** Clean and modern interface for generating GitHub Readmes.
+* **Music & Badges Support:** Easily add music widgets, profile views, and social badges.
+* **Real-time Preview:** See changes instantly before copying the markdown code.
+
+## 🛠️ Tech Stack Used
+
+* ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) **HTML5** - For structuring the generator layout.
+* ![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black) **JavaScript** - For handling real-time badge generation logic.
+* ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white) **Vercel** - For seamless cloud deployment.
+
+## 💻 How to Run Locally
+
+1. Clone the repository:
+```bash
+   git clone [https://github.com/ishanjee620-sketch/Stylish-Readme.git](https://github.com/ishanjee620-sketch/Stylish-Readme.git)
