@@ -529,7 +529,8 @@
     { id:'timezone',label:'Timezone Banner',  icon:'globe' },
     { id:'streak',  label:'Coding Streak',    icon:'flame' },
     { id:'music',   label:'Now Playing',      icon:'music' },
-    { id:'profile', label:'Profile Card',     icon:'contact' }
+    { id:'profile', label:'Profile Card',     icon:'contact' },
+    { id:'activity', label:'Activity Badge',   icon:'sparkles' },
   ];
 
   // ----- Skills (24x24 brand-color badges) -----
@@ -840,7 +841,7 @@
     const area = $('controlsArea');
     let html = '';
 
-    if (state.widget==='time' || state.widget==='clock' || state.widget==='timezone'){
+    if (state.widget==='time' || state.widget==='clock' || state.widget==='timezone' || state.widget === 'activity'){
       html += `
         <div class="mb-5">
           <label class="label-tag">Timezone</label>
@@ -1576,5 +1577,33 @@
   document.addEventListener('DOMContentLoaded', init);
   if (document.readyState!=='loading') init();
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f56e41400fc97f7',t:'MTc3NzcyMzQ5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f56e41400fc97f7',t:'MTc3NzcyMzQ5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
+updateLivePreview();
+</script>
+
+</script>
+html
+<script type="module">
+    import { renderActivityBadge } from './lib/widgets.js';
+
+    const previewContainer = document.getElementById('previewStage');
+
+    function updateLivePreview() {
+        if (!previewContainer) return;
+        
+        previewContainer.innerHTML = renderActivityBadge({
+            customLabel: 'Local Time',
+            theme: 'classic',
+            timeString: new Date().toLocaleTimeString(),
+            streak: '12 Days',
+            listening: 'Anti-Hero - Taylor Swift'
+        });
+    }
+
+    // Run immediately to paint the SVG on page load
+    updateLivePreview();
+</script>
+ 
+ </script>
+</body>
 </html>
