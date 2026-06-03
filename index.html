@@ -531,216 +531,16 @@
     { id:'music',   label:'Now Playing',      icon:'music' },
     { id:'profile', label:'Profile Card',     icon:'contact' }
   ];
-
-  // ----- Skills (24x24 brand-color badges) -----
-  const SKILLS = {
-    HTML:    { name:'HTML5',      bg:'#E34F26', slug:'html5' },
-    CSS:     { name:'CSS3',       bg:'#1572B6', slug:'css3' },
-    JS:      { name:'JavaScript', bg:'#F7DF1E', slug:'javascript', dark:true },
-    TS:      { name:'TypeScript', bg:'#3178C6', slug:'typescript' },
-    REACT:   { name:'React',      bg:'#20232A', slug:'react' },
-    VUE:     { name:'Vue.js',     bg:'#4FC08D', slug:'vuedotjs' },
-    ANGULAR: { name:'Angular',    bg:'#DD0031', slug:'angular' },
-    NODE:    { name:'Node.js',    bg:'#339933', slug:'nodedotjs' },
-    PYTHON:  { name:'Python',     bg:'#3776AB', slug:'python' },
-    JAVA:    { name:'Java',       bg:'#ED8B00', slug:'openjdk' },
-    CPP:     { name:'C++',        bg:'#00599C', slug:'cplusplus' },
-    GO:      { name:'Go',         bg:'#00ADD8', slug:'go' },
-    RUST:    { name:'Rust',       bg:'#1a1a1a', slug:'rust' },
-    GIT:     { name:'Git',        bg:'#F05032', slug:'git' },
-    GITHUB:  { name:'GitHub',     bg:'#181717', slug:'github' },
-    SQL:     { name:'MySQL',      bg:'#4479A1', slug:'mysql' },
-    MONGO:   { name:'MongoDB',    bg:'#47A248', slug:'mongodb' },
-    DOCKER:  { name:'Docker',     bg:'#2496ED', slug:'docker' },
-    AWS:     { name:'AWS',        bg:'#232F3E', slug:'amazonwebservices' },
-    LINUX:   { name:'Linux',      bg:'#FCC624', slug:'linux', dark:true },
-    TAILWIND:{ name:'Tailwind',   bg:'#06B6D4', slug:'tailwindcss' },
-    SASS:    { name:'Sass',       bg:'#CC6699', slug:'sass' },
-    BOOTSTRAP:{ name:'Bootstrap', bg:'#7952B3', slug:'bootstrap' },
-    FIGMA:   { name:'Figma',      bg:'#1a1a1a', slug:'figma' }
-  };
-  function skillIconSvg(code, x, y, size){
-    const s = SKILLS[code]; if(!s) return '';
-    const iconColor = s.dark ? '1a1a1a' : 'ffffff';
-    const inner = size*0.62;
-    const off = (size-inner)/2;
-    return `<g transform="translate(${x},${y})">
-      <rect width="${size}" height="${size}" rx="${size*0.2}" fill="${s.bg}"/>
-      <rect width="${size}" height="${size}" rx="${size*0.2}" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.6"/>
-      <image href="https://cdn.simpleicons.org/${s.slug}/${iconColor}" x="${off}" y="${off}" width="${inner}" height="${inner}"/>
-    </g>`;
-  }
-
-  // ----- Coding platforms for streak -----
-  const CODING_PLATFORMS = {
-    none:        { name:'None',          bg:'transparent', fg:'transparent', label:'' },
-    leetcode:    { name:'LeetCode',      bg:'#FFA116', fg:'#1a1a1a', label:'LC' },
-    gfg:         { name:'GeeksforGeeks', bg:'#2F8D46', fg:'#fff',    label:'GfG' },
-    hackerrank:  { name:'HackerRank',    bg:'#00EA64', fg:'#0d1117', label:'HR' },
-    codeforces:  { name:'Codeforces',    bg:'#1F8ACB', fg:'#fff',    label:'CF' },
-    codechef:    { name:'CodeChef',      bg:'#5B4638', fg:'#fff',    label:'CC' },
-    atcoder:     { name:'AtCoder',       bg:'#222222', fg:'#fff',    label:'AC' },
-    hackerearth: { name:'HackerEarth',   bg:'#2C3454', fg:'#3686FF', label:'HE' },
-    github:      { name:'GitHub',        bg:'#181717', fg:'#fff',    label:'GH' }
-  };
-  function platformBadgeSvg(code, x, y, size){
-    const p = CODING_PLATFORMS[code]; if(!p || code==='none') return '';
-    const fs = p.label.length>=3 ? size*0.32 : (p.label.length===2 ? size*0.42 : size*0.55);
-    return `<g transform="translate(${x},${y})">
-      <rect width="${size}" height="${size}" rx="${size*0.22}" fill="${p.bg}"/>
-      <text x="${size/2}" y="${size/2 + fs*0.36}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="${fs.toFixed(1)}" font-weight="800" fill="${p.fg}">${p.label}</text>
-    </g>`;
-  }
-
-  // ----- Music streaming platforms -----
-  const MUSIC_PLATFORMS = {
-    none:       { name:'None',          color:null },
-    spotify:    { name:'Spotify',       color:'#1DB954' },
-    ytmusic:    { name:'YouTube Music', color:'#FF0000' },
-    applemusic: { name:'Apple Music',   color:'#FA243C' },
-    soundcloud: { name:'SoundCloud',    color:'#FF7700' }
-  };
-  function musicGlyphSvg(code, cx, cy, r){
-    if(!code || code==='none') return '';
-    const c = MUSIC_PLATFORMS[code]?.color || '#fff';
-    if(code==='spotify') return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}"/>
-      <path d="M${cx-r*0.55},${cy-r*0.25} Q${cx},${cy-r*0.55} ${cx+r*0.55},${cy-r*0.05}" stroke="#fff" stroke-width="${r*0.18}" fill="none" stroke-linecap="round"/>
-      <path d="M${cx-r*0.45},${cy+r*0.05} Q${cx},${cy-r*0.2} ${cx+r*0.45},${cy+r*0.2}" stroke="#fff" stroke-width="${r*0.16}" fill="none" stroke-linecap="round"/>
-      <path d="M${cx-r*0.35},${cy+r*0.32} Q${cx},${cy+r*0.15} ${cx+r*0.35},${cy+r*0.42}" stroke="#fff" stroke-width="${r*0.14}" fill="none" stroke-linecap="round"/>`;
-    if(code==='ytmusic') return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}"/>
-      <circle cx="${cx}" cy="${cy}" r="${r*0.65}" fill="none" stroke="#fff" stroke-width="${r*0.12}"/>
-      <polygon points="${cx-r*0.22},${cy-r*0.32} ${cx-r*0.22},${cy+r*0.32} ${cx+r*0.36},${cy}" fill="#fff"/>`;
-    if(code==='applemusic') return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}"/>
-      <path d="M${cx-r*0.4},${cy+r*0.45} L${cx-r*0.4},${cy-r*0.45} L${cx+r*0.4},${cy-r*0.55} L${cx+r*0.4},${cy+r*0.25}" stroke="#fff" stroke-width="${r*0.16}" fill="none" stroke-linejoin="round"/>
-      <ellipse cx="${cx-r*0.4}" cy="${cy+r*0.45}" rx="${r*0.18}" ry="${r*0.13}" fill="#fff"/>
-      <ellipse cx="${cx+r*0.4}" cy="${cy+r*0.25}" rx="${r*0.18}" ry="${r*0.13}" fill="#fff"/>`;
-    if(code==='soundcloud') return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}"/>
-      <g stroke="#fff" stroke-width="${r*0.12}" stroke-linecap="round">
-        <line x1="${cx-r*0.55}" y1="${cy+r*0.18}" x2="${cx-r*0.55}" y2="${cy-r*0.18}"/>
-        <line x1="${cx-r*0.32}" y1="${cy+r*0.32}" x2="${cx-r*0.32}" y2="${cy-r*0.32}"/>
-        <line x1="${cx-r*0.08}" y1="${cy+r*0.42}" x2="${cx-r*0.08}" y2="${cy-r*0.42}"/>
-        <line x1="${cx+r*0.18}" y1="${cy+r*0.4}" x2="${cx+r*0.18}" y2="${cy-r*0.32}"/>
-        <line x1="${cx+r*0.42}" y1="${cy+r*0.36}" x2="${cx+r*0.42}" y2="${cy-r*0.18}"/>
-      </g>`;
-    return '';
-  }
-
-  const THEMES = [
-    { id:'classic',  name:'Classic',  bg:'#1a1a1a', fg:'#f4f1ea' },
-    { id:'paper',    name:'Paper',    bg:'#f4f1ea', fg:'#1a1a1a' },
-    { id:'terminal', name:'Terminal', bg:'#0d1117', fg:'#7ee787' },
-    { id:'retro',    name:'Retro',    bg:'#fbbf24', fg:'#1a1a1a' },
-    { id:'ocean',    name:'Ocean',    bg:'#0c4a6e', fg:'#e0f2fe' },
-    { id:'crimson',  name:'Crimson',  bg:'#7f1d1d', fg:'#fef2f2' },
-    { id:'forest',   name:'Forest',   bg:'#14532d', fg:'#ecfccb' },
-    { id:'ink',      name:'Ink',      bg:'#f4f1ea', fg:'#1a1a1a', border:true }
-  ];
-
-  const TIMEZONES = [
-    { id:'UTC', label:'UTC · Coordinated Universal', offset:0 },
-    { id:'Asia/Kolkata', label:'India · IST', offset:5.5 },
-    { id:'Europe/London', label:'London · GMT/BST', offset:0 },
-    { id:'Europe/Paris', label:'Paris · CET/CEST', offset:1 },
-    { id:'America/New_York', label:'New York · EST/EDT', offset:-5 },
-    { id:'America/Los_Angeles', label:'Los Angeles · PST/PDT', offset:-8 },
-    { id:'America/Chicago', label:'Chicago · CST/CDT', offset:-6 },
-    { id:'America/Sao_Paulo', label:'São Paulo · BRT', offset:-3 },
-    { id:'Europe/Berlin', label:'Berlin · CET/CEST', offset:1 },
-    { id:'Europe/Moscow', label:'Moscow · MSK', offset:3 },
-    { id:'Asia/Dubai', label:'Dubai · GST', offset:4 },
-    { id:'Asia/Karachi', label:'Karachi · PKT', offset:5 },
-    { id:'Asia/Dhaka', label:'Dhaka · BST', offset:6 },
-    { id:'Asia/Bangkok', label:'Bangkok · ICT', offset:7 },
-    { id:'Asia/Shanghai', label:'Shanghai · CST', offset:8 },
-    { id:'Asia/Singapore', label:'Singapore · SGT', offset:8 },
-    { id:'Asia/Tokyo', label:'Tokyo · JST', offset:9 },
-    { id:'Australia/Sydney', label:'Sydney · AEST/AEDT', offset:10 },
-    { id:'Pacific/Auckland', label:'Auckland · NZST', offset:12 }
-  ];
-
-  const COUNTRIES = [
-    { code:'IN', name:'India' },
-    { code:'US', name:'United States' },
-    { code:'GB', name:'United Kingdom' },
-    { code:'PK', name:'Pakistan' },
-    { code:'DE', name:'Germany' },
-    { code:'FR', name:'France' },
-    { code:'JP', name:'Japan' },
-    { code:'CN', name:'China' },
-    { code:'BR', name:'Brazil' },
-    { code:'CA', name:'Canada' },
-    { code:'AU', name:'Australia' },
-    { code:'MX', name:'Mexico' },
-    { code:'IT', name:'Italy' },
-    { code:'ES', name:'Spain' },
-    { code:'NL', name:'Netherlands' },
-    { code:'SE', name:'Sweden' },
-    { code:'NO', name:'Norway' },
-    { code:'KR', name:'South Korea' },
-    { code:'TR', name:'Turkey' },
-    { code:'AE', name:'UAE' },
-    { code:'SG', name:'Singapore' },
-    { code:'ZA', name:'South Africa' }
-  ];
-
-  // Inline SVG flag fragments (viewBox 60x40) — replaces emoji flags
-  const FLAGS = {
-    IN: '<rect width="60" height="40" fill="#fff"/><rect width="60" height="13.33" fill="#FF9933"/><rect width="60" height="13.34" y="26.66" fill="#138808"/><circle cx="30" cy="20" r="4.4" fill="none" stroke="#000080" stroke-width="0.7"/><circle cx="30" cy="20" r="0.9" fill="#000080"/>',
-    US: (function(){let s='';for(let i=0;i<13;i++)s+=`<rect width="60" height="3.08" y="${i*3.08}" fill="${i%2===0?'#B22234':'#fff'}"/>`;let st='';for(let r=0;r<5;r++)for(let c=0;c<6;c++){const xs=2.2+c*3.6+(r%2)*1.8,ys=2.2+r*3.4;if(xs<23&&ys<17)st+=`<circle cx="${xs}" cy="${ys}" r="0.55" fill="#fff"/>`;}return s+`<rect width="24" height="16.6" fill="#3C3B6E"/>`+st;})(),
-    GB: '<rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="2.5"/><rect x="25" width="10" height="40" fill="#fff"/><rect y="15" width="60" height="10" fill="#fff"/><rect x="27" width="6" height="40" fill="#C8102E"/><rect y="17" width="60" height="6" fill="#C8102E"/>',
-    PK: '<rect width="60" height="40" fill="#01411C"/><rect width="15" height="40" fill="#fff"/><circle cx="38" cy="20" r="8" fill="#fff"/><circle cx="40" cy="19" r="7" fill="#01411C"/><polygon points="44,15 45,18 48,18 45.5,20 46.5,23 44,21 41.5,23 42.5,20 40,18 43,18" fill="#fff"/>',
-    DE: '<rect width="60" height="13.33" fill="#000"/><rect width="60" height="13.33" y="13.33" fill="#DD0000"/><rect width="60" height="13.34" y="26.66" fill="#FFCE00"/>',
-    FR: '<rect width="20" height="40" fill="#0055A4"/><rect width="20" height="40" x="20" fill="#fff"/><rect width="20" height="40" x="40" fill="#EF4135"/>',
-    JP: '<rect width="60" height="40" fill="#fff"/><circle cx="30" cy="20" r="11" fill="#BC002D"/>',
-    CN: '<rect width="60" height="40" fill="#DE2910"/><polygon points="12,8 13.5,12.5 18,12.5 14.4,15.2 15.8,19.7 12,17 8.2,19.7 9.6,15.2 6,12.5 10.5,12.5" fill="#FFDE00"/><circle cx="22" cy="5" r="0.9" fill="#FFDE00"/><circle cx="25" cy="8" r="0.9" fill="#FFDE00"/><circle cx="25" cy="12" r="0.9" fill="#FFDE00"/><circle cx="22" cy="15" r="0.9" fill="#FFDE00"/>',
-    BR: '<rect width="60" height="40" fill="#009C3B"/><polygon points="30,5 55,20 30,35 5,20" fill="#FFDF00"/><circle cx="30" cy="20" r="7.5" fill="#002776"/><path d="M22,18 Q30,14 38,18" stroke="#fff" stroke-width="1" fill="none"/>',
-    CA: '<rect width="15" height="40" fill="#FF0000"/><rect width="30" height="40" x="15" fill="#fff"/><rect width="15" height="40" x="45" fill="#FF0000"/><polygon points="30,12 31.5,16 35,15 33,18.5 36,20 33,21.5 35,25 31.5,24 30,28 28.5,24 25,25 27,21.5 24,20 27,18.5 25,15 28.5,16" fill="#FF0000"/>',
-    AU: '<rect width="60" height="40" fill="#012169"/><rect width="30" height="20" fill="#012169"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="3"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="1.2"/><rect x="13" width="4" height="20" fill="#fff"/><rect y="8" width="30" height="4" fill="#fff"/><rect x="14" width="2" height="20" fill="#C8102E"/><rect y="9" width="30" height="2" fill="#C8102E"/><polygon points="15,28 15.7,30 17.7,30 16.1,31.2 16.7,33.2 15,32 13.3,33.2 13.9,31.2 12.3,30 14.3,30" fill="#fff"/><polygon points="45,10 45.5,11.5 47,11.5 45.7,12.5 46.2,14 45,13 43.8,14 44.3,12.5 43,11.5 44.5,11.5" fill="#fff"/><polygon points="50,22 50.5,23.5 52,23.5 50.7,24.5 51.2,26 50,25 48.8,26 49.3,24.5 48,23.5 49.5,23.5" fill="#fff"/>',
-    MX: '<rect width="20" height="40" fill="#006847"/><rect width="20" height="40" x="20" fill="#fff"/><rect width="20" height="40" x="40" fill="#CE1126"/><circle cx="30" cy="20" r="4" fill="none" stroke="#8B4513" stroke-width="0.8"/>',
-    IT: '<rect width="20" height="40" fill="#009246"/><rect width="20" height="40" x="20" fill="#fff"/><rect width="20" height="40" x="40" fill="#CE2B37"/>',
-    ES: '<rect width="60" height="10" fill="#AA151B"/><rect width="60" height="20" y="10" fill="#F1BF00"/><rect width="60" height="10" y="30" fill="#AA151B"/>',
-    NL: '<rect width="60" height="13.33" fill="#AE1C28"/><rect width="60" height="13.33" y="13.33" fill="#fff"/><rect width="60" height="13.34" y="26.66" fill="#21468B"/>',
-    SE: '<rect width="60" height="40" fill="#006AA7"/><rect x="18" width="6" height="40" fill="#FECC00"/><rect y="17" width="60" height="6" fill="#FECC00"/>',
-    NO: '<rect width="60" height="40" fill="#EF2B2D"/><rect x="17" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/><rect x="19" width="4" height="40" fill="#002868"/><rect y="18" width="60" height="4" fill="#002868"/>',
-    KR: '<rect width="60" height="40" fill="#fff"/><circle cx="30" cy="20" r="8" fill="#CD2E3A"/><path d="M30,12 A4,4 0 0,1 30,20 A4,4 0 0,0 30,28 A8,8 0 0,1 30,12Z" fill="#0047A0"/><g stroke="#000" stroke-width="0.5"><line x1="14" y1="10" x2="18" y2="14"/><line x1="42" y1="10" x2="46" y2="14"/><line x1="14" y1="30" x2="18" y2="26"/><line x1="42" y1="30" x2="46" y2="26"/></g>',
-    TR: '<rect width="60" height="40" fill="#E30A17"/><circle cx="22" cy="20" r="7" fill="#fff"/><circle cx="24" cy="20" r="6" fill="#E30A17"/><polygon points="32,16 33.5,19 36.5,19 34,21 35,24 32,22.5 29,24 30,21 27.5,19 30.5,19" fill="#fff"/>',
-    AE: '<rect width="60" height="40" fill="#fff"/><rect width="60" height="13.33" fill="#00732F"/><rect width="60" height="13.34" y="26.66" fill="#000"/><rect width="15" height="40" fill="#FF0000"/>',
-    SG: '<rect width="60" height="20" fill="#EF3340"/><rect width="60" height="20" y="20" fill="#fff"/><circle cx="14" cy="10" r="6" fill="#fff"/><circle cx="16" cy="10" r="5" fill="#EF3340"/><g fill="#fff"><polygon points="20,5 20.4,6.2 21.6,6.2 20.6,7 21,8.2 20,7.5 19,8.2 19.4,7 18.4,6.2 19.6,6.2"/><polygon points="24,8 24.4,9.2 25.6,9.2 24.6,10 25,11.2 24,10.5 23,11.2 23.4,10 22.4,9.2 23.6,9.2"/><polygon points="28,5 28.4,6.2 29.6,6.2 28.6,7 29,8.2 28,7.5 27,8.2 27.4,7 26.4,6.2 27.6,6.2"/></g>',
-    ZA: '<rect width="60" height="40" fill="#007A4D"/><polygon points="0,0 22,20 0,40" fill="#000"/><polygon points="0,0 22,20 60,20 60,0" fill="#DE3831"/><polygon points="0,40 22,20 60,20 60,40" fill="#002395"/><polygon points="0,5 18,20 0,35" fill="#FFB612"/><polygon points="0,9 14,20 0,31" fill="#000"/><rect x="22" y="14" width="38" height="12" fill="#fff"/><rect x="22" y="16" width="38" height="8" fill="#007A4D"/>'
-  };
-  function flagFragment(code, x, y, w, h){
-    return `<svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 60 40" preserveAspectRatio="xMidYMid meet"><rect width="60" height="40" fill="#eee"/>${FLAGS[code]||FLAGS.IN}<rect width="60" height="40" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="0.6"/></svg>`;
-  }
-
-  const QUOTES = [
-    { q:'Programs must be written for people to read, and only incidentally for machines to execute.', a:'Harold Abelson' },
-    { q:'First, solve the problem. Then, write the code.', a:'John Johnson' },
-    { q:'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.', a:'Martin Fowler' },
-    { q:'Deleted code is debugged code.', a:'Jeff Sickel' },
-    { q:'Make it work, make it right, make it fast.', a:'Kent Beck' },
-    { q:'The best error message is the one that never shows up.', a:'Thomas Fuchs' },
-    { q:'Code is like humor. When you have to explain it, it is bad.', a:'Cory House' },
-    { q:'Simplicity is the soul of efficiency.', a:'Austin Freeman' }
-  ];
-
-  const SONGS = [
-    // Bollywood
-    { title:'Tum Hi Ho', artist:'Arijit Singh', year:'2013', genre:'Bollywood' },
-    { title:'Tera Intezaar', artist:'Rahat Fateh Ali Khan', year:'2014', genre:'Bollywood' },
-    { title:'Chaleya', artist:'Arijit Singh', year:'2022', genre:'Bollywood' },
-    { title:'Kabira', artist:'Arijit Singh', year:'2012', genre:'Bollywood' },
-    { title:'Khiladi', artist:'Honey Singh', year:'2013', genre:'Bollywood' },
-    { title:'Shape of You', artist:'Ed Sheeran', year:'2017', genre:'Bollywood' },
-    // Hollywood
-    { title:'Blinding Lights', artist:'The Weeknd', year:'2019', genre:'Hollywood' },
-    { title:'Levitating', artist:'Dua Lipa', year:'2020', genre:'Hollywood' },
-    { title:'Anti-Hero', artist:'Taylor Swift', year:'2022', genre:'Hollywood' },
-    { title:'As It Was', artist:'Harry Styles', year:'2022', genre:'Hollywood' },
-    { title:'Heat Waves', artist:'Glass Animals', year:'2020', genre:'Hollywood' },
-    { title:'Bohemian Rhapsody', artist:'Queen', year:'1975', genre:'Hollywood' },
-    { title:'Imagine', artist:'John Lennon', year:'1971', genre:'Hollywood' },
-    { title:'Smells Like Teen Spirit', artist:'Nirvana', year:'1991', genre:'Hollywood' }
-  ];
+  const SKILLS = {};
+  const CODING_PLATFORMS = {};
+  const MUSIC_PLATFORMS = {};
+  const THEMES = [];
+  const TIMEZONES = [];
+  const COUNTRIES = [];
+  const SONGS = [];
+  const QUOTES = [];
+  const PRESETS = [];
+  const WIDGET_PARAMS = {};
 
   const state = {
     widget: 'time',
@@ -783,27 +583,7 @@
   function $(id){return document.getElementById(id);}
   function scrollToId(id){ const el=$(id); if(el){el.scrollIntoView({behavior:'smooth',block:'start'});} }
   function pad(n){return String(n).padStart(2,'0');}
-  function getTzTime(tz){
-    try{
-      const d = new Date();
-      const fmt = new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'numeric',minute:'numeric',second:'numeric',hour12:false,weekday:'long',day:'numeric',month:'long',year:'numeric'});
-      const parts = fmt.formatToParts(d);
-      const get = t=>parts.find(p=>p.type===t)?.value;
-      return {
-        h: get('hour')==='24'?'00':get('hour'),
-        m: get('minute'),
-        s: get('second'),
-        weekday: get('weekday'),
-        day: get('day'),
-        month: get('month'),
-        year: get('year')
-      };
-    }catch(e){
-      const d = new Date();
-      return {h:pad(d.getHours()),m:pad(d.getMinutes()),s:pad(d.getSeconds()),weekday:d.toLocaleDateString('en-US',{weekday:'long'}),day:d.getDate(),month:d.toLocaleDateString('en-US',{month:'long'}),year:d.getFullYear()};
-    }
-  }
-  function themeObj(id){return THEMES.find(t=>t.id===id)||THEMES[0];}
+  function themeObj(id){return THEMES.find(t=>t.id===id)||THEMES[0]||{bg:'#1a1a1a',fg:'#f4f1ea',name:'Classic'};}
 
   // ========== TABS ==========
   function renderTabs(){
@@ -1082,328 +862,38 @@
     renderEmbed();
   }
 
-  // ========== PREVIEW (SVG-like) ==========
-  function svgTimeBadge(){
-    const t = getTzTime(state.timezone);
-    const theme = themeObj(state.theme);
-    let timeStr, suffix='';
-    if (state.timeFormat==='12h'){
-      let h = parseInt(t.h);
-      suffix = h>=12?' PM':' AM';
-      h = h%12||12;
-      timeStr = `${pad(h)}:${t.m}${state.showSeconds?':'+t.s:''}`;
-    } else {
-      timeStr = `${t.h}:${t.m}${state.showSeconds?':'+t.s:''}`;
+  // ========== PREVIEW (Dynamic server-side SVG previewing) ==========
+  let previewAbortController = null;
+  async function renderPreview(){
+    if (previewAbortController) {
+      previewAbortController.abort();
     }
-    const tzShort = state.timezone.split('/').pop().replace('_',' ');
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    const width = 320, height = state.showDate||state.showDay?140:90;
+    previewAbortController = new AbortController();
+    const signal = previewAbortController.signal;
 
-    return `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
-      <rect x="1" y="1" width="${width-2}" height="${height-2}" fill="${theme.bg}" style="${borderStyle}"/>
-      <text x="20" y="28" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="2" opacity="0.7">${(state.label||'LOCAL TIME').toUpperCase()} · ${tzShort.toUpperCase()}</text>
-      <text x="20" y="70" fill="${theme.fg}" font-size="42" font-weight="700" letter-spacing="-1">${timeStr}<tspan font-size="20" opacity="0.7">${suffix}</tspan></text>
-      ${state.showDate||state.showDay?`<line x1="20" y1="88" x2="${width-20}" y2="88" stroke="${theme.fg}" stroke-width="1" opacity="0.3"/>`:''}
-      ${state.showDay?`<text x="20" y="110" fill="${theme.fg}" font-size="12" font-weight="600" opacity="0.85">${t.weekday}</text>`:''}
-      ${state.showDate?`<text x="${width-20}" y="110" text-anchor="end" fill="${theme.fg}" font-size="12" font-weight="600" opacity="0.85">${t.day} ${t.month} ${t.year}</text>`:''}
-    </svg>`;
-  }
-
-  function svgClock(){
-    const t = getTzTime(state.timezone);
-    const theme = themeObj(state.theme);
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    let h = state.timeFormat==='12h'?(parseInt(t.h)%12||12):parseInt(t.h);
-    const hh = pad(h);
-    const width=380, height=110;
-    return `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
-      <rect x="1" y="1" width="${width-2}" height="${height-2}" fill="${theme.bg}" style="${borderStyle}"/>
-      <text x="20" y="28" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="3" opacity="0.6">◉ ${(state.label||'DIGITAL CLOCK').toUpperCase()}</text>
-      <g transform="translate(20,45)">
-        <rect x="0" y="0" width="60" height="50" fill="none" stroke="${theme.fg}" stroke-width="1.5" opacity="0.4"/>
-        <text x="30" y="38" text-anchor="middle" fill="${theme.fg}" font-size="32" font-weight="700">${hh}</text>
-        <text x="75" y="32" fill="${theme.fg}" font-size="28" font-weight="700">:</text>
-        <rect x="90" y="0" width="60" height="50" fill="none" stroke="${theme.fg}" stroke-width="1.5" opacity="0.4"/>
-        <text x="120" y="38" text-anchor="middle" fill="${theme.fg}" font-size="32" font-weight="700">${t.m}</text>
-        ${state.showSeconds?`
-        <text x="165" y="32" fill="${theme.fg}" font-size="28" font-weight="700" opacity="0.7">:</text>
-        <rect x="180" y="0" width="60" height="50" fill="none" stroke="${theme.fg}" stroke-width="1.5" opacity="0.4"/>
-        <text x="210" y="38" text-anchor="middle" fill="${theme.fg}" font-size="32" font-weight="700" opacity="0.7">${t.s}</text>
-        `:''}
-        <text x="260" y="20" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="1" opacity="0.6">${state.timezone.split('/').pop().replace('_',' ').toUpperCase()}</text>
-        <text x="260" y="38" fill="${theme.fg}" font-size="14" font-weight="700">${state.timeFormat==='12h'?(parseInt(t.h)>=12?'PM':'AM'):'24H'}</text>
-      </g>
-    </svg>`;
-  }
-
-  function svgDate(){
-    const t = getTzTime(state.timezone);
-    const theme = themeObj(state.theme);
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    const width=260, height=130;
-    return `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
-      <rect x="1" y="1" width="${width-2}" height="${height-2}" fill="${theme.bg}" style="${borderStyle}"/>
-      <rect x="20" y="20" width="60" height="90" fill="none" stroke="${theme.fg}" stroke-width="2"/>
-      <rect x="20" y="20" width="60" height="18" fill="${theme.fg}"/>
-      <text x="50" y="33" text-anchor="middle" fill="${theme.bg}" font-size="10" font-weight="700" letter-spacing="1">${t.month.slice(0,3).toUpperCase()}</text>
-      <text x="50" y="78" text-anchor="middle" fill="${theme.fg}" font-size="36" font-weight="700" font-family="Fraunces,serif">${t.day}</text>
-      <text x="50" y="100" text-anchor="middle" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="1" opacity="0.7">${t.year}</text>
-      <text x="100" y="40" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="2" opacity="0.6">${(state.label||'TODAY').toUpperCase()}</text>
-      <text x="100" y="65" fill="${theme.fg}" font-size="20" font-weight="700" font-family="Fraunces,serif">${t.weekday}</text>
-      <text x="100" y="95" fill="${theme.fg}" font-size="11" font-weight="500" opacity="0.7">${t.month} ${t.day}</text>
-      <text x="100" y="110" fill="${theme.fg}" font-size="8" font-weight="700" letter-spacing="1" opacity="0.5">◆ ${state.timezone.split('/').pop().replace('_',' ').toUpperCase()}</text>
-    </svg>`;
-  }
-
-  function svgQuote(){
-    const theme = themeObj(state.theme);
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    const today = new Date().getDate();
-    const quote = QUOTES[today % QUOTES.length];
-    const width=440, height=130;
-    // split quote
-    const words = quote.q.split(' ');
-    const line1=[], line2=[];
-    let len=0;
-    words.forEach(w=>{
-      if(len+w.length<42){ line1.push(w); len+=w.length+1; } else line2.push(w);
-    });
-    return `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="font-family:'Fraunces',serif;">
-      <rect x="1" y="1" width="${width-2}" height="${height-2}" fill="${theme.bg}" style="${borderStyle}"/>
-      <text x="20" y="38" fill="${theme.fg}" font-size="44" font-weight="900" opacity="0.5">"</text>
-      <text x="50" y="30" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="2" opacity="0.6" font-family="JetBrains Mono,monospace">${(state.label||'QUOTE OF THE DAY').toUpperCase()}</text>
-      <text x="50" y="56" fill="${theme.fg}" font-size="15" font-weight="500" font-style="italic">${line1.join(' ')}</text>
-      ${line2.length?`<text x="50" y="76" fill="${theme.fg}" font-size="15" font-weight="500" font-style="italic">${line2.join(' ')}</text>`:''}
-      <line x1="50" y1="92" x2="100" y2="92" stroke="${theme.fg}" stroke-width="2"/>
-      <text x="50" y="108" fill="${theme.fg}" font-size="11" font-weight="600" font-family="JetBrains Mono,monospace" opacity="0.85">${quote.a}</text>
-    </svg>`;
-  }
-
-  function svgFlag(){
-    const theme = themeObj(state.theme);
-    const country = COUNTRIES.find(c=>c.code===state.country) || COUNTRIES[0];
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    const width=280, height=100;
-    return `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
-      <rect x="1" y="1" width="${width-2}" height="${height-2}" fill="${theme.bg}" style="${borderStyle}"/>
-      ${flagFragment(country.code, 18, 34, 50, 33)}
-      <text x="82" y="40" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2" opacity="0.65">${(state.label||'BASED IN').toUpperCase()}</text>
-      <text x="82" y="62" fill="${theme.fg}" font-size="18" font-weight="700" font-family="Fraunces,serif">${country.name}</text>
-      <text x="82" y="80" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="1" opacity="0.55">COUNTRY CODE · ${country.code}</text>
-    </svg>`;
-  }
-
-  function svgTimezone(){
-    const t = getTzTime(state.timezone);
-    const theme = themeObj(state.theme);
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    const tz = TIMEZONES.find(z=>z.id===state.timezone);
-    const width=460, height=90;
-    let timeStr;
-    if (state.timeFormat==='12h'){
-      let h=parseInt(t.h); const sf=h>=12?'PM':'AM'; h=h%12||12;
-      timeStr=`${pad(h)}:${t.m} ${sf}`;
-    } else timeStr=`${t.h}:${t.m}`;
-    return `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
-      <rect x="1" y="1" width="${width-2}" height="${height-2}" fill="${theme.bg}" style="${borderStyle}"/>
-      <circle cx="45" cy="45" r="22" fill="none" stroke="${theme.fg}" stroke-width="2"/>
-      <circle cx="45" cy="45" r="2" fill="${theme.fg}"/>
-      <line x1="45" y1="45" x2="45" y2="30" stroke="${theme.fg}" stroke-width="2.5"/>
-      <line x1="45" y1="45" x2="56" y2="45" stroke="${theme.fg}" stroke-width="2"/>
-      <text x="85" y="30" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2" opacity="0.65">◆ TIMEZONE BANNER ◆</text>
-      <text x="85" y="52" fill="${theme.fg}" font-size="20" font-weight="700" font-family="Fraunces,serif">${timeStr}</text>
-      <text x="85" y="70" fill="${theme.fg}" font-size="10" font-weight="600" opacity="0.75">${tz.label}</text>
-      <text x="${width-20}" y="30" text-anchor="end" fill="${theme.fg}" font-size="9" font-weight="700" opacity="0.65">${t.weekday.slice(0,3).toUpperCase()}</text>
-      <text x="${width-20}" y="52" text-anchor="end" fill="${theme.fg}" font-size="16" font-weight="700" font-family="Fraunces,serif">${t.day}</text>
-      <text x="${width-20}" y="70" text-anchor="end" fill="${theme.fg}" font-size="10" font-weight="600" opacity="0.75">${t.month}</text>
-    </svg>`;
-  }
-
-  function svgStreak(){
-    const theme = themeObj(state.theme);
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    const start = new Date(state.startDate);
-    const now = new Date();
-    const diffMs = now-start;
-    let count, unit=state.unit;
-    if (unit==='days') count=Math.max(0, Math.floor(diffMs/86400000));
-    else if (unit==='weeks') count=Math.max(0, Math.floor(diffMs/(86400000*7)));
-    else if (unit==='months') count=Math.max(0, Math.floor(diffMs/(86400000*30)));
-    else count=Math.max(0, Math.floor(diffMs/(86400000*365)));
-    const platform = (state.platform||'none').toLowerCase();
-    const hasPlatform = platform!=='none' && CODING_PLATFORMS[platform];
-    const width = hasPlatform ? 360 : 320, height=110;
-    const platformName = hasPlatform ? CODING_PLATFORMS[platform].name : '';
-    return `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
-      <rect x="1" y="1" width="${width-2}" height="${height-2}" fill="${theme.bg}" style="${borderStyle}"/>
-      <text x="20" y="32" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2" opacity="0.65">${state.customLabel.toUpperCase()}</text>
-      <text x="20" y="76" fill="${theme.fg}" font-size="44" font-weight="900" font-family="Fraunces,serif">${count}</text>
-      <text x="${20 + String(count).length*25 + 10}" y="72" fill="${theme.fg}" font-size="16" font-weight="600" opacity="0.85">${unit}</text>
-      <text x="20" y="96" fill="${theme.fg}" font-size="9" font-weight="600" letter-spacing="1" opacity="0.55">SINCE ${start.toDateString().toUpperCase()}</text>
-      ${hasPlatform?`
-        ${platformBadgeSvg(platform, width-58, 22, 38)}
-        <text x="${width-39}" y="76" text-anchor="middle" fill="${theme.fg}" font-size="8" font-weight="700" letter-spacing="1" opacity="0.7">${platformName.toUpperCase()}</text>
-      `:''}
-    </svg>`;
-  }
-
-  function svgMusic(){
-    const theme = themeObj(state.theme);
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    const W=420, H=160;
-    const status = (state.musicListen||'Now Playing').toUpperCase();
-    const platform = (state.musicPlatform||'none').toLowerCase();
-    const platformName = MUSIC_PLATFORMS[platform]?.name || '';
-    const platformColor = MUSIC_PLATFORMS[platform]?.color || theme.fg;
-    const artSize=88, artX=20, artY=36;
-    const uid = 'm'+Math.random().toString(36).slice(2,7);
-    const barX = artX + artSize + 18;
-    const barW = W - artX - artSize - 18 - 22;
-    const playedW = barW * 0.5;
-    return `
-    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
-      <defs>
-        <linearGradient id="art_${uid}" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="${platform==='none'?theme.fg:platformColor}" stop-opacity="0.85"/>
-          <stop offset="100%" stop-color="${platform==='none'?theme.fg:platformColor}" stop-opacity="0.45"/>
-        </linearGradient>
-      </defs>
-      <rect x="1" y="1" width="${W-2}" height="${H-2}" fill="${theme.bg}" style="${borderStyle}"/>
-      <rect x="12" y="12" width="${W-24}" height="${H-24}" fill="none" stroke="${theme.fg}" stroke-width="1" opacity="0.18"/>
-      <text x="22" y="28" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2.5" opacity="0.7">${status}</text>
-      ${platform!=='none'?`
-        <g transform="translate(${W-40},14)">${musicGlyphSvg(platform, 14, 14, 12)}</g>
-        <text x="${W-46}" y="28" text-anchor="end" fill="${theme.fg}" font-size="8" font-weight="700" letter-spacing="2" opacity="0.65">${platformName.toUpperCase()}</text>
-      `:''}
-      <rect x="${artX}" y="${artY}" width="${artSize}" height="${artSize}" rx="6" fill="url(#art_${uid})"/>
-      <circle cx="${artX+artSize/2}" cy="${artY+artSize/2}" r="${artSize*0.36}" fill="${theme.bg}" opacity="0.55"/>
-      <circle cx="${artX+artSize/2}" cy="${artY+artSize/2}" r="${artSize*0.36}" fill="none" stroke="${theme.fg}" stroke-width="0.6" opacity="0.5"/>
-      <circle cx="${artX+artSize/2}" cy="${artY+artSize/2}" r="${artSize*0.08}" fill="${theme.fg}" opacity="0.7"/>
-      <g transform="translate(${artX+artSize/2-6}, ${artY+artSize/2-14})" opacity="0.85">
-        <ellipse cx="3" cy="14" rx="3.2" ry="2.4" fill="${theme.fg}"/>
-        <rect x="5.3" y="3" width="1.4" height="11" fill="${theme.fg}"/>
-        <path d="M5.3 3 Q11 4.5 11 9" stroke="${theme.fg}" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-      </g>
-      <text x="${barX}" y="64" fill="${theme.fg}" font-size="16" font-weight="700" font-family="Fraunces,serif">${(state.musicSong||'Untitled').slice(0,26)}</text>
-      <text x="${barX}" y="86" fill="${theme.fg}" font-size="11" font-weight="500" opacity="0.75">${(state.musicArtist||'Unknown Artist').slice(0,30)}</text>
-      <rect x="${barX}" y="118" width="${barW}" height="3" fill="${theme.fg}" opacity="0.2" rx="1.5"/>
-      <rect x="${barX}" y="118" width="${playedW}" height="3" fill="${platform==='none'?theme.fg:platformColor}" rx="1.5"/>
-      <circle cx="${barX+playedW}" cy="119.5" r="4" fill="${platform==='none'?theme.fg:platformColor}"/>
-      <circle cx="${barX+playedW}" cy="119.5" r="4" fill="none" stroke="${theme.bg}" stroke-width="1.2" opacity="0.85"/>
-      <text x="${barX}" y="136" fill="${theme.fg}" font-size="8" font-weight="700" letter-spacing="1" opacity="0.55">1:42</text>
-      <text x="${W-22}" y="136" text-anchor="end" fill="${theme.fg}" font-size="8" font-weight="700" letter-spacing="1" opacity="0.55">3:24</text>
-    </svg>`;
-  }
-
-  function initialsOf(name){
-    const parts = (name||'').trim().split(/\s+/).filter(Boolean);
-    if(!parts.length) return '?';
-    if(parts.length===1) return parts[0][0].toUpperCase();
-    return (parts[0][0]+parts[parts.length-1][0]).toUpperCase();
-  }
-
-  function svgProfile(){
-    const theme = themeObj(state.theme);
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    const W=580, H=320;
-    const skillsRaw = (state.skills||'').split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
-    const validSkills = skillsRaw.filter(s=>SKILLS[s]).slice(0,12);
-    const iconSize=30, gap=8, sx=220, sy=168;
-    const skillNodes = validSkills.map((s,i)=>{
-      const col=i%6, row=Math.floor(i/6);
-      return skillIconSvg(s, sx + col*(iconSize+gap), sy + row*(iconSize+gap), iconSize);
-    }).join('');
-    const cx=110, cy=145, r=62;
-    const uid='p'+Math.random().toString(36).slice(2,7);
-    const avatar = (state.avatar||'').trim();
-    const avatarBlock = avatar
-      ? `<defs><clipPath id="av_${uid}"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath></defs>
-         <circle cx="${cx}" cy="${cy}" r="${r+4}" fill="${theme.fg}" opacity="0.12"/>
-         <image href="${avatar.replace(/"/g,'&quot;')}" x="${cx-r}" y="${cy-r}" width="${r*2}" height="${r*2}" clip-path="url(#av_${uid})" preserveAspectRatio="xMidYMid slice"/>
-         <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${theme.fg}" stroke-width="2.5"/>`
-      : `<circle cx="${cx}" cy="${cy}" r="${r+4}" fill="${theme.fg}" opacity="0.12"/>
-         <circle cx="${cx}" cy="${cy}" r="${r}" fill="${theme.fg}" opacity="0.18"/>
-         <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${theme.fg}" stroke-width="2.5"/>
-         <text x="${cx}" y="${cy+16}" text-anchor="middle" fill="${theme.fg}" font-size="42" font-weight="800" font-family="Fraunces,serif">${initialsOf(state.name)}</text>`;
-    const bio = (state.bio||'').trim();
-    const words = bio.split(/\s+/);
-    const bioLines=[]; let line='';
-    for(const w of words){
-      if((line+' '+w).trim().length>56){ bioLines.push(line.trim()); line=w; if(bioLines.length===2) break; }
-      else line+=' '+w;
+    $('sizeInfo').textContent = '...';
+    const url = buildUrl();
+    try {
+      const res = await fetch(url, { signal });
+      if (!res.ok) throw new Error('Failed to fetch preview');
+      const svgText = await res.text();
+      $('previewStage').innerHTML = svgText;
+      const size = (new Blob([svgText]).size/1024).toFixed(1);
+      $('sizeInfo').textContent = size;
+    } catch (e) {
+      if (e.name !== 'AbortError') {
+        $('previewStage').innerHTML = `<div class="text-red-500 font-mono p-4 text-center">Error loading preview:<br/>${e.message}</div>`;
+        $('sizeInfo').textContent = '0.0';
+      }
     }
-    if(bioLines.length<2 && line.trim()) bioLines.push(line.trim());
-    const handle = (state.handle||'').replace(/^@/,'').trim();
-    return `
-    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
-      <defs>
-        <pattern id="dotsP_${uid}" width="14" height="14" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="0.8" fill="${theme.fg}" opacity="0.07"/>
-        </pattern>
-      </defs>
-      <rect x="1" y="1" width="${W-2}" height="${H-2}" fill="${theme.bg}" style="${borderStyle}"/>
-      <rect x="1" y="1" width="${W-2}" height="${H-2}" fill="url(#dotsP_${uid})"/>
-      <rect x="14" y="20" width="200" height="${H-40}" fill="${theme.fg}" opacity="0.05"/>
-      ${avatarBlock}
-      <text x="${cx}" y="${cy+r+26}" text-anchor="middle" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2" opacity="0.65">${(state.role||'Developer').toUpperCase()}</text>
-      ${handle?`<text x="${cx}" y="${cy+r+44}" text-anchor="middle" fill="${theme.fg}" font-size="10" font-weight="600" opacity="0.85">@${handle}</text>`:''}
-      <line x1="214" y1="20" x2="214" y2="${H-20}" stroke="${theme.fg}" stroke-width="1" opacity="0.2"/>
-      <text x="232" y="48" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2.5" opacity="0.55">HELLO, I'M</text>
-      <text x="232" y="84" fill="${theme.fg}" font-size="28" font-weight="800" font-family="Fraunces,serif">${state.name||'Your Name'}</text>
-      <line x1="232" y1="96" x2="280" y2="96" stroke="${theme.fg}" stroke-width="2"/>
-      ${bioLines[0]?`<text x="232" y="120" fill="${theme.fg}" font-size="11" font-weight="500" opacity="0.85">${bioLines[0]}</text>`:''}
-      ${bioLines[1]?`<text x="232" y="138" fill="${theme.fg}" font-size="11" font-weight="500" opacity="0.85">${bioLines[1]}</text>`:''}
-      <text x="220" y="${sy-8}" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2.5" opacity="0.55">◆ SKILLS &amp; STACK</text>
-      ${skillNodes}
-    </svg>`;
-  }
-
-  function getSvg(){
-    switch(state.widget){
-      case 'time': return svgTimeBadge();
-      case 'clock': return svgClock();
-      case 'date': return svgDate();
-      case 'quote': return svgQuote();
-      case 'flag': return svgFlag();
-      case 'timezone': return svgTimezone();
-      case 'streak': return svgStreak();
-      case 'music': return svgMusic();
-      case 'profile': return svgProfile();
-    }
-    return '';
-  }
-
-  function renderPreview(){
-    $('previewStage').innerHTML = getSvg();
-    const size = (new Blob([getSvg()]).size/1024).toFixed(1);
-    $('sizeInfo').textContent = size;
   }
 
   // ========== EMBED ==========
-  // Per-widget allowlist: only emit params the current widget actually uses.
-  const WIDGET_PARAMS = {
-    time:     ['timezone','theme','timeFormat','showSeconds','showDate','showDay','label'],
-    clock:    ['timezone','theme','timeFormat','showSeconds','label'],
-    date:     ['timezone','theme','label'],
-    quote:    ['theme','quoteCategory','label'],
-    flag:     ['country','theme','label'],
-    timezone: ['timezone','theme','timeFormat'],
-    streak:   ['startDate','unit','theme','customLabel','platform'],
-    music:    ['musicSong','musicArtist','musicListen','musicPlatform','theme'],
-    profile:  ['avatar','name','role','bio','skills','handle','theme']
-  };
   function buildUrl(){
     const protocol = window.location.protocol;
     const host = window.location.host;
-    const base = `${protocol}//${host}/api`;
-    const allow = WIDGET_PARAMS[state.widget] || Object.keys(state);
+    const base = protocol === 'file:' ? 'http://localhost:3000/api' : `${protocol}//${host}/api`;
+    const allow = WIDGET_PARAMS[state.widget] || [];
     const params = new URLSearchParams();
     allow.forEach(k=>{
       const v = state[k];
@@ -1425,7 +915,6 @@
     } else {
       code = url;
     }
-    // syntax highlight-ish for markdown/html
     let display = code
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     if (state.format==='html'){
@@ -1461,25 +950,13 @@
   }
 
   // ========== GALLERY ==========
-  const PRESETS = [
-    { title:'Tokyo Time', w:'time', overrides:{timezone:'Asia/Tokyo',theme:'terminal',label:'Tokyo'} },
-    { title:'New York Clock', w:'clock', overrides:{timezone:'America/New_York',theme:'paper',label:'Eastern'} },
-    { title:'Daily Quote', w:'quote', overrides:{theme:'crimson',label:'Today'} },
-    { title:'London Date', w:'date', overrides:{theme:'retro',timezone:'Europe/London',label:'Today'} },
-    { title:'NYC Timezone', w:'timezone', overrides:{theme:'ocean',timezone:'America/New_York'} },
-    { title:'India Flag', w:'flag', overrides:{country:'IN',theme:'forest',label:'From'} },
-    { title:'Dev Streak · LeetCode', w:'streak', overrides:{theme:'forest',unit:'days',customLabel:'Coding Streak',platform:'leetcode'} },
-    { title:'Now Playing · Spotify', w:'music', overrides:{theme:'forest',musicSong:'Anti-Hero',musicArtist:'Taylor Swift',musicPlatform:'spotify',musicListen:'Now Playing'} },
-    { title:'Profile Card', w:'profile', overrides:{theme:'paper',name:'Sanjay',role:'Full-Stack Developer',bio:'Building cool things with code n coffee.',skills:'HTML,JS,REACT,NODE,PYTHON,GIT,SQL',handle:'cu-sanjay',avatar:'https://pluspng.com/img-png/coder-png-coder-png-file-354.png'} }
-  ];
-
   function renderGallery(){
     const wrap = $('galleryGrid');
     const profileWrap = $('profileGallery');
     const cardHtml = (p,i,scale)=>{
       const saved = {...state};
       Object.assign(state, {widget:p.w}, p.overrides);
-      const svg = getSvg();
+      const url = buildUrl();
       Object.assign(state, saved);
       return `
         <article class="preview-card p-4 flex flex-col gap-3 cursor-pointer group" onclick="loadPreset(${i})">
@@ -1488,7 +965,7 @@
             <span class="font-mono text-[10px] text-neutral-500">№ ${pad(i+1)}</span>
           </div>
           <div class="bg-[var(--paper)] border-2 border-black p-3 flex items-center justify-center min-h-[120px] overflow-hidden">
-            <div style="transform:scale(${scale});transform-origin:center;">${svg}</div>
+            <img src="${url}" style="transform:scale(${scale});transform-origin:center;max-width:100%;height:auto;" alt="${p.title}" />
           </div>
           <div class="flex items-center justify-between pt-1 border-t border-dashed border-black">
             <span class="font-serif font-bold text-sm">${p.title}</span>
@@ -1523,18 +1000,64 @@
     $('nowChip').textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} LOCAL`;
   }
 
-  function init(){
+  async function initMetadata() {
+    try {
+      const res = await fetch('/api/metadata');
+      if (!res.ok) throw new Error('Failed to load metadata');
+      const data = await res.json();
+      
+      THEMES.push(...data.THEMES);
+      TIMEZONES.push(...data.TIMEZONES);
+      COUNTRIES.push(...data.COUNTRIES);
+      Object.assign(SKILLS, data.SKILLS);
+      Object.assign(CODING_PLATFORMS, data.CODING_PLATFORMS);
+      Object.assign(MUSIC_PLATFORMS, data.MUSIC_PLATFORMS);
+      SONGS.push(...data.SONGS);
+      QUOTES.push(...data.QUOTES);
+      PRESETS.push(...data.PRESETS);
+      Object.assign(WIDGET_PARAMS, data.WIDGET_PARAMS);
+    } catch (e) {
+      console.warn('Metadata API fallback used:', e.message);
+      // Fallback fallback lists so the app doesn't break if server is down during local design view
+      THEMES.push(
+        { id:'classic',  name:'Classic',  bg:'#1a1a1a', fg:'#f4f1ea' },
+        { id:'paper',    name:'Paper',    bg:'#f4f1ea', fg:'#1a1a1a' }
+      );
+      TIMEZONES.push({ id:'Asia/Kolkata', label:'India · IST' });
+      COUNTRIES.push({ code:'IN', name:'India' });
+      Object.assign(WIDGET_PARAMS, {
+        time:     ['timezone','theme','timeFormat','showSeconds','showDate','showDay','label'],
+        clock:    ['timezone','theme','timeFormat','showSeconds','label'],
+        date:     ['timezone','theme','label'],
+        quote:    ['theme','quoteCategory','label'],
+        flag:     ['country','theme','label'],
+        timezone: ['timezone','theme','timeFormat'],
+        streak:   ['startDate','unit','theme','customLabel','platform'],
+        music:    ['musicSong','musicArtist','musicListen','musicPlatform','theme'],
+        profile:  ['avatar','name','role','bio','skills','handle','theme']
+      });
+      PRESETS.push(
+        { title:'Tokyo Time', w:'time', overrides:{timezone:'Asia/Tokyo',theme:'terminal',label:'Tokyo'} },
+        { title:'Profile Card', w:'profile', overrides:{theme:'paper',name:'Sanjay',role:'Full-Stack Developer',bio:'Building cool things with code.',skills:'HTML,JS,REACT,NODE',handle:'cu-sanjay'} }
+      );
+    }
+
     renderTabs();
     renderControls();
     renderPreview();
     renderEmbed();
     renderGallery();
+  }
+
+  function init(){
     tickNow();
+    initMetadata();
     setInterval(()=>{
       tickNow();
-      renderPreview(); // keep time widgets ticking
-      renderGallery();
-    }, 1000);
+      if (['time', 'clock', 'timezone'].includes(state.widget)) {
+        renderPreview(); // keep time widgets ticking
+      }
+    }, 5000);
     lucide.createIcons();
   }
 
