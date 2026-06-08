@@ -535,6 +535,7 @@
     { id:'glass',   label:'Liquid Glass',     icon:'droplet' },
     { id:'countdown', label:'Event Countdown', icon:'timer' },
     { id:'book',    label:'Currently Reading', icon:'book' }
+    { id:'weather', label:'Live Weather',     icon:'cloud' }
   ];
 
   // ----- Skills (24x24 brand-color badges) -----
@@ -794,6 +795,9 @@
     bookPlatform: 'goodreads',
     bookUsername: '12345678',
     bookStatus: 'currently-reading',
+    city: 'Tokyo',
+    tempUnit: 'C',
+    weatherStyle: 'detailed',
     eventName: 'Hacktoberfest',
     targetDate: '2026-10-31'
   };
@@ -1049,6 +1053,24 @@
             <option value="currently-reading" ${state.bookStatus==='currently-reading'?'selected':''}>Currently Reading</option>
             <option value="read" ${state.bookStatus==='read'?'selected':''}>Read</option>
             <option value="to-read" ${state.bookStatus==='to-read'?'selected':''}>To Read</option>
+    else if (state.widget==='weather'){
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">City</label>
+          <input class="input-field" value="${state.city}" oninput="setField('city',this.value,false)" placeholder="e.g. Tokyo"/>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Temperature Unit</label>
+          <select class="input-field" onchange="setField('tempUnit',this.value)">
+            <option value="C" ${state.tempUnit==='C'?'selected':''}>Celsius (°C)</option>
+            <option value="F" ${state.tempUnit==='F'?'selected':''}>Fahrenheit (°F)</option>
+          </select>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Widget Style</label>
+          <select class="input-field" onchange="setField('weatherStyle',this.value)">
+            <option value="detailed" ${state.weatherStyle==='detailed'?'selected':''}>Detailed</option>
+            <option value="minimal" ${state.weatherStyle==='minimal'?'selected':''}>Minimal</option>
           </select>
         </div>
         <div class="mb-5">
@@ -2629,6 +2651,31 @@
       <text x="90" y="65" fill="${theme.fg}" font-size="18" font-weight="800" font-family="Fraunces,serif">Book Title Preview</text>
       <text x="90" y="85" fill="${theme.fg}" font-size="13" font-weight="500" opacity="0.8">Author Name Preview</text>
     </svg>`;
+  function svgWeather(){
+    const theme = themeObj(state.theme);
+    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
+    const isDetailed = state.weatherStyle === 'detailed';
+    const W = isDetailed ? 320 : 200;
+    const H = isDetailed ? 110 : 80;
+    const icon = '☀️';
+    const tempStr = `24°${state.tempUnit}`;
+    const city = state.city || 'Tokyo';
+    if (isDetailed) {
+      return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
+        <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${state.radius||0}" ry="${state.radius||0}" fill="${theme.bg}" style="${borderStyle}"/>
+        <text x="20" y="32" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="2" opacity="0.65">CURRENT WEATHER</text>
+        <text x="20" y="80" font-size="42">${icon}</text>
+        <text x="80" y="65" fill="${theme.fg}" font-size="28" font-weight="800" font-family="Fraunces,serif">${tempStr}</text>
+        <text x="80" y="85" fill="${theme.fg}" font-size="12" font-weight="600" opacity="0.85">${city}</text>
+      </svg>`;
+    } else {
+      return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
+        <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${state.radius||0}" ry="${state.radius||0}" fill="${theme.bg}" style="${borderStyle}"/>
+        <text x="20" y="52" font-size="32">${icon}</text>
+        <text x="70" y="42" fill="${theme.fg}" font-size="20" font-weight="800" font-family="Fraunces,serif">${tempStr}</text>
+        <text x="70" y="60" fill="${theme.fg}" font-size="11" font-weight="600" opacity="0.75">${city}</text>
+      </svg>`;
+    }
   }
 
   function getSvg(){
@@ -2647,6 +2694,7 @@
       case 'glass': return svgGlass();
       case 'countdown': return svgCountdown();
       case 'book': return svgBook();
+      case 'weather': return svgWeather();
     }
     return '';
   }
@@ -2674,6 +2722,7 @@
     glass:    ['glassStyle','glassColor','avatar','name','role','bio','skills','handle','label'],
     countdown: ['eventName','targetDate','theme'],
     book:      ['bookPlatform','bookUsername','bookStatus','theme']
+    weather:   ['city','tempUnit','weatherStyle','theme']
   };
   function buildUrl(){
     const protocol = window.location.protocol;
@@ -2755,6 +2804,7 @@
     { title:'Glass Profile', w:'glass', overrides:{glassStyle:'card',glassColor:'coral',name:'Sanjay',role:'Full-Stack Developer',bio:'Building cool things with code. Open-source enthusiast.',skills:'HTML,JS,REACT,NODE,PYTHON,GIT,SQL',handle:'cu-sanjay',avatar:'https://github.com/github.png'} },
     { title:'Hacktoberfest', w:'countdown', overrides:{theme:'terminal',eventName:'Hacktoberfest',targetDate:'2026-10-31'} },
     { title:'Currently Reading', w:'book', overrides:{theme:'retro',bookPlatform:'goodreads',bookUsername:'12345678',bookStatus:'currently-reading'} },
+    { title:'Live Weather', w:'weather', overrides:{theme:'retro',city:'London',tempUnit:'C',weatherStyle:'detailed'} },
     { title:'Profile Card', w:'profile', overrides:{theme:'paper',name:'Sanjay',role:'Full-Stack Developer',bio:'Building cool things with code n coffee.',skills:'HTML,JS,REACT,NODE,PYTHON,GIT,SQL',handle:'cu-sanjay',avatar:'https://pluspng.com/img-png/coder-png-coder-png-file-354.png'} }
   ];
 
