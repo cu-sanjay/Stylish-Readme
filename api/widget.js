@@ -14,6 +14,12 @@ const { renderWidget } = require('../lib/widgets');
  *   - flag                    : Country data never changes; 24-hour cache maximises CDN hits.
  */
 const CACHE_POLICIES = {
+  // Weather data - refresh every 30 minutes to avoid hitting API rate limits
+  weather:  'public, max-age=1800, s-maxage=1800, stale-while-revalidate=600',
+
+  // Reading status - refresh every hour
+  book:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=1200',
+  
   // Real-time widgets — refresh every 60 seconds
   time:     'public, max-age=60, s-maxage=60, stale-while-revalidate=30',
   clock:    'public, max-age=60, s-maxage=60, stale-while-revalidate=30',

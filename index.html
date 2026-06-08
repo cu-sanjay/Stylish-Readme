@@ -532,8 +532,9 @@
     { id:'profile', label:'Profile Card',     icon:'contact' },
     { id:'skyline', label:'Skyline & Tides',  icon:'sunset' },
     { id:'marker',  label:'Marker Board',     icon:'highlighter' },
-    { id:'glass',   label:'Liquid Glass',     icon:'droplet' }
-    { id:'countdown', label:'Event Countdown', icon:'timer' }
+    { id:'glass',   label:'Liquid Glass',     icon:'droplet' },
+    { id:'countdown', label:'Event Countdown', icon:'timer' },
+    { id:'book',    label:'Currently Reading', icon:'book' }
   ];
 
   // ----- Skills (24x24 brand-color badges) -----
@@ -789,8 +790,10 @@
     markerColor: 'purple',
     // Liquid Glass
     glassStyle: 'banner',
-    glassColor: 'liquid'
-
+    glassColor: 'liquid',
+    bookPlatform: 'goodreads',
+    bookUsername: '12345678',
+    bookStatus: 'currently-reading',
     eventName: 'Hacktoberfest',
     targetDate: '2026-10-31'
   };
@@ -1021,6 +1024,32 @@
         <div class="mb-5">
           <label class="label-tag">Artist Name</label>
           <input class="input-field" value="${state.musicArtist}" oninput="setField('musicArtist',this.value,false)" placeholder="e.g. The Weeknd"/>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Theme</label>
+          ${themeSwatches()}
+        </div>
+      `;
+    }
+    else if (state.widget==='book'){
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">Platform</label>
+          <select class="input-field" onchange="setField('bookPlatform',this.value)">
+            <option value="goodreads" ${state.bookPlatform==='goodreads'?'selected':''}>Goodreads</option>
+          </select>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Profile Username/ID</label>
+          <input class="input-field" value="${state.bookUsername}" oninput="setField('bookUsername',this.value,false)" placeholder="e.g. 12345678"/>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Shelf / Status</label>
+          <select class="input-field" onchange="setField('bookStatus',this.value)">
+            <option value="currently-reading" ${state.bookStatus==='currently-reading'?'selected':''}>Currently Reading</option>
+            <option value="read" ${state.bookStatus==='read'?'selected':''}>Read</option>
+            <option value="to-read" ${state.bookStatus==='to-read'?'selected':''}>To Read</option>
+          </select>
         </div>
         <div class="mb-5">
           <label class="label-tag">Theme</label>
@@ -2587,6 +2616,21 @@
     return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">\n${svgBody}\n</svg>`;
   }
 
+  function svgBook(){
+    const theme = themeObj(state.theme);
+    const borderStyle = theme.border ? `stroke="${theme.fg}" stroke-width="2"` : '';
+    const W = 340, H = 130;
+    const defaultCover = `<svg viewBox="0 0 24 24" width="60" height="90" fill="none" stroke="${theme.fg}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>`;
+    const statusLabel = (state.bookStatus || 'currently-reading').split('-').join(' ').toUpperCase();
+    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
+      <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${state.radius||0}" ry="${state.radius||0}" fill="${theme.bg}" ${borderStyle}/>
+      <g transform="translate(15, 20)">${defaultCover}</g>
+      <text x="90" y="35" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="2" opacity="0.65">${statusLabel}</text>
+      <text x="90" y="65" fill="${theme.fg}" font-size="18" font-weight="800" font-family="Fraunces,serif">Book Title Preview</text>
+      <text x="90" y="85" fill="${theme.fg}" font-size="13" font-weight="500" opacity="0.8">Author Name Preview</text>
+    </svg>`;
+  }
+
   function getSvg(){
     switch(state.widget){
       case 'time': return svgTimeBadge();
@@ -2602,6 +2646,7 @@
       case 'marker': return svgMarker();
       case 'glass': return svgGlass();
       case 'countdown': return svgCountdown();
+      case 'book': return svgBook();
     }
     return '';
   }
@@ -2626,8 +2671,9 @@
     profile:  ['avatar','name','role','bio','skills','handle','theme'],
     skyline:  ['skylineStyle','time','timezone','avatar','name','role','bio','skills','handle','label'],
     marker:   ['markerStyle','markerColor','avatar','name','role','bio','skills','handle','label'],
-    glass:    ['glassStyle','glassColor','avatar','name','role','bio','skills','handle','label']
-    countdown: ['eventName','targetDate','theme']
+    glass:    ['glassStyle','glassColor','avatar','name','role','bio','skills','handle','label'],
+    countdown: ['eventName','targetDate','theme'],
+    book:      ['bookPlatform','bookUsername','bookStatus','theme']
   };
   function buildUrl(){
     const protocol = window.location.protocol;
@@ -2706,8 +2752,9 @@
     { title:'Sketchbook Banner', w:'marker', overrides:{markerStyle:'banner',markerColor:'green',label:'Nice marker highlight'} },
     { title:'Sketchbook Profile', w:'marker', overrides:{markerStyle:'card',markerColor:'purple',name:'Sanjay',role:'Full-Stack Developer',bio:'I love building <mark color="orange">cool projects</mark> and writing <mark color="cyan">clean code</mark>.',skills:'HTML,CSS,JS,REACT,NODE,PYTHON,GIT,SQL',handle:'cu-sanjay',avatar:'https://github.com/github.png'} },
     { title:'Glass Banner', w:'glass', overrides:{glassStyle:'banner',glassColor:'liquid',label:'Liquid Glass',bio:'Metaball refraction theme.'} },
-    { title:'Glass Profile', w:'glass', overrides:{glassStyle:'card',glassColor:'coral',name:'Sanjay',role:'Full-Stack Developer',bio:'Building cool things with code. Open-source enthusiast.',skills:'HTML,JS,REACT,NODE,PYTHON,GIT,SQL',handle:'cu-sanjay',avatar:'https://github.com/github.png'} }
+    { title:'Glass Profile', w:'glass', overrides:{glassStyle:'card',glassColor:'coral',name:'Sanjay',role:'Full-Stack Developer',bio:'Building cool things with code. Open-source enthusiast.',skills:'HTML,JS,REACT,NODE,PYTHON,GIT,SQL',handle:'cu-sanjay',avatar:'https://github.com/github.png'} },
     { title:'Hacktoberfest', w:'countdown', overrides:{theme:'terminal',eventName:'Hacktoberfest',targetDate:'2026-10-31'} },
+    { title:'Currently Reading', w:'book', overrides:{theme:'retro',bookPlatform:'goodreads',bookUsername:'12345678',bookStatus:'currently-reading'} },
     { title:'Profile Card', w:'profile', overrides:{theme:'paper',name:'Sanjay',role:'Full-Stack Developer',bio:'Building cool things with code n coffee.',skills:'HTML,JS,REACT,NODE,PYTHON,GIT,SQL',handle:'cu-sanjay',avatar:'https://pluspng.com/img-png/coder-png-coder-png-file-354.png'} }
   ];
 
