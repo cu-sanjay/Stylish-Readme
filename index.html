@@ -240,17 +240,17 @@
   <style>body { box-sizing: border-box; }</style>
  </head>
  <body class="h-full">
-  <div class="h-full w-full scroll-y">
+  <div class="scroll-y h-full w-full">
    <!-- TOP MARQUEE -->
    <div class="marquee-wrap">
     <div class="marquee font-mono text-xs font-semibold uppercase tracking-widest">
      <span>★ Stylish Readme</span><span>✦ Live widgets</span><span>◆ Time badges</span><span>✧ Daily quotes</span><span>◇ Profile cards</span><span>★ 190+ countries</span><span>✦ Copy and paste</span> <span>★ Stylish Readme</span><span>✦ Live widgets</span><span>◆ Time badges</span><span>✧ Daily quotes</span><span>◇ Profile cards</span><span>★ 190+ countries</span><span>✦ Copy and paste</span>
     </div>
    </div><!-- MASTHEAD -->
-   <header class="max-w-[1400px] mx-auto px-6 pt-8 pb-4">
-    <div class="flex items-center justify-between flex-wrap gap-4">
+   <header class="mx-auto max-w-[1400px] px-6 pb-4 pt-8">
+    <div class="flex flex-wrap items-center justify-between gap-4">
      <div class="flex items-center gap-4">
-      <div class="w-14 h-14 border-2 border-black flex items-center justify-center ink-shadow-sm bg-white">
+      <div class="ink-shadow-sm flex h-14 w-14 items-center justify-center border-2 border-black bg-white">
        <svg width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16v16H4z" /><path d="M4 10h16M10 4v16" /><circle cx="15" cy="15" r="2" fill="currentColor" />
        </svg>
       </div>
@@ -258,62 +258,62 @@
        <div class="font-mono text-[10px] uppercase tracking-[0.25em] text-neutral-600">
         Beautiful embeds for your README
        </div>
-       <h1 class="font-serif font-black text-4xl md:text-5xl leading-none tracking-tight">Stylish Readme</h1>
+       <h1 class="font-serif text-4xl font-black leading-none tracking-tight md:text-5xl">Stylish Readme</h1>
       </div>
      </div>
      <div class="flex items-center gap-2 font-mono text-xs uppercase tracking-wider">
-      <span class="chip"><span class="w-2 h-2 bg-green-600 inline-block"></span>Live</span> <span class="chip" id="nowChip">—</span>
+      <span class="chip"><span class="inline-block h-2 w-2 bg-green-600"></span>Live</span> <span class="chip" id="nowChip">—</span>
      </div>
     </div>
-    <div class="mt-6 border-t-2 border-black border-b-2 py-3 flex items-center justify-between flex-wrap gap-2 font-mono text-[11px] uppercase tracking-widest">
+    <div class="mt-6 flex flex-wrap items-center justify-between gap-2 border-b-2 border-t-2 border-black py-3 font-mono text-[11px] uppercase tracking-widest">
      <span>Create and embed dynamic widgets</span> <span class="hidden md:inline">Copy, paste, done</span> <span>No signup needed</span>
     </div>
    </header><!-- HERO -->
-   <section class="max-w-[1400px] mx-auto px-6 py-6">
+   <section class="mx-auto max-w-[1400px] px-6 py-6">
     <div class="grid grid-cols-12 gap-6">
      <div class="col-span-12 lg:col-span-8">
-      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-600 mb-3">Make it yours</p>
-      <h2 class="font-serif font-black text-5xl md:text-7xl leading-[0.95] tracking-tight">Your README,<br><span class="italic font-normal">truly alive</span></h2>
-      <p class="mt-5 text-base md:text-lg max-w-2xl leading-relaxed">Create live widgets for your GitHub profile. Real-time clocks, daily quotes, profile badges, timezone banners. Each one is an SVG that updates whenever someone views your README.</p>
+      <p class="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-600">Make it yours</p>
+      <h2 class="font-serif text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">Your README,<br><span class="font-normal italic">truly alive</span></h2>
+      <p class="mt-5 max-w-2xl text-base leading-relaxed md:text-lg">Create live widgets for your GitHub profile. Real-time clocks, daily quotes, profile badges, timezone banners. Each one is an SVG that updates whenever someone views your README.</p>
       <div class="mt-6 flex flex-wrap gap-3">
-       <button onclick="scrollToId('workshop')" class="btn-ink px-5 py-3 font-mono text-xs uppercase tracking-widest font-semibold">Start creating</button> <button onclick="scrollToId('gallery')" class="btn-paper px-5 py-3 font-mono text-xs uppercase tracking-widest font-semibold">See examples</button>
+       <button onclick="scrollToId('workshop')" class="btn-ink px-5 py-3 font-mono text-xs font-semibold uppercase tracking-widest">Start creating</button> <button onclick="scrollToId('gallery')" class="btn-paper px-5 py-3 font-mono text-xs font-semibold uppercase tracking-widest">See examples</button>
       </div>
      </div>
      <div class="col-span-12 lg:col-span-4">
-      <div class="border-2 border-black p-5 bg-white ink-shadow">
+      <div class="ink-shadow border-2 border-black bg-white p-5">
        <div class="section-head mb-4">
         <span class="font-mono text-[10px] font-bold uppercase tracking-widest">What you get</span> <span class="font-mono text-[10px]">Fig. A</span>
        </div>
        <div class="grid grid-cols-2 gap-3 text-center">
         <div class="border-2 border-black p-3">
-         <div class="font-serif font-black text-3xl" id="statCount">
+         <div class="font-serif text-3xl font-black" id="statCount">
           8
          </div>
-         <div class="font-mono text-[10px] uppercase tracking-wider mt-1">
+         <div class="mt-1 font-mono text-[10px] uppercase tracking-wider">
           Widget Types
          </div>
         </div>
-        <div class="border-2 border-black p-3 bg-black text-[var(--paper)]">
-         <div class="font-serif font-black text-3xl">
+        <div class="border-2 border-black bg-black p-3 text-[var(--paper)]">
+         <div class="font-serif text-3xl font-black">
           8
          </div>
-         <div class="font-mono text-[10px] uppercase tracking-wider mt-1">
+         <div class="mt-1 font-mono text-[10px] uppercase tracking-wider">
           Themes
          </div>
         </div>
-        <div class="border-2 border-black p-3 bg-[var(--paper)]">
-         <div class="font-serif font-black text-3xl">
+        <div class="border-2 border-black bg-[var(--paper)] p-3">
+         <div class="font-serif text-3xl font-black">
           400+
          </div>
-         <div class="font-mono text-[10px] uppercase tracking-wider mt-1">
+         <div class="mt-1 font-mono text-[10px] uppercase tracking-wider">
           Timezones
          </div>
         </div>
         <div class="border-2 border-black p-3">
-         <div class="font-serif font-black text-3xl">
+         <div class="font-serif text-3xl font-black">
           Live
          </div>
-         <div class="font-mono text-[10px] uppercase tracking-wider mt-1">
+         <div class="mt-1 font-mono text-[10px] uppercase tracking-wider">
           Always Fresh
          </div>
         </div>
@@ -322,161 +322,161 @@
      </div>
     </div>
    </section><!-- WORKSHOP -->
-   <section id="workshop" class="max-w-[1400px] mx-auto px-6 py-8">
+   <section id="workshop" class="mx-auto max-w-[1400px] px-6 py-8">
     <div class="section-head mb-6">
      <div class="flex items-center gap-3">
       <span class="num-stamp">01</span>
-      <h3 class="font-serif font-black text-2xl md:text-3xl">Create your widget</h3>
-     </div><span class="font-mono text-[10px] uppercase tracking-widest hidden md:inline">Pick one, customize it, copy the code</span>
+      <h3 class="font-serif text-2xl font-black md:text-3xl">Create your widget</h3>
+     </div><span class="hidden font-mono text-[10px] uppercase tracking-widest md:inline">Pick one, customize it, copy the code</span>
     </div><!-- Widget Type Tabs -->
-    <div class="flex flex-wrap gap-2 mb-6" id="widgetTabs">
+    <div class="mb-6 flex flex-wrap gap-2" id="widgetTabs">
      <!-- populated by JS -->
     </div><!-- Main Grid: Controls + Preview -->
     <div class="main-grid grid grid-cols-[420px_1fr] gap-6">
      <!-- CONTROLS -->
-     <div class="border-2 border-black bg-[var(--paper)] ink-shadow-lg">
-      <div class="panel-head p-4 border-b-2 border-black bg-black text-[var(--paper)] flex items-center justify-between gap-2">
-       <span class="font-mono text-xs uppercase tracking-widest font-bold">Control Panel</span> <span class="font-mono text-[10px]" id="panelLabel">TIME BADGE</span>
+     <div class="ink-shadow-lg border-2 border-black bg-[var(--paper)]">
+      <div class="panel-head flex items-center justify-between gap-2 border-b-2 border-black bg-black p-4 text-[var(--paper)]">
+       <span class="font-mono text-xs font-bold uppercase tracking-widest">Control Panel</span> <span class="font-mono text-[10px]" id="panelLabel">TIME BADGE</span>
       </div>
-      <div id="controlsArea" class="p-5 scroll-y" style="max-height:640px;"></div>
+      <div id="controlsArea" class="scroll-y p-5" style="max-height:640px;"></div>
      </div><!-- PREVIEW + EMBED -->
      <div class="flex flex-col gap-4">
-      <div class="border-2 border-black bg-white ink-shadow-lg">
-       <div class="panel-head p-4 border-b-2 border-black flex items-center justify-between bg-[var(--paper)] gap-2">
-        <span class="font-mono text-xs uppercase tracking-widest font-bold">Live Preview</span>
+      <div class="ink-shadow-lg border-2 border-black bg-white">
+       <div class="panel-head flex items-center justify-between gap-2 border-b-2 border-black bg-[var(--paper)] p-4">
+        <span class="font-mono text-xs font-bold uppercase tracking-widest">Live Preview</span>
         <div class="flex items-center gap-2">
-         <span class="chip"><i data-lucide="eye" class="w-3 h-3"></i>Rendering</span>
+         <span class="chip"><i data-lucide="eye" class="h-3 w-3"></i>Rendering</span>
         </div>
        </div>
-       <div class="preview-stage p-10 min-h-[260px] flex items-center justify-center" id="previewStage">
+       <div class="preview-stage flex min-h-[260px] items-center justify-center p-10" id="previewStage">
         <!-- live preview -->
        </div>
-       <div class="px-5 py-3 border-t-2 border-black bg-[var(--paper-2)] flex items-center justify-between flex-wrap gap-2">
+       <div class="flex flex-wrap items-center justify-between gap-2 border-t-2 border-black bg-[var(--paper-2)] px-5 py-3">
         <span class="font-mono text-[10px] uppercase tracking-widest">Renders as SVG · ~<span id="sizeInfo">2.1</span>kb</span> <span class="font-mono text-[10px] uppercase tracking-widest">Updates every refresh</span>
        </div>
       </div>
-      <div class="border-2 border-black ink-shadow-lg">
-       <div class="panel-head p-4 border-b-2 border-black flex items-center justify-between bg-black text-[var(--paper)] gap-2">
-        <span class="font-mono text-xs uppercase tracking-widest font-bold">Embed Code</span>
-        <div class="embed-tabs flex gap-2 flex-wrap">
+      <div class="ink-shadow-lg border-2 border-black">
+       <div class="panel-head flex items-center justify-between gap-2 border-b-2 border-black bg-black p-4 text-[var(--paper)]">
+        <span class="font-mono text-xs font-bold uppercase tracking-widest">Embed Code</span>
+        <div class="embed-tabs flex flex-wrap gap-2">
          <button onclick="switchFormat('md')" id="fmtMd" class="tab-btn tab-btn-active" style="padding:4px 10px;font-size:10px;">Markdown</button> <button onclick="switchFormat('html')" id="fmtHtml" class="tab-btn" style="padding:4px 10px;font-size:10px;">HTML</button> <button onclick="switchFormat('url')" id="fmtUrl" class="tab-btn" style="padding:4px 10px;font-size:10px;">URL</button>
         </div>
        </div>
        <div class="relative">
-        <pre class="code-block" id="embedCode"></pre><button onclick="copyEmbed()" class="absolute top-3 right-3 btn-paper px-3 py-2 font-mono text-[10px] uppercase tracking-widest font-bold flex items-center gap-1.5"> <i data-lucide="copy" class="w-3 h-3"></i><span id="copyLabel">Copy</span> </button>
+        <pre class="code-block" id="embedCode"></pre><button onclick="copyEmbed()" class="btn-paper absolute right-3 top-3 flex items-center gap-1.5 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-widest"> <i data-lucide="copy" class="h-3 w-3"></i><span id="copyLabel">Copy</span> </button>
        </div>
       </div>
      </div>
     </div>
    </section><!-- GALLERY -->
-   <section id="gallery" class="max-w-[1400px] mx-auto px-6 py-10">
+   <section id="gallery" class="mx-auto max-w-[1400px] px-6 py-10">
     <div class="section-head mb-6">
      <div class="flex items-center gap-3">
       <span class="num-stamp">02</span>
-      <h3 class="font-serif font-black text-2xl md:text-3xl">Examples</h3>
-     </div><span class="font-mono text-[10px] uppercase tracking-widest hidden md:inline">Click any one to load and tweak</span>
+      <h3 class="font-serif text-2xl font-black md:text-3xl">Examples</h3>
+     </div><span class="hidden font-mono text-[10px] uppercase tracking-widest md:inline">Click any one to load and tweak</span>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="galleryGrid"></div>
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4" id="galleryGrid"></div>
     <div id="profileGallery" class="mt-6 flex justify-center"></div>
    </section><!-- HOW IT WORKS -->
-   <section class="max-w-[1400px] mx-auto px-6 py-10">
+   <section class="mx-auto max-w-[1400px] px-6 py-10">
     <div class="section-head mb-6">
      <div class="flex items-center gap-3">
       <span class="num-stamp">03</span>
-      <h3 class="font-serif font-black text-2xl md:text-3xl">How it works</h3>
-     </div><span class="font-mono text-[10px] uppercase tracking-widest hidden md:inline">Three simple steps</span>
+      <h3 class="font-serif text-2xl font-black md:text-3xl">How it works</h3>
+     </div><span class="hidden font-mono text-[10px] uppercase tracking-widest md:inline">Three simple steps</span>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-     <article class="border-2 border-black p-6 bg-white ink-shadow">
-      <div class="flex items-center justify-between mb-4">
-       <span class="num-stamp">I</span> <i data-lucide="sliders-horizontal" class="w-6 h-6"></i>
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+     <article class="ink-shadow border-2 border-black bg-white p-6">
+      <div class="mb-4 flex items-center justify-between">
+       <span class="num-stamp">I</span> <i data-lucide="sliders-horizontal" class="h-6 w-6"></i>
       </div>
-      <h4 class="font-serif font-black text-2xl mb-2">Design</h4>
+      <h4 class="mb-2 font-serif text-2xl font-black">Design</h4>
       <p class="text-sm leading-relaxed">Pick a widget type, a theme, and your timezone. Watch it update in real-time. Every option is reversible.</p>
      </article>
-     <article class="border-2 border-black p-6 bg-[var(--ink)] text-[var(--paper)] ink-shadow">
-      <div class="flex items-center justify-between mb-4">
-       <span class="num-stamp bg-[var(--paper)] text-[var(--ink)]">II</span> <i data-lucide="clipboard-copy" class="w-6 h-6"></i>
+     <article class="ink-shadow border-2 border-black bg-[var(--ink)] p-6 text-[var(--paper)]">
+      <div class="mb-4 flex items-center justify-between">
+       <span class="num-stamp bg-[var(--paper)] text-[var(--ink)]">II</span> <i data-lucide="clipboard-copy" class="h-6 w-6"></i>
       </div>
-      <h4 class="font-serif font-black text-2xl mb-2">Copy</h4>
+      <h4 class="mb-2 font-serif text-2xl font-black">Copy</h4>
       <p class="text-sm leading-relaxed">Grab the code as Markdown, HTML, or just the URL. Each widget is a live endpoint that renders fresh every time.</p>
      </article>
-     <article class="border-2 border-black p-6 bg-[var(--paper-2)] ink-shadow">
-      <div class="flex items-center justify-between mb-4">
-       <span class="num-stamp">III</span> <i data-lucide="rocket" class="w-6 h-6"></i>
+     <article class="ink-shadow border-2 border-black bg-[var(--paper-2)] p-6">
+      <div class="mb-4 flex items-center justify-between">
+       <span class="num-stamp">III</span> <i data-lucide="rocket" class="h-6 w-6"></i>
       </div>
-      <h4 class="font-serif font-black text-2xl mb-2">Paste</h4>
+      <h4 class="mb-2 font-serif text-2xl font-black">Paste</h4>
       <p class="text-sm leading-relaxed">Drop it into your README, PR description, or GitHub bio. Your profile comes alive. That's it.</p>
      </article>
     </div>
    </section><!-- FAQ -->
-   <section class="max-w-[1400px] mx-auto px-6 py-10">
+   <section class="mx-auto max-w-[1400px] px-6 py-10">
     <div class="section-head mb-6">
      <div class="flex items-center gap-3">
       <span class="num-stamp">04</span>
-      <h3 class="font-serif font-black text-2xl md:text-3xl">Questions</h3>
-     </div><span class="font-mono text-[10px] uppercase tracking-widest hidden md:inline">Common ones answered</span>
+      <h3 class="font-serif text-2xl font-black md:text-3xl">Questions</h3>
+     </div><span class="hidden font-mono text-[10px] uppercase tracking-widest md:inline">Common ones answered</span>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-     <details class="border-2 border-black bg-white p-5 ink-shadow-sm" open>
-      <summary class="flex items-center justify-between font-serif font-bold text-lg"> <span>Does it really update live?</span> <i data-lucide="plus" class="w-5 h-5"></i> </summary>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+     <details class="ink-shadow-sm border-2 border-black bg-white p-5" open>
+      <summary class="flex items-center justify-between font-serif text-lg font-bold"> <span>Does it really update live?</span> <i data-lucide="plus" class="h-5 w-5"></i> </summary>
       <p class="mt-3 text-sm leading-relaxed text-neutral-800">Yes. Each widget is an SVG endpoint. When someone views your README, GitHub fetches a fresh render with the current time, date, or content. No client-side scripts needed.</p>
      </details>
-     <details class="border-2 border-black bg-white p-5 ink-shadow-sm">
-      <summary class="flex items-center justify-between font-serif font-bold text-lg"> <span>What about caching?</span> <i data-lucide="plus" class="w-5 h-5"></i> </summary>
+     <details class="ink-shadow-sm border-2 border-black bg-white p-5">
+      <summary class="flex items-center justify-between font-serif text-lg font-bold"> <span>What about caching?</span> <i data-lucide="plus" class="h-5 w-5"></i> </summary>
       <p class="mt-3 text-sm leading-relaxed text-neutral-800">GitHub caches images via their Camo proxy. Our widgets use cache-busting headers, so refreshes happen frequently, usually every minute or two.</p>
      </details>
-     <details class="border-2 border-black bg-white p-5 ink-shadow-sm">
-      <summary class="flex items-center justify-between font-serif font-bold text-lg"> <span>Will the avatar in the profile card actually show on GitHub?</span> <i data-lucide="plus" class="w-5 h-5"></i> </summary>
+     <details class="ink-shadow-sm border-2 border-black bg-white p-5">
+      <summary class="flex items-center justify-between font-serif text-lg font-bold"> <span>Will the avatar in the profile card actually show on GitHub?</span> <i data-lucide="plus" class="h-5 w-5"></i> </summary>
       <p class="mt-3 text-sm leading-relaxed text-neutral-800">Yes. The serverless renderer fetches your avatar URL and embeds it directly inside the SVG (as a base64 image), so GitHub renders it the same way it would render any other badge — no broken images, no extra requests from your README.</p>
      </details>
-     <details class="border-2 border-black bg-white p-5 ink-shadow-sm">
-      <summary class="flex items-center justify-between font-serif font-bold text-lg"> <span>Is this free?</span> <i data-lucide="plus" class="w-5 h-5"></i> </summary>
+     <details class="ink-shadow-sm border-2 border-black bg-white p-5">
+      <summary class="flex items-center justify-between font-serif text-lg font-bold"> <span>Is this free?</span> <i data-lucide="plus" class="h-5 w-5"></i> </summary>
       <p class="mt-3 text-sm leading-relaxed text-neutral-800">Forever. No accounts, no API keys, no rate limits. Use it, remix it, build on it.</p>
      </details>
     </div>
    </section><!-- GITHUB STAR CTA -->
-   <section class="max-w-[1400px] mx-auto px-6 py-10">
-    <a href="https://github.com/cu-sanjay/Stylish-Readme" target="_blank" rel="noopener" class="block group">
-     <div class="border-2 border-black bg-[var(--paper-2)] ink-shadow p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 md:gap-8 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[8px_8px_0_var(--ink)]">
+   <section class="mx-auto max-w-[1400px] px-6 py-10">
+    <a href="https://github.com/cu-sanjay/Stylish-Readme" target="_blank" rel="noopener" class="group block">
+     <div class="ink-shadow flex flex-col gap-6 border-2 border-black bg-[var(--paper-2)] p-6 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[8px_8px_0_var(--ink)] md:flex-row md:items-center md:gap-8 md:p-8">
       <div class="flex items-center gap-4 md:flex-1">
-       <div class="w-14 h-14 border-2 border-black bg-[var(--ink)] text-[var(--paper)] flex items-center justify-center flex-shrink-0">
-        <svg viewBox="0 0 24 24" class="w-8 h-8" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.27-1.69-1.27-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 015.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.39 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
+       <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center border-2 border-black bg-[var(--ink)] text-[var(--paper)]">
+        <svg viewBox="0 0 24 24" class="h-8 w-8" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.27-1.69-1.27-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 015.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.39 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
        </div>
        <div>
-        <div class="font-mono text-[10px] uppercase tracking-[0.25em] text-neutral-600 mb-1">Open Source</div>
-        <h3 class="font-serif font-black text-2xl md:text-3xl leading-tight">Like Stylish Readme? Star it on GitHub.</h3>
-        <p class="text-sm text-neutral-700 mt-1">It takes 2 seconds and helps a lot. Issues &amp; PRs welcome.</p>
+        <div class="mb-1 font-mono text-[10px] uppercase tracking-[0.25em] text-neutral-600">Open Source</div>
+        <h3 class="font-serif text-2xl font-black leading-tight md:text-3xl">Like Stylish Readme? Star it on GitHub.</h3>
+        <p class="mt-1 text-sm text-neutral-700">It takes 2 seconds and helps a lot. Issues &amp; PRs welcome.</p>
        </div>
       </div>
       <div class="flex items-center gap-3 md:flex-shrink-0">
        <span class="chip" style="background:var(--paper);">
-        <i data-lucide="star" class="w-3.5 h-3.5"></i> star
+        <i data-lucide="star" class="h-3.5 w-3.5"></i> star
        </span>
        <span class="chip" style="background:var(--paper);">
-        <i data-lucide="git-branch" class="w-3.5 h-3.5"></i> fork
+        <i data-lucide="git-branch" class="h-3.5 w-3.5"></i> fork
        </span>
-       <span class="btn-ink px-5 py-3 font-mono text-xs uppercase tracking-wider font-bold inline-flex items-center gap-2">
-        <i data-lucide="star" class="w-4 h-4"></i> Star on GitHub
-        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+       <span class="btn-ink inline-flex items-center gap-2 px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider">
+        <i data-lucide="star" class="h-4 w-4"></i> Star on GitHub
+        <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
        </span>
       </div>
      </div>
-     <div class="font-mono text-[10px] uppercase tracking-widest text-neutral-500 mt-3 text-center">github.com/cu-sanjay/Stylish-Readme</div>
+     <div class="mt-3 text-center font-mono text-[10px] uppercase tracking-widest text-neutral-500">github.com/cu-sanjay/Stylish-Readme</div>
     </a>
    </section><!-- COLOPHON / FOOTER -->
    <footer class="mt-12 border-t-2 border-black bg-[var(--ink)] text-[var(--paper)]">
-    <div class="max-w-[1400px] mx-auto px-6 py-10">
-     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="mx-auto max-w-[1400px] px-6 py-10">
+     <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
       <div class="md:col-span-2">
-       <div class="font-mono text-[10px] uppercase tracking-[0.25em] opacity-70 mb-2">
+       <div class="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] opacity-70">
         Made with care
        </div>
-       <h4 class="font-serif font-black text-3xl leading-none">Stylish Readme</h4>
-       <p class="mt-3 text-sm max-w-md opacity-80 leading-relaxed">Make your GitHub profile shine. Live widgets, clean design, no complexity. Just copy, paste, and done.</p>
+       <h4 class="font-serif text-3xl font-black leading-none">Stylish Readme</h4>
+       <p class="mt-3 max-w-md text-sm leading-relaxed opacity-80">Make your GitHub profile shine. Live widgets, clean design, no complexity. Just copy, paste, and done.</p>
       </div>
       <div>
-       <div class="font-mono text-[10px] uppercase tracking-[0.25em] opacity-70 mb-3">
+       <div class="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] opacity-70">
         Widgets
        </div>
        <ul class="space-y-1.5 text-sm">
@@ -489,7 +489,7 @@
        </ul>
       </div>
       <div>
-       <div class="font-mono text-[10px] uppercase tracking-[0.25em] opacity-70 mb-3">
+       <div class="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] opacity-70">
         Tech
        </div>
        <ul class="space-y-1.5 text-sm">
@@ -534,7 +534,8 @@
     { id:'marker',  label:'Marker Board',     icon:'highlighter' },
     { id:'glass',   label:'Liquid Glass',     icon:'droplet' },
     { id:'countdown', label:'Event Countdown', icon:'timer' },
-    { id:'weather', label:'Live Weather',     icon:'cloud' }
+    { id:'weather', label:'Live Weather',     icon:'cloud' },
+    { id:'activity', label:'Activity Feed', icon:'activity' },
   ];
 
   // ----- Skills (24x24 brand-color badges) -----
@@ -830,7 +831,7 @@
     wrap.innerHTML = WIDGETS.map(w=>`
       <button onclick="setWidget('${w.id}')" class="tab-btn ${state.widget===w.id?'tab-btn-active':''}" data-w="${w.id}">
         <span class="inline-flex items-center gap-2">
-          <i data-lucide="${w.icon}" class="w-3.5 h-3.5"></i>
+          <i data-lucide="${w.icon}" class="h-3.5 w-3.5"></i>
           ${w.label}
         </span>
       </button>
@@ -852,7 +853,7 @@
     return `<div class="flex flex-wrap gap-2">${THEMES.map(t=>`
       <button onclick="setField('theme','${t.id}')" class="swatch ${state.theme===t.id?'swatch-active':''}" title="${t.name}" style="background:${t.bg};${t.border?'box-shadow:inset 0 0 0 2px '+t.fg:''}"></button>
     `).join('')}</div>
-    <div class="font-mono text-[10px] uppercase tracking-wider mt-2 text-neutral-600">Selected: <span class="font-bold text-[var(--ink)]">${themeObj(state.theme).name}</span></div>`;
+    <div class="mt-2 font-mono text-[10px] uppercase tracking-wider text-neutral-600">Selected: <span class="font-bold text-[var(--ink)]">${themeObj(state.theme).name}</span></div>`;
   }
 
   function renderControls(){
@@ -883,16 +884,16 @@
           <input class="input-field" value="${state.label}" oninput="setField('label',this.value,false)" placeholder="e.g. Local Time"/>
         </div>
         <div class="mb-3 space-y-2">
-          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
-            <input type="checkbox" ${state.showSeconds?'checked':''} onchange="setField('showSeconds',this.checked)" class="w-4 h-4 accent-black"/>
+          <label class="flex cursor-pointer items-center gap-3 font-mono text-xs">
+            <input type="checkbox" ${state.showSeconds?'checked':''} onchange="setField('showSeconds',this.checked)" class="h-4 w-4 accent-black"/>
             <span class="uppercase tracking-wider">Show seconds</span>
           </label>
-          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
-            <input type="checkbox" ${state.showDate?'checked':''} onchange="setField('showDate',this.checked)" class="w-4 h-4 accent-black"/>
+          <label class="flex cursor-pointer items-center gap-3 font-mono text-xs">
+            <input type="checkbox" ${state.showDate?'checked':''} onchange="setField('showDate',this.checked)" class="h-4 w-4 accent-black"/>
             <span class="uppercase tracking-wider">Show date</span>
           </label>
-          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
-            <input type="checkbox" ${state.showDay?'checked':''} onchange="setField('showDay',this.checked)" class="w-4 h-4 accent-black"/>
+          <label class="flex cursor-pointer items-center gap-3 font-mono text-xs">
+            <input type="checkbox" ${state.showDay?'checked':''} onchange="setField('showDay',this.checked)" class="h-4 w-4 accent-black"/>
             <span class="uppercase tracking-wider">Show day of week</span>
           </label>
         </div>
@@ -966,7 +967,7 @@
         </div>
         <div class="mb-5">
           <label class="label-tag">Unit</label>
-          <div class="flex gap-2 flex-wrap">
+          <div class="flex flex-wrap gap-2">
             <button onclick="setField('unit','days')" class="chip ${state.unit==='days'?'chip-active':''}">Days</button>
             <button onclick="setField('unit','weeks')" class="chip ${state.unit==='weeks'?'chip-active':''}">Weeks</button>
             <button onclick="setField('unit','months')" class="chip ${state.unit==='months'?'chip-active':''}">Months</button>
@@ -978,7 +979,7 @@
           <select class="input-field" onchange="setField('platform',this.value)">
             ${Object.entries(CODING_PLATFORMS).map(([id,p])=>`<option value="${id}" ${state.platform===id?'selected':''}>${p.name}</option>`).join('')}
           </select>
-          <div class="font-mono text-[10px] uppercase tracking-wider mt-2 text-neutral-600">Adds a small platform tile to the top-right of the badge.</div>
+          <div class="mt-2 font-mono text-[10px] uppercase tracking-wider text-neutral-600">Adds a small platform tile to the top-right of the badge.</div>
         </div>
         <div class="mb-5">
           <label class="label-tag">Theme</label>
@@ -999,11 +1000,11 @@
           <input class="input-field" value="${state.musicListen}" oninput="setField('musicListen',this.value,false)" placeholder="e.g. Now Playing"/>
         </div>
         <div class="mb-5">
-          <label class="label-tag">Streaming Platform <span class="opacity-60 normal-case">(optional)</span></label>
+          <label class="label-tag">Streaming Platform <span class="normal-case opacity-60">(optional)</span></label>
           <select class="input-field" onchange="setField('musicPlatform',this.value)">
             ${Object.entries(MUSIC_PLATFORMS).map(([id,p])=>`<option value="${id}" ${state.musicPlatform===id?'selected':''}>${p.name}</option>`).join('')}
           </select>
-          <div class="font-mono text-[10px] uppercase tracking-wider mt-2 text-neutral-600">Tints the album art &amp; shows the platform glyph.</div>
+          <div class="mt-2 font-mono text-[10px] uppercase tracking-wider text-neutral-600">Tints the album art &amp; shows the platform glyph.</div>
         </div>
         <div class="mb-5">
           <label class="label-tag">Pick or Enter Song</label>
@@ -1080,8 +1081,8 @@
         <div class="mb-5">
           <label class="label-tag">Avatar Image URL</label>
           <input id="avatarInput" class="input-field" value="${state.avatar}" oninput="setField('avatar',this.value,false)" placeholder="https://avatars.githubusercontent.com/u/..."/>
-          <div class="flex items-center gap-2 mt-2 flex-wrap">
-            <button type="button" onclick="useGithubAvatar()" class="btn-paper px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest font-bold inline-flex items-center gap-1.5"><i data-lucide="github" class="w-3 h-3"></i>Use GitHub avatar</button>
+          <div class="mt-2 flex flex-wrap items-center gap-2">
+            <button type="button" onclick="useGithubAvatar()" class="btn-paper inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest"><i data-lucide="github" class="h-3 w-3"></i>Use GitHub avatar</button>
             <span class="font-mono text-[10px] uppercase tracking-wider text-neutral-600">Auto-fills from your handle</span>
           </div>
         </div>
@@ -1094,22 +1095,22 @@
           <input class="input-field" value="${state.role}" oninput="setField('role',this.value,false)" placeholder="Full-Stack Developer"/>
         </div>
         <div class="mb-5">
-          <label class="label-tag">GitHub Handle <span class="opacity-60 normal-case">(no @)</span></label>
+          <label class="label-tag">GitHub Handle <span class="normal-case opacity-60">(no @)</span></label>
           <input id="handleInput" class="input-field" value="${state.handle}" oninput="onHandleInput(this.value)" placeholder="cu-sanjay"/>
-          <div class="font-mono text-[10px] uppercase tracking-wider mt-2 text-neutral-600">Avatar auto-updates as you type if it's blank or already a GitHub photo.</div>
+          <div class="mt-2 font-mono text-[10px] uppercase tracking-wider text-neutral-600">Avatar auto-updates as you type if it's blank or already a GitHub photo.</div>
         </div>
         <div class="mb-5">
-          <label class="label-tag">Bio <span class="opacity-60 normal-case">(2 lines)</span></label>
+          <label class="label-tag">Bio <span class="normal-case opacity-60">(2 lines)</span></label>
           <textarea class="input-field" rows="2" oninput="setField('bio',this.value,false)" placeholder="A short introduction.">${state.bio}</textarea>
         </div>
         <div class="mb-5">
-          <label class="label-tag">Skills <span class="opacity-60 normal-case">(pick up to 12)</span></label>
+          <label class="label-tag">Skills <span class="normal-case opacity-60">(pick up to 12)</span></label>
           <div class="grid grid-cols-4 gap-2">
             ${Object.entries(SKILLS).map(([code,s])=>`
               <button type="button" onclick="toggleSkill('${code}')" class="chip ${isOn(code)?'chip-active':''}" style="${isOn(code)?'background:'+s.bg+';color:'+s.fg+';border-color:'+s.bg:''}" title="${s.name}">${s.name}</button>
             `).join('')}
           </div>
-          <div class="font-mono text-[10px] uppercase tracking-wider mt-2 text-neutral-600">Selected: ${skillsArr.length} · More skill badges coming soon</div>
+          <div class="mt-2 font-mono text-[10px] uppercase tracking-wider text-neutral-600">Selected: ${skillsArr.length} · More skill badges coming soon</div>
         </div>
         <div class="mb-5">
           <label class="label-tag">Theme</label>
@@ -1136,12 +1137,12 @@
           </select>
         </div>
         <div class="mb-5">
-          <div class="flex items-center justify-between mb-2">
+          <div class="mb-2 flex items-center justify-between">
             <label class="label-tag mb-0">Time of Day</label>
-            ${state.time ? `<button onclick="setField('time','')" class="text-[10px] font-mono uppercase text-red-600 hover:underline">Reset to Live</button>` : `<span class="text-[10px] font-mono uppercase text-green-600">Live Time</span>`}
+            ${state.time ? `<button onclick="setField('time','')" class="font-mono text-[10px] uppercase text-red-600 hover:underline">Reset to Live</button>` : `<span class="font-mono text-[10px] uppercase text-green-600">Live Time</span>`}
           </div>
           <input type="range" class="w-full accent-black" min="0" max="1000" value="${state.time || '600'}" oninput="setField('time', this.value)"/>
-          <div class="flex justify-between font-mono text-[9px] text-neutral-500 mt-1">
+          <div class="mt-1 flex justify-between font-mono text-[9px] text-neutral-500">
             <span>DAWN (05:00)</span>
             <span>MIDDAY (14:00)</span>
             <span>NIGHT (23:00)</span>
@@ -1162,8 +1163,8 @@
           <div class="mb-5">
             <label class="label-tag">Avatar Image URL</label>
             <input id="avatarInput" class="input-field" value="${state.avatar}" oninput="setField('avatar',this.value,false)" placeholder="https://avatars.githubusercontent.com/u/..."/>
-            <div class="flex items-center gap-2 mt-2 flex-wrap">
-              <button type="button" onclick="useGithubAvatar()" class="btn-paper px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest font-bold inline-flex items-center gap-1.5"><i data-lucide="github" class="w-3 h-3"></i>Use GitHub avatar</button>
+            <div class="mt-2 flex flex-wrap items-center gap-2">
+              <button type="button" onclick="useGithubAvatar()" class="btn-paper inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest"><i data-lucide="github" class="h-3 w-3"></i>Use GitHub avatar</button>
             </div>
           </div>
           <div class="mb-5">
@@ -1175,15 +1176,15 @@
             <input class="input-field" value="${state.role}" oninput="setField('role',this.value,false)"/>
           </div>
           <div class="mb-5">
-            <label class="label-tag">GitHub Handle <span class="opacity-60 normal-case">(no @)</span></label>
+            <label class="label-tag">GitHub Handle <span class="normal-case opacity-60">(no @)</span></label>
             <input id="handleInput" class="input-field" value="${state.handle}" oninput="onHandleInput(this.value)"/>
           </div>
           <div class="mb-5">
-            <label class="label-tag">Bio <span class="opacity-60 normal-case">(2 lines)</span></label>
+            <label class="label-tag">Bio <span class="normal-case opacity-60">(2 lines)</span></label>
             <textarea class="input-field" rows="2" oninput="setField('bio',this.value,false)">${state.bio}</textarea>
           </div>
           <div class="mb-5">
-            <label class="label-tag">Skills <span class="opacity-60 normal-case">(pick up to 12)</span></label>
+            <label class="label-tag">Skills <span class="normal-case opacity-60">(pick up to 12)</span></label>
             <div class="grid grid-cols-4 gap-2">
               ${Object.entries(SKILLS).map(([code,s])=>`
                 <button type="button" onclick="toggleSkill('${code}')" class="chip ${isOn(code)?'chip-active':''}" style="${isOn(code)?'background:'+s.bg+';color:'+s.fg+';border-color:'+s.bg:''}" title="${s.name}">${s.name}</button>
@@ -1218,7 +1219,7 @@
         </div>
         <div class="mb-5">
           <label class="label-tag">Marker Highlight Color</label>
-          <div class="flex gap-2 flex-wrap mb-2">
+          <div class="mb-2 flex flex-wrap gap-2">
             ${markerColors.map(c => `
               <button onclick="setField('markerColor','${c}')" class="w-8 h-8 rounded-full border-2 ${state.markerColor === c ? 'border-black scale-110' : 'border-transparent'} transition-all" style="background: ${getMarkerHex(c)}" title="${c}"></button>
             `).join('')}
@@ -1239,8 +1240,8 @@
           <div class="mb-5">
             <label class="label-tag">Avatar Image URL</label>
             <input id="avatarInput" class="input-field" value="${state.avatar}" oninput="setField('avatar',this.value,false)" placeholder="https://avatars.githubusercontent.com/u/..."/>
-            <div class="flex items-center gap-2 mt-2 flex-wrap">
-              <button type="button" onclick="useGithubAvatar()" class="btn-paper px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest font-bold inline-flex items-center gap-1.5"><i data-lucide="github" class="w-3 h-3"></i>Use GitHub avatar</button>
+            <div class="mt-2 flex flex-wrap items-center gap-2">
+              <button type="button" onclick="useGithubAvatar()" class="btn-paper inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest"><i data-lucide="github" class="h-3 w-3"></i>Use GitHub avatar</button>
             </div>
           </div>
           <div class="mb-5">
@@ -1252,15 +1253,15 @@
             <input class="input-field" value="${state.role}" oninput="setField('role',this.value,false)"/>
           </div>
           <div class="mb-5">
-            <label class="label-tag">GitHub Handle <span class="opacity-60 normal-case">(no @)</span></label>
+            <label class="label-tag">GitHub Handle <span class="normal-case opacity-60">(no @)</span></label>
             <input id="handleInput" class="input-field" value="${state.handle}" oninput="onHandleInput(this.value)"/>
           </div>
           <div class="mb-5">
-            <label class="label-tag">Bio <span class="opacity-60 normal-case">(use &lt;mark&gt; tags to highlight!)</span></label>
+            <label class="label-tag">Bio <span class="normal-case opacity-60">(use &lt;mark&gt; tags to highlight!)</span></label>
             <textarea class="input-field" rows="2" oninput="setField('bio',this.value,false)">${state.bio}</textarea>
           </div>
           <div class="mb-5">
-            <label class="label-tag">Skills <span class="opacity-60 normal-case">(pick up to 12)</span></label>
+            <label class="label-tag">Skills <span class="normal-case opacity-60">(pick up to 12)</span></label>
             <div class="grid grid-cols-4 gap-2">
               ${Object.entries(SKILLS).map(([code,s])=>`
                 <button type="button" onclick="toggleSkill('${code}')" class="chip ${isOn(code)?'chip-active':''}" style="${isOn(code)?'background:'+s.bg+';color:'+s.fg+';border-color:'+s.bg:''}" title="${s.name}">${s.name}</button>
@@ -1281,7 +1282,7 @@
         </div>
         <div class="mb-5">
           <label class="label-tag">Glass Theme</label>
-          <div class="flex gap-2 flex-wrap">
+          <div class="flex flex-wrap gap-2">
             <button onclick="setField('glassColor','liquid')" class="chip ${state.glassColor==='liquid'?'chip-active':''}">Liquid</button>
             <button onclick="setField('glassColor','coral')" class="chip ${state.glassColor==='coral'?'chip-active':''}">Coral</button>
             <button onclick="setField('glassColor','emerald')" class="chip ${state.glassColor==='emerald'?'chip-active':''}">Emerald</button>
@@ -1307,8 +1308,8 @@
           <div class="mb-5">
             <label class="label-tag">Avatar Image URL</label>
             <input id="avatarInput" class="input-field" value="${state.avatar}" oninput="setField('avatar',this.value,false)" placeholder="https://avatars.githubusercontent.com/u/..."/>
-            <div class="flex items-center gap-2 mt-2 flex-wrap">
-              <button type="button" onclick="useGithubAvatar()" class="btn-paper px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest font-bold inline-flex items-center gap-1.5"><i data-lucide="github" class="w-3 h-3"></i>Use GitHub avatar</button>
+            <div class="mt-2 flex flex-wrap items-center gap-2">
+              <button type="button" onclick="useGithubAvatar()" class="btn-paper inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest"><i data-lucide="github" class="h-3 w-3"></i>Use GitHub avatar</button>
             </div>
           </div>
           <div class="mb-5">
@@ -1320,7 +1321,7 @@
             <input class="input-field" value="${state.role}" oninput="setField('role',this.value,false)"/>
           </div>
           <div class="mb-5">
-            <label class="label-tag">GitHub Handle <span class="opacity-60 normal-case">(no @)</span></label>
+            <label class="label-tag">GitHub Handle <span class="normal-case opacity-60">(no @)</span></label>
             <input id="handleInput" class="input-field" value="${state.handle}" oninput="onHandleInput(this.value)"/>
           </div>
           <div class="mb-5">
@@ -1328,7 +1329,7 @@
             <textarea class="input-field" rows="2" oninput="setField('bio',this.value,false)">${state.bio}</textarea>
           </div>
           <div class="mb-5">
-            <label class="label-tag">Skills <span class="opacity-60 normal-case">(pick up to 12)</span></label>
+            <label class="label-tag">Skills <span class="normal-case opacity-60">(pick up to 12)</span></label>
             <div class="grid grid-cols-4 gap-2">
               ${Object.entries(SKILLS).map(([code,s])=>`
                 <button type="button" onclick="toggleSkill('${code}')" class="chip ${isOn(code)?'chip-active':''}" style="${isOn(code)?'background:'+s.bg+';color:'+s.fg+';border-color:'+s.bg:''}" title="${s.name}">${s.name}</button>
@@ -2779,17 +2780,17 @@
       const svg = getSvg();
       Object.assign(state, saved);
       return `
-        <article class="preview-card p-4 flex flex-col gap-3 cursor-pointer group" onclick="loadPreset(${i})">
+        <article class="preview-card group flex cursor-pointer flex-col gap-3 p-4" onclick="loadPreset(${i})">
           <div class="flex items-center justify-between">
             <span class="chip">${p.w}</span>
             <span class="font-mono text-[10px] text-neutral-500">№ ${pad(i+1)}</span>
           </div>
-          <div class="bg-[var(--paper)] border-2 border-black p-3 flex items-center justify-center min-h-[120px] overflow-hidden">
+          <div class="flex min-h-[120px] items-center justify-center overflow-hidden border-2 border-black bg-[var(--paper)] p-3">
             <div style="transform:scale(${scale});transform-origin:center;">${svg}</div>
           </div>
-          <div class="flex items-center justify-between pt-1 border-t border-dashed border-black">
-            <span class="font-serif font-bold text-sm">${p.title}</span>
-            <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform"></i>
+          <div class="flex items-center justify-between border-t border-dashed border-black pt-1">
+            <span class="font-serif text-sm font-bold">${p.title}</span>
+            <i data-lucide="arrow-up-right" class="h-4 w-4 transition-transform group-hover:translate-x-0.5"></i>
           </div>
         </article>
       `;

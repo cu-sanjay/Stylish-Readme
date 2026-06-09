@@ -220,4 +220,4 @@ describe('renderWidget', () => {
     expect(xml).toContain('GRADUATION');
   });
 });
-
+})
