@@ -537,6 +537,8 @@
     { id:'weather', label:'Live Weather',     icon:'cloud' },
     { id:'book',    label:'Currently Reading', icon:'book' }
   ];
+    { id:'youtube', label:'YouTube Video',    icon:'youtube' }
+    ];
 
   // ----- Skills (24x24 brand-color badges) -----
   const SKILLS = {
@@ -799,7 +801,15 @@
     bookUsername: '12345678',
     bookStatus: 'currently-reading',
     eventName: 'Hacktoberfest',
-    targetDate: '2026-10-31'
+    targetDate: '2026-10-31',
+    // YouTube
+    videoId: 'dQw4w9WgXcQ',
+    playlistId: '',
+    videoIds: '',
+    youtubeMode: 'single',
+    showTitle: true,
+    showChannel: true,
+    showThumbnail: true
   };
 
   // ========== UTIL ==========
@@ -1367,6 +1377,56 @@
           </div>
         `;
       }
+    }
+    else if (state.widget==='youtube'){
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">YouTube Mode</label>
+          <div class="flex gap-2">
+            <button onclick="setField('youtubeMode','single')" class="chip ${state.youtubeMode==='single'?'chip-active':''}">Single Video</button>
+            <button onclick="setField('youtubeMode','multiple')" class="chip ${state.youtubeMode==='multiple'?'chip-active':''}">Multiple Videos</button>
+          </div>
+        </div>
+      `;
+      if (state.youtubeMode === 'single') {
+        html += `
+          <div class="mb-5">
+            <label class="label-tag">Video ID</label>
+            <input class="input-field" value="${state.videoId}" oninput="setField('videoId',this.value,false)" placeholder="e.g. dQw4w9WgXcQ"/>
+          </div>
+          <div class="mb-5">
+            <label class="label-tag">Playlist ID <span class="opacity-60 normal-case">(optional)</span></label>
+            <input class="input-field" value="${state.playlistId}" oninput="setField('playlistId',this.value,false)" placeholder="e.g. PL..."/>
+          </div>
+        `;
+      } else {
+        html += `
+          <div class="mb-5">
+            <label class="label-tag">Video IDs <span class="opacity-60 normal-case">(comma separated, max 3)</span></label>
+            <input class="input-field" value="${state.videoIds}" oninput="setField('videoIds',this.value,false)" placeholder="ID1, ID2, ID3"/>
+          </div>
+        `;
+      }
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">Theme</label>
+          ${themeSwatches()}
+        </div>
+        <div class="mb-3 space-y-2">
+          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
+            <input type="checkbox" ${state.showTitle?'checked':''} onchange="setField('showTitle',this.checked)" class="w-4 h-4 accent-black"/>
+            <span class="uppercase tracking-wider">Show Video Title</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
+            <input type="checkbox" ${state.showChannel?'checked':''} onchange="setField('showChannel',this.checked)" class="w-4 h-4 accent-black"/>
+            <span class="uppercase tracking-wider">Show Channel Name</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
+            <input type="checkbox" ${state.showThumbnail?'checked':''} onchange="setField('showThumbnail',this.checked)" class="w-4 h-4 accent-black"/>
+            <span class="uppercase tracking-wider">Show Thumbnail</span>
+          </label>
+        </div>
+      `;
     }
     area.innerHTML = html;
     lucide.createIcons();
@@ -2685,6 +2745,34 @@
       <text x="90" y="35" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="2" opacity="0.65">${statusLabel}</text>
       <text x="90" y="65" fill="${theme.fg}" font-size="18" font-weight="800" font-family="Fraunces,serif">Book Title Preview</text>
       <text x="90" y="85" fill="${theme.fg}" font-size="13" font-weight="500" opacity="0.8">Author Name Preview</text>
+  function svgYoutube(){
+    const theme = themeObj(state.theme);
+    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
+    const isMultiple = state.youtubeMode === 'multiple';
+    const W = 420;
+    const H = isMultiple ? 340 : 260;
+    const title = state.showTitle ? "Rick Astley - Never Gonna Give You Up" : "";
+    const channel = state.showChannel ? "Rick Astley" : "";
+    
+    let items = "";
+    if (isMultiple) {
+      items = `
+        <rect x="20" y="45" width="115" height="65" rx="4" fill="${theme.fg}" opacity="0.1"/>
+        <rect x="150" y="45" width="115" height="65" rx="4" fill="${theme.fg}" opacity="0.1"/>
+        <rect x="280" y="45" width="115" height="65" rx="4" fill="${theme.fg}" opacity="0.1"/>
+        <text x="20" y="130" fill="${theme.fg}" font-size="12" font-weight="700">Recent Videos</text>
+      `;
+    } else {
+      items = `<rect x="20" y="45" width="380" height="150" rx="6" fill="${theme.fg}" opacity="0.1"/>`;
+    }
+
+    return `
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
+      <rect x="1" y="1" width="${W-2}" height="${H-2}" fill="${theme.bg}" style="${borderStyle}"/>
+      <text x="28" y="28" fill="${theme.fg}" font-size="12" font-weight="700" letter-spacing="1" opacity="0.8">YOUTUBE</text>
+      ${items}
+      <text x="20" y="${H-45}" fill="${theme.fg}" font-size="14" font-weight="700">${title}</text>
+      <text x="20" y="${H-25}" fill="${theme.fg}" font-size="11" font-weight="500" opacity="0.75">${channel}</text>
     </svg>`;
   }
 
@@ -2705,6 +2793,7 @@
       case 'countdown': return svgCountdown();
       case 'weather': return svgWeather();
       case 'book': return svgBook();
+      case 'youtube': return svgYoutube();
     }
     return '';
   }
@@ -2733,6 +2822,7 @@
     countdown: ['eventName','targetDate','theme'],
     weather:   ['city','tempUnit','weatherStyle','theme'],
     book:      ['bookPlatform','bookUsername','bookStatus','theme']
+    youtube:   ['videoId','playlistId','videoIds','youtubeMode','showTitle','showChannel','showThumbnail','theme']
   };
   function buildUrl(){
     const protocol = window.location.protocol;
@@ -2815,6 +2905,7 @@
     { title:'Hacktoberfest', w:'countdown', overrides:{theme:'terminal',eventName:'Hacktoberfest',targetDate:'2026-10-31'} },
     { title:'Live Weather', w:'weather', overrides:{theme:'retro',city:'London',tempUnit:'C',weatherStyle:'detailed'} },
     { title:'Currently Reading', w:'book', overrides:{theme:'retro',bookPlatform:'goodreads',bookUsername:'12345678',bookStatus:'currently-reading'} },
+    { title:'YouTube Preview', w:'youtube', overrides:{videoId:'dQw4w9WgXcQ',theme:'classic',showTitle:true,showChannel:true} },
     { title:'Profile Card', w:'profile', overrides:{theme:'paper',name:'Sanjay',role:'Full-Stack Developer',bio:'Building cool things with code n coffee.',skills:'HTML,JS,REACT,NODE,PYTHON,GIT,SQL',handle:'cu-sanjay',avatar:'https://pluspng.com/img-png/coder-png-coder-png-file-354.png'} }
   ];
 
