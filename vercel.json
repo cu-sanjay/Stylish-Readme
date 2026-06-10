@@ -3,7 +3,6 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "routes": [
-    { "src": "^/api/marketplace\\.svg$", "dest": "/api/marketplace.svg" },
     { "src": "^/api/([\\w-]+)\\.svg$", "dest": "/api/widget?type=$1" },
     { "handle": "filesystem" },
     { "src": "^/(.*)$", "dest": "/index.html" }
@@ -28,8 +27,7 @@
       ]
     },
     {
-      "source": "/api/(date|quote|streak|profile|marketplace|marker|glass).svg",
-      "source": "/api/(date|quote|streak|profile|marketplace|countdown).svg",
+      "source": "/api/(date|quote|streak|profile|countdown|marker|glass|marketplace).svg",
       "headers": [
         { "key": "Content-Type",                "value": "image/svg+xml; charset=utf-8" },
         { "key": "Cache-Control",               "value": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=600" },
