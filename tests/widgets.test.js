@@ -214,10 +214,25 @@ describe('renderWidget', () => {
     expect(xml).toContain('Gooey glass refraction card.');
     expect(xml).toContain('◆ SKILLS &amp; STACK');
     expect(xml).toContain('goo_');
+  });
+
   test('renders a countdown widget SVG', async () => {
     const xml = await renderWidget('countdown', { eventName: 'Graduation', targetDate: '2026-05-15' });
     expect(xml).toContain('COUNTDOWN TO');
     expect(xml).toContain('GRADUATION');
+  });
+
+  test('renders youtube widget missing id error', async () => {
+    const xml = await renderWidget('youtube', {});
+    expect(xml).toContain('YouTube Widget: Missing videoId or playlistId');
+  });
+
+  test('renders youtube widget with videoId (success path)', async () => {
+    // This test actually performs a real fetch to YouTube OEmbed API
+    const xml = await renderWidget('youtube', { videoId: 'dQw4w9WgXcQ' });
+    expect(xml).toContain('YOUTUBE');
+    expect(xml).toContain('Rick Astley');
+    expect(xml).toContain('image href="data:image/');
   });
 });
 

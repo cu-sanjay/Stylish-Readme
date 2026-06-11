@@ -36,6 +36,16 @@ const CACHE_POLICIES = {
   weather:  'public, max-age=1800, s-maxage=1800, stale-while-revalidate=600',
 
   // Daily-change widgets — refresh every hour
+<<<<<<< HEAD
+=======
+
+  date:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  quote:   'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  word:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  streak:  'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  profile: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+
+>>>>>>> 33154487f31ac49fec80f7c3b0d13c9f08c76d8c
   date:      'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   quote:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   word:      'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
@@ -45,6 +55,11 @@ const CACHE_POLICIES = {
   glass:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   countdown: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   marketplace: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+<<<<<<< HEAD
+=======
+
+  youtube:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+>>>>>>> 33154487f31ac49fec80f7c3b0d13c9f08c76d8c
 
   // Static mock content — refresh every 5 minutes
   music: 'public, max-age=300, s-maxage=300, stale-while-revalidate=120',

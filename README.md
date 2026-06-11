@@ -59,6 +59,28 @@ Stylish Readme renders widgets as standalone SVG images. Since GitHub supports S
       Activity tracking
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <img src="https://img.icons8.com/fluency/30/youtube-play.png" alt="YouTube Icon"/><br>
+      <strong>YouTube</strong><br>
+      Video showcase
+    </td>
+    <td align="center">
+      <img src="https://img.icons8.com/fluency/30/cloud.png" alt="Weather Icon"/><br>
+      <strong>Weather</strong><br>
+      Live conditions
+    </td>
+    <td align="center">
+      <img src="https://img.icons8.com/fluency/30/timer.png" alt="Countdown Icon"/><br>
+      <strong>Countdown</strong><br>
+      Event tracking
+    </td>
+    <td align="center">
+      <img src="https://img.icons8.com/fluency/30/highlighter.png" alt="Marker Icon"/><br>
+      <strong>Marker Board</strong><br>
+      Sketched bios
+    </td>
+  </tr>
 </table>
 
 ## Features
@@ -197,6 +219,25 @@ Procedural sky & ocean widgets that shift color palettes dynamically based on yo
 ```
 
 <img src="https://readmeme.eu.cc/api/countdown.svg?theme=terminal&eventName=Hacktoberfest&targetDate=2026-10-31" alt="Countdown Preview" />
+
+### 9. YouTube Video Preview
+
+#### Single Video Mode
+
+```md
+![YouTube Single](https://readmeme.eu.cc/api/youtube.svg?videoId=dQw4w9WgXcQ&theme=classic)
+```
+
+<img src="https://readmeme.eu.cc/api/youtube.svg?videoId=dQw4w9WgXcQ&theme=classic" alt="YouTube Single Preview" />
+
+#### Multiple Videos Mode
+
+```md
+![YouTube Multiple](https://readmeme.eu.cc/api/youtube.svg?youtubeMode=multiple&videoIds=dQw4w9WgXcQ,yPYZpwvlWmc,jNQXAC9IVRw&theme=ocean)
+```
+
+<img src="https://readmeme.eu.cc/api/youtube.svg?youtubeMode=multiple&videoIds=dQw4w9WgXcQ,yPYZpwvlWmc,jNQXAC9IVRw&theme=ocean" alt="YouTube Multiple Preview" />
+
 
 
 
