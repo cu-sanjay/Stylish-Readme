@@ -818,6 +818,11 @@
   function $(id){return document.getElementById(id);}
   function scrollToId(id){ const el=$(id); if(el){el.scrollIntoView({behavior:'smooth',block:'start'});} }
   function pad(n){return String(n).padStart(2,'0');}
+  function escXml(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+  }
   function getTzTime(tz){
     try{
       const d = new Date();
@@ -1065,6 +1070,9 @@
         <div class="mb-5">
           <label class="label-tag">Theme</label>
           ${themeSwatches()}
+        </div>
+        <div class="note-box">
+          <strong>Live data:</strong> The main preview and generated README embed fetch current weather from Open-Meteo. Gallery thumbnails use sample data only.
         </div>
       `;
     }
@@ -2732,6 +2740,108 @@
     }
   }
 
+  function weatherCondition(code) {
+    if (code === 0) return 'Clear';
+    if (code === 1 || code === 2) return 'Partly Cloudy';
+    if (code === 3) return 'Overcast';
+    if (code === 45 || code === 48) return 'Fog';
+    if (code >= 51 && code <= 57) return 'Drizzle';
+    if (code >= 61 && code <= 67) return 'Rain';
+    if (code >= 71 && code <= 77) return 'Snow';
+    if (code >= 80 && code <= 82) return 'Showers';
+    if (code >= 85 && code <= 86) return 'Snow Showers';
+    if (code >= 95) return 'Thunderstorm';
+    return 'Weather';
+  }
+
+  function weatherGlyph(code) {
+    if (code === 0) return 'SUN';
+    if (code === 1 || code === 2) return 'PART';
+    if (code === 3) return 'CLD';
+    if (code === 45 || code === 48) return 'FOG';
+    if (code >= 51 && code <= 67) return 'RAIN';
+    if (code >= 71 && code <= 77) return 'SNOW';
+    if (code >= 80 && code <= 82) return 'SHWR';
+    if (code >= 85 && code <= 86) return 'SNOW';
+    if (code >= 95) return 'STRM';
+    return 'WX';
+  }
+
+  async function fetchWeatherPreview(city, tempUnit) {
+    const trimmedCity = String(city || '').trim();
+    if (!trimmedCity || !window.fetch) return null;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 6500);
+    try {
+      const geoUrl = new URL('https://geocoding-api.open-meteo.com/v1/search');
+      geoUrl.searchParams.set('name', trimmedCity);
+      geoUrl.searchParams.set('count', '1');
+      geoUrl.searchParams.set('language', 'en');
+      geoUrl.searchParams.set('format', 'json');
+      const geoRes = await fetch(geoUrl, { signal: controller.signal });
+      const geoData = await geoRes.json();
+      const loc = geoData && geoData.results && geoData.results[0];
+      if (!loc) return null;
+
+      const weatherUrl = new URL('https://api.open-meteo.com/v1/forecast');
+      weatherUrl.searchParams.set('latitude', String(loc.latitude));
+      weatherUrl.searchParams.set('longitude', String(loc.longitude));
+      weatherUrl.searchParams.set('current', 'temperature_2m,weather_code');
+      weatherUrl.searchParams.set('temperature_unit', tempUnit === 'F' ? 'fahrenheit' : 'celsius');
+      const weatherRes = await fetch(weatherUrl, { signal: controller.signal });
+      const weatherData = await weatherRes.json();
+      if (!weatherData || !weatherData.current) return null;
+      return {
+        city: loc.name,
+        country: loc.country_code || '',
+        temp: Math.round(weatherData.current.temperature_2m),
+        unit: tempUnit === 'F' ? 'F' : 'C',
+        code: weatherData.current.weather_code
+      };
+    } catch (_) {
+      return null;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  let weatherPreviewKey = '';
+  let weatherPreviewSeq = 0;
+
+  function svgWeather(weather=null, status='sample'){
+    const theme = themeObj(state.theme);
+    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
+    const isDetailed = state.weatherStyle === 'detailed';
+    const W = isDetailed ? 320 : 200;
+    const H = isDetailed ? 110 : 80;
+    const sample = { city: state.city || 'Tokyo', country: '', temp: 24, unit: state.tempUnit, code: 0 };
+    const data = weather || sample;
+    const glyph = status === 'loading' ? '...' : status === 'error' ? 'ERR' : weatherGlyph(data.code);
+    const tempStr = status === 'loading' || status === 'error' ? '--' : `${data.temp}°${data.unit}`;
+    const city = data.city || state.city || 'Tokyo';
+    const locStr = `${city}${data.country ? ', ' + data.country : ''}`;
+    const condition = status === 'loading' ? 'Fetching' : status === 'error' ? 'Unavailable' : weatherCondition(data.code);
+    const header = status === 'live' ? 'CURRENT WEATHER' : status === 'loading' ? 'LOADING WEATHER' : status === 'error' ? 'WEATHER UNAVAILABLE' : 'SAMPLE PREVIEW';
+    if (isDetailed) {
+      return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
+        <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${state.radius||0}" ry="${state.radius||0}" fill="${theme.bg}" style="${borderStyle}"/>
+        <text x="20" y="32" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="2" opacity="0.65">${header}</text>
+        <circle cx="40" cy="66" r="24" fill="none" stroke="${theme.fg}" stroke-width="2" opacity="0.45"/>
+        <text x="40" y="70" text-anchor="middle" fill="${theme.fg}" font-size="${glyph.length > 3 ? 9 : 11}" font-weight="800" opacity="0.86">${glyph}</text>
+        <text x="80" y="65" fill="${theme.fg}" font-size="28" font-weight="800" font-family="Fraunces,serif">${tempStr}</text>
+        <text x="80" y="85" fill="${theme.fg}" font-size="12" font-weight="600" opacity="0.85">${escXml(locStr)}</text>
+        <text x="${W-20}" y="85" text-anchor="end" fill="${theme.fg}" font-size="11" font-weight="600" opacity="0.6">${escXml(condition)}</text>
+      </svg>`;
+    }
+    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
+      <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${state.radius||0}" ry="${state.radius||0}" fill="${theme.bg}" style="${borderStyle}"/>
+      <circle cx="36" cy="42" r="21" fill="none" stroke="${theme.fg}" stroke-width="2" opacity="0.45"/>
+      <text x="36" y="46" text-anchor="middle" fill="${theme.fg}" font-size="${glyph.length > 3 ? 8 : 10}" font-weight="800" opacity="0.86">${glyph}</text>
+      <text x="70" y="42" fill="${theme.fg}" font-size="20" font-weight="800" font-family="Fraunces,serif">${tempStr}</text>
+      <text x="70" y="60" fill="${theme.fg}" font-size="11" font-weight="600" opacity="0.75">${escXml(city)}</text>
+    </svg>`;
+  }
+
   function getSvg(){
     switch(state.widget){
       case 'time': return svgTimeBadge();
@@ -2754,6 +2864,26 @@
   }
 
   function renderPreview(){
+    if (state.widget === 'weather') {
+      const key = [state.city, state.tempUnit, state.weatherStyle, state.theme, state.radius || 0].join('|');
+      const stage = $('previewStage');
+      if (stage.dataset.weatherKey === key) return;
+      const seq = ++weatherPreviewSeq;
+      weatherPreviewKey = key;
+      stage.dataset.weatherKey = key;
+      const loadingSvg = svgWeather(null, 'loading');
+      stage.innerHTML = loadingSvg;
+      $('sizeInfo').textContent = (new Blob([loadingSvg]).size/1024).toFixed(1);
+      fetchWeatherPreview(state.city, state.tempUnit).then(weather=>{
+        if (seq !== weatherPreviewSeq || state.widget !== 'weather' || weatherPreviewKey !== key) return;
+        const svg = weather ? svgWeather(weather, 'live') : svgWeather(null, 'error');
+        stage.innerHTML = svg;
+        $('sizeInfo').textContent = (new Blob([svg]).size/1024).toFixed(1);
+      });
+      return;
+    }
+    const stage = $('previewStage');
+    if (stage) stage.dataset.weatherKey = '';
     $('previewStage').innerHTML = getSvg();
     const size = (new Blob([getSvg()]).size/1024).toFixed(1);
     $('sizeInfo').textContent = size;

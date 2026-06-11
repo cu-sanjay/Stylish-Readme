@@ -11,22 +11,17 @@
     {
       "source": "/api/(time|clock|timezone|skyline).svg",
       "headers": [
-<<<<<<< HEAD
-        { "key": "Content-Type",              "value": "image/svg+xml; charset=utf-8" },
-        { "key": "Cache-Control",             "value": "public, max-age=60, s-maxage=60, stale-while-revalidate=30" },
+        { "key": "Content-Type",                "value": "image/svg+xml; charset=utf-8" },
+        { "key": "Cache-Control",               "value": "public, max-age=60, s-maxage=60, stale-while-revalidate=30" },
         { "key": "Vary",                        "value": "Accept-Encoding" },
         { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
     },
     {
-      "source": "/api/(date|quote|word|streak|profile).svg",
+      "source": "/api/weather.svg",
       "headers": [
-        { "key": "Content-Type",              "value": "image/svg+xml; charset=utf-8" },
-        { "key": "Cache-Control",             "value": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=600" },
-=======
         { "key": "Content-Type",                "value": "image/svg+xml; charset=utf-8" },
-        { "key": "Cache-Control",               "value": "public, max-age=60, s-maxage=60, stale-while-revalidate=30" },
->>>>>>> 4140561cbdc6c521444ae7205935e4a2d5ab9bb7
+        { "key": "Cache-Control",               "value": "public, max-age=1800, s-maxage=1800, stale-while-revalidate=600" },
         { "key": "Vary",                        "value": "Accept-Encoding" },
         { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
@@ -41,7 +36,7 @@
       ]
     },
     {
-      "source": "/api/(date|quote|streak|profile|countdown|marker|glass|marketplace).svg",
+      "source": "/api/(date|quote|word|streak|profile|countdown|marker|glass|marketplace).svg",
       "headers": [
         { "key": "Content-Type",                "value": "image/svg+xml; charset=utf-8" },
         { "key": "Cache-Control",               "value": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=600" },
