@@ -822,6 +822,9 @@
     showChannel: true,
     showThumbnail: true
   };
+  let weatherPreviewSeq = 0;
+  let weatherPreviewKey = '';
+  let currentPreviewWidget = '';
 
   // ========== UTIL ==========
   function $(id){return document.getElementById(id);}
@@ -2772,19 +2775,58 @@
     return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">\n${svgBody}\n</svg>`;
   }
 
-  function svgWeather(){
+  async function fetchWeatherPreview(city, tempUnit) {
+    if (!city) return null;
+    try {
+      const geoUrl = new URL('https://geocoding-api.open-meteo.com/v1/search');
+      geoUrl.searchParams.set('name', city);
+      geoUrl.searchParams.set('count', '1');
+      geoUrl.searchParams.set('language', 'en');
+
+      const geoRes = await fetch(geoUrl.toString());
+      if (!geoRes.ok) return null;
+      const geoData = await geoRes.json();
+      if (!geoData || !geoData.results || !geoData.results.length) return null;
+
+      const loc = geoData.results[0];
+      const weatherUrl = new URL('https://api.open-meteo.com/v1/forecast');
+      weatherUrl.searchParams.set('latitude', loc.latitude);
+      weatherUrl.searchParams.set('longitude', loc.longitude);
+      weatherUrl.searchParams.set('current_weather', 'true');
+      weatherUrl.searchParams.set('temperature_unit', tempUnit === 'F' ? 'fahrenheit' : 'celsius');
+
+      const weatherRes = await fetch(weatherUrl.toString());
+      if (!weatherRes.ok) return null;
+      const weatherData = await weatherRes.json();
+      if (!weatherData || !weatherData.current_weather) return null;
+
+      return {
+        city: loc.name,
+        country: loc.country_code || '',
+        temp: Math.round(weatherData.current_weather.temperature),
+        unit: tempUnit === 'F' ? '°F' : '°C',
+        code: weatherData.current_weather.weathercode
+      };
+    } catch (_err) {
+      return null;
+    }
+  }
+
+  function svgWeather(weather, mode = 'live') {
     const theme = themeObj(state.theme);
-    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
+    const borderStyle = theme.border ? `stroke:${theme.fg};stroke-width:2;` : '';
     const isDetailed = state.weatherStyle === 'detailed';
     const W = isDetailed ? 320 : 200;
     const H = isDetailed ? 110 : 80;
     const icon = '☀️';
-    const tempStr = `24°${state.tempUnit}`;
-    const city = state.city || 'Tokyo';
+    const title = mode === 'loading' ? 'LOADING WEATHER' : mode === 'error' ? 'WEATHER UNAVAILABLE' : 'CURRENT WEATHER';
+    const tempStr = weather ? `${weather.temp}${weather.unit}` : `--°${state.tempUnit}`;
+    const city = weather ? `${weather.city}${weather.country ? ', ' + weather.country.toUpperCase() : ''}` : (state.city || 'Enter a city');
+
     if (isDetailed) {
       return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
         <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${state.radius||0}" ry="${state.radius||0}" fill="${theme.bg}" style="${borderStyle}"/>
-        <text x="20" y="32" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="2" opacity="0.65">CURRENT WEATHER</text>
+        <text x="20" y="32" fill="${theme.fg}" font-size="10" font-weight="700" letter-spacing="2" opacity="0.65">${title}</text>
         <text x="20" y="80" font-size="42">${icon}</text>
         <text x="80" y="65" fill="${theme.fg}" font-size="28" font-weight="800" font-family="Fraunces,serif">${tempStr}</text>
         <text x="80" y="85" fill="${theme.fg}" font-size="12" font-weight="600" opacity="0.85">${city}</text>
@@ -2822,16 +2864,23 @@
   }
 
   function renderPreview(){
+    const stage = $('previewStage');
+    if (!stage) return;
+
     if (state.widget === 'weather') {
       const key = [state.city, state.tempUnit, state.weatherStyle, state.theme, state.radius || 0].join('|');
-      const stage = $('previewStage');
-      if (stage.dataset.weatherKey === key) return;
+      const alreadyRendered = currentPreviewWidget === 'weather' && stage.dataset.weatherKey === key;
+      currentPreviewWidget = 'weather';
+      stage.dataset.weatherKey = key;
+
+      if (alreadyRendered) return;
+
       const seq = ++weatherPreviewSeq;
       weatherPreviewKey = key;
-      stage.dataset.weatherKey = key;
       const loadingSvg = svgWeather(null, 'loading');
       stage.innerHTML = loadingSvg;
       $('sizeInfo').textContent = (new Blob([loadingSvg]).size/1024).toFixed(1);
+
       fetchWeatherPreview(state.city, state.tempUnit).then(weather=>{
         if (seq !== weatherPreviewSeq || state.widget !== 'weather' || weatherPreviewKey !== key) return;
         const svg = weather ? svgWeather(weather, 'live') : svgWeather(null, 'error');
@@ -2840,10 +2889,12 @@
       });
       return;
     }
-    const stage = $('previewStage');
-    if (stage) stage.dataset.weatherKey = '';
-    $('previewStage').innerHTML = getSvg();
-    const size = (new Blob([getSvg()]).size/1024).toFixed(1);
+
+    currentPreviewWidget = state.widget;
+    stage.dataset.weatherKey = '';
+    const svg = getSvg();
+    stage.innerHTML = svg;
+    const size = (new Blob([svg]).size/1024).toFixed(1);
     $('sizeInfo').textContent = size;
   }
 

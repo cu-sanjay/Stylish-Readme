@@ -25,16 +25,9 @@
     {
       "source": "/api/weather.svg",
       "headers": [
-
-        { "key": "Content-Type",                "value": "image/svg+xml; charset=utf-8" },
-        { "key": "Cache-Control",               "value": "public, max-age=1800, s-maxage=1800, stale-while-revalidate=600" },
-
-        { "key": "Content-Type",              "value": "image/svg+xml; charset=utf-8" },
-        { "key": "Cache-Control",             "value": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=600" },
-        { "key": "Content-Type",                "value": "image/svg+xml; charset=utf-8" },
-        { "key": "Cache-Control",               "value": "public, max-age=60, s-maxage=60, stale-while-revalidate=30" },
-
-        { "key": "Vary",                        "value": "Accept-Encoding" },
+        { "key": "Content-Type", "value": "image/svg+xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=1800, s-maxage=1800, stale-while-revalidate=600" },
+        { "key": "Vary", "value": "Accept-Encoding" },
         { "key": "Access-Control-Allow-Origin", "value": "*" }
       ]
     },
