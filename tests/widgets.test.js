@@ -234,5 +234,15 @@ describe('renderWidget', () => {
     expect(xml).toContain('Rick Astley');
     expect(xml).toContain('image href="data:image/');
   });
+    test('renders heatmap widget', async () => {
+    const xml = await renderWidget('heatmap', {
+      githubUser: 'octocat',
+      year: 2025
+    });
+
+    expect(xml).toContain('GitHub Contribution Heatmap');
+    expect(xml).toContain('octocat');
+    expect(xml).toContain('2025');
+  });
 });
 

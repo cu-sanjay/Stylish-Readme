@@ -27,33 +27,33 @@ const FALLBACK_AVATAR = `data:image/svg+xml;base64,${Buffer.from(`<svg xmlns="ht
  */
 const CACHE_POLICIES = {
   // Real-time widgets — refresh every 60 seconds
-  time:     'public, max-age=60, s-maxage=60, stale-while-revalidate=30',
-  clock:    'public, max-age=60, s-maxage=60, stale-while-revalidate=30',
+  time: 'public, max-age=60, s-maxage=60, stale-while-revalidate=30',
+  clock: 'public, max-age=60, s-maxage=60, stale-while-revalidate=30',
   timezone: 'public, max-age=60, s-maxage=60, stale-while-revalidate=30',
-  skyline:  'public, max-age=60, s-maxage=60, stale-while-revalidate=30',
+  skyline: 'public, max-age=60, s-maxage=60, stale-while-revalidate=30',
 
   // Weather data - refresh every 30 minutes to avoid hitting API rate limits
-  weather:  'public, max-age=1800, s-maxage=1800, stale-while-revalidate=600',
+  weather: 'public, max-age=1800, s-maxage=1800, stale-while-revalidate=600',
 
   // Daily-change widgets — refresh every hour
 
-  date:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-  quote:   'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-  word:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-  streak:  'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  date: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  quote: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  word: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  streak: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   profile: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
 
-  date:      'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-  quote:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-  streak:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-  profile:   'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-  marker:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-  glass:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  date: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  quote: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  streak: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  profile: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  marker: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  glass: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   countdown: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   marketplace: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
 
-  youtube:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
-
+  youtube: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  heatmap: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   // Static mock content — refresh every 5 minutes
   music: 'public, max-age=300, s-maxage=300, stale-while-revalidate=120',
 
@@ -82,7 +82,7 @@ function escXml(s) {
 
 const PLATFORMS = {
   producthunt: { label: 'Product Hunt', color: '#ff6154' },
-  chrome:      { label: 'Chrome',       color: '#4285f4' }
+  chrome: { label: 'Chrome', color: '#4285f4' }
 };
 
 function handleMarketplace(req, res) {
@@ -115,7 +115,7 @@ module.exports = async (req, res) => {
   try {
     const q = req.query || {};
     const type = q.type || 'time';
-    
+
     // Handle marketplace separately
     if (type === 'marketplace') {
       const marketplaceSvg = handleMarketplace(req, res);
@@ -124,11 +124,11 @@ module.exports = async (req, res) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
       return res.status(200).send(marketplaceSvg);
     }
-    
+
     // Extract and validate avatar if present
     const avatar = q.avatar || '';
     const avatarSrc = isValidAvatarUrl(avatar) ? avatar.trim() : FALLBACK_AVATAR;
-    
+
     // Pass avatar to the renderer
     const queryWithAvatar = { ...q, avatar: avatarSrc };
 
@@ -144,6 +144,6 @@ module.exports = async (req, res) => {
     // ensuring users always see a fresh attempt on their next profile visit.
     res.setHeader('Cache-Control', 'no-store');
     res.status(500).setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
-    res.end(`<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" width="320" height="60"><rect width="320" height="60" fill="#7f1d1d"/><text x="16" y="36" fill="#fff" font-family="monospace" font-size="12">Render error: ${String(err && err.message || err).replace(/[<>&]/g,'')}</text></svg>`);
+    res.end(`<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" width="320" height="60"><rect width="320" height="60" fill="#7f1d1d"/><text x="16" y="36" fill="#fff" font-family="monospace" font-size="12">Render error: ${String(err && err.message || err).replace(/[<>&]/g, '')}</text></svg>`);
   }
 };
