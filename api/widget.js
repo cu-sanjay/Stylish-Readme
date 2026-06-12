@@ -51,6 +51,7 @@ const CACHE_POLICIES = {
   glass: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   countdown: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   marketplace: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  extension:   'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
 
   youtube: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   heatmap: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
