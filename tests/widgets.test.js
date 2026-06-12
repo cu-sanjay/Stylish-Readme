@@ -234,5 +234,36 @@ describe('renderWidget', () => {
     expect(xml).toContain('Rick Astley');
     expect(xml).toContain('image href="data:image/');
   });
+
+  test('renders extension widget with defaults and custom fields', async () => {
+    const xml = await renderWidget('extension', {
+      extensionName: 'My Awesome Extension',
+      extensionPlatform: 'chrome',
+      extensionId: 'abc123xyz'
+    });
+    expect(xml).toContain('ADD TO CHROME');
+    expect(xml).toContain('My Awesome Extension');
+    expect(xml).toContain('Available in Chrome Web Store');
+    expect(xml).toContain('https://chromewebstore.google.com/detail/abc123xyz');
+    expect(xml).toContain('M12 0C8.21 0');
+  });
+
+  test('renders extension widget for firefox and edge correctly', async () => {
+    const edgeXml = await renderWidget('extension', {
+      extensionName: 'Edge Extension',
+      extensionPlatform: 'edge',
+      extensionId: 'edge-id'
+    });
+    expect(edgeXml).toContain('ADD TO EDGE');
+    expect(edgeXml).toContain('https://microsoftedge.microsoft.com/addons/detail/edge-id');
+
+    const firefoxXml = await renderWidget('extension', {
+      extensionName: 'Firefox Addon',
+      extensionPlatform: 'firefox',
+      extensionId: 'firefox-slug'
+    });
+    expect(firefoxXml).toContain('ADD TO FIREFOX');
+    expect(firefoxXml).toContain('https://addons.mozilla.org/en-US/firefox/addon/firefox-slug');
+  });
 });
 

@@ -170,7 +170,15 @@ Combines your avatar, role, bio, skills, and handle into a clean profile header.
 
 <img src="https://readmeme.eu.cc/api/quote.svg?theme=ocean&quoteCategory=programming&label=Daily+Wisdom" alt="Quote Preview" />
 
-### 6. Location & Timezone
+### 6. Word of the Day
+
+```md
+![Word of the Day](https://readmeme.eu.cc/api/word.svg?theme=paper&label=Vocabulary&showOrigin=1)
+```
+
+<img src="https://readmeme.eu.cc/api/word.svg?theme=paper&label=Vocabulary&showOrigin=1" alt="Word of the Day Preview" />
+
+### 7. Location & Timezone
 
 ```md
 ![Country Flag](https://readmeme.eu.cc/api/flag.svg?theme=forest&country=JP&label=Based+In)
@@ -284,6 +292,10 @@ Procedural sky & ocean widgets that shift color palettes dynamically based on yo
 * `startDate`
 * `unit`
 * `platform`
+
+### Word of the Day
+
+* `showOrigin`
 
 ## Local Development
 
