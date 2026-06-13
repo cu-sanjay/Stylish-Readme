@@ -49,9 +49,11 @@ const CACHE_POLICIES = {
   youtube:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
 
   marketplace: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  progress:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   extension:   'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
 
   youtube:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  contributors: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
 
 
   // Static mock content — refresh every 5 minutes

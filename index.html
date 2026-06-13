@@ -537,7 +537,9 @@
     { id:'countdown', label:'Event Countdown', icon:'timer' },
     { id:'weather', label:'Live Weather',     icon:'cloud' },
     { id:'youtube', label:'YouTube Video',    icon:'youtube' },
-    { id:'extension',label:'Extension Badge',  icon:'puzzle' }
+    { id:'progress',label:'Goal Progress',    icon:'activity' },
+    { id:'extension',label:'Extension Badge',  icon:'puzzle' },
+    { id:'contributors',label:'Contributors Showcase', icon:'users' }
     ];
 
   // ----- Skills (24x24 brand-color badges) -----
@@ -822,10 +824,24 @@
     showTitle: true,
     showChannel: true,
     showThumbnail: true,
+    // Progress Widget
+    title: 'Coding Journey',
+    current: '45',
+    target: '100',
+    unit: '%',
+    progressColor: '',
+    style: 'solid',
     // Extension Badge
     extensionName: 'My Extension',
     extensionPlatform: 'chrome',
-    extensionId: ''
+    extensionId: '',
+    // Contributors Showcase
+    repo: 'cu-sanjay/Stylish-Readme',
+    contribLayout: 'grid',
+    contribSort: 'contributions',
+    contribLimit: 12,
+    avatarSize: 50,
+    showCount: true
   };
   let weatherPreviewSeq = 0;
   let weatherPreviewKey = '';
@@ -833,6 +849,11 @@
 
   // ========== UTIL ==========
   function $(id){return document.getElementById(id);}
+  function escXml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+  }
   function scrollToId(id){ const el=$(id); if(el){el.scrollIntoView({behavior:'smooth',block:'start'});} }
   function pad(n){return String(n).padStart(2,'0');}
 
@@ -1457,6 +1478,45 @@
         </div>
       `;
     }
+    else if (state.widget==='progress'){
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">Title</label>
+          <input type="text" class="input-field w-full" value="${escXml(state.title)}" onchange="setField('title',this.value)" placeholder="e.g. Coding Journey" />
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="label-tag">Current Value</label>
+            <input type="number" class="input-field w-full" value="${escXml(state.current)}" onchange="setField('current',this.value)" />
+          </div>
+          <div>
+            <label class="label-tag">Target Value</label>
+            <input type="number" class="input-field w-full" value="${escXml(state.target)}" onchange="setField('target',this.value)" />
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Unit</label>
+          <input type="text" class="input-field w-full" value="${escXml(state.unit)}" onchange="setField('unit',this.value)" placeholder="e.g. % or days" />
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Progress Style</label>
+          <div class="flex gap-2 flex-wrap">
+            <button onclick="setField('style','solid')" class="chip ${state.style==='solid'?'chip-active':''}"><span class="w-3 h-3 bg-black rounded-full inline-block"></span>Solid</button>
+            <button onclick="setField('style','gradient')" class="chip ${state.style==='gradient'?'chip-active':''}"><span class="w-3 h-3 bg-gradient-to-r from-gray-400 to-black rounded-full inline-block"></span>Gradient</button>
+            <button onclick="setField('style','segmented')" class="chip ${state.style==='segmented'?'chip-active':''}"><span class="w-3 h-3 border border-black rounded-full inline-block"></span>Segmented</button>
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Custom Progress Color (Hex)</label>
+          <input type="text" class="input-field w-full" value="${escXml(state.progressColor)}" onchange="setField('progressColor',this.value)" placeholder="#FF0000" />
+          <p class="font-mono text-[10px] text-neutral-500 mt-1">Leave empty to use theme default.</p>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Theme</label>
+          ${themeSwatches()}
+        </div>
+      `;
+    }
     else if (state.widget==='extension'){
       html += `
         <div class="mb-5">
@@ -1475,6 +1535,50 @@
           <label class="label-tag">Extension Store ID</label>
           <input class="input-field w-full" value="${escXml(state.extensionId)}" oninput="setField('extensionId',this.value,false)" placeholder="e.g. jdfhbgh..."/>
           <p class="font-mono text-[10px] text-neutral-500 mt-1">Direct install link will be embedded. Leave empty to link to main store page.</p>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Theme</label>
+          ${themeSwatches()}
+        </div>
+      `;
+    }
+    else if (state.widget==='contributors'){
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">Repository</label>
+          <input type="text" class="input-field w-full" value="${escXml(state.repo)}" onchange="setField('repo',this.value)" placeholder="e.g. cu-sanjay/Stylish-Readme" />
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Showcase Layout</label>
+          <div class="flex gap-2 flex-wrap">
+            <button onclick="setField('contribLayout','grid')" class="chip ${state.contribLayout==='grid'?'chip-active':''}">Grid</button>
+            <button onclick="setField('contribLayout','card')" class="chip ${state.contribLayout==='card'?'chip-active':''}">Card</button>
+            <button onclick="setField('contribLayout','wall')" class="chip ${state.contribLayout==='wall'?'chip-active':''}">Wall</button>
+            <button onclick="setField('contribLayout','spotlight')" class="chip ${state.contribLayout==='spotlight'?'chip-active':''}">Spotlight</button>
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Sort Contributors By</label>
+          <div class="flex gap-2">
+            <button onclick="setField('contribSort','contributions')" class="chip ${state.contribSort==='contributions'?'chip-active':''}">Commits</button>
+            <button onclick="setField('contribSort','login')" class="chip ${state.contribSort==='login'?'chip-active':''}">Name</button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="label-tag">Limit (Max 30)</label>
+            <input type="number" min="1" max="30" class="input-field w-full" value="${state.contribLimit}" onchange="setField('contribLimit',parseInt(this.value,10)||12)" />
+          </div>
+          <div>
+            <label class="label-tag">Avatar Size (px)</label>
+            <input type="number" min="30" max="100" class="input-field w-full" value="${state.avatarSize}" onchange="setField('avatarSize',parseInt(this.value,10)||50)" />
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
+            <input type="checkbox" ${state.showCount?'checked':''} onchange="setField('showCount',this.checked)" class="w-4 h-4 accent-black"/>
+            <span class="uppercase tracking-wider">Show Commit Counts</span>
+          </label>
         </div>
         <div class="mb-5">
           <label class="label-tag">Theme</label>
@@ -1813,7 +1917,7 @@
     const W=580, H=320;
     const skillsRaw = (state.skills||'').split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
     const validSkills = skillsRaw.filter(s=>SKILLS[s]).slice(0,12);
-    const iconSize=30, gap=8, sx=220, sy=168;
+    const iconSize=30, gap=8, sx=232, sy=168;
     const skillNodes = validSkills.map((s,i)=>{
       const col=i%6, row=Math.floor(i/6);
       return skillIconSvg(s, sx + col*(iconSize+gap), sy + row*(iconSize+gap), iconSize);
@@ -1858,7 +1962,7 @@
       <line x1="232" y1="96" x2="280" y2="96" stroke="${theme.fg}" stroke-width="2"/>
       ${bioLines[0]?`<text x="232" y="120" fill="${theme.fg}" font-size="11" font-weight="500" opacity="0.85">${bioLines[0]}</text>`:''}
       ${bioLines[1]?`<text x="232" y="138" fill="${theme.fg}" font-size="11" font-weight="500" opacity="0.85">${bioLines[1]}</text>`:''}
-      <text x="220" y="${sy-8}" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2.5" opacity="0.55">◆ SKILLS &amp; STACK</text>
+      <text x="232" y="${sy-8}" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2.5" opacity="0.55">◆ SKILLS &amp; STACK</text>
       ${skillNodes}
     </svg>`;
   }
@@ -2910,6 +3014,66 @@
     </svg>`;
   }
 
+  function svgProgress() {
+    const theme = themeObj(state.theme);
+    const rx = 6;
+    const bgFill = theme.bg;
+    const borderStyle = theme.border ? `stroke="${theme.fg}" stroke-width="2"` : '';
+    
+    const title = state.title || 'Progress';
+    const current = parseFloat(state.current) || 0;
+    const target = parseFloat(state.target) || 100;
+    const unit = state.unit || '%';
+    const rawPercent = target > 0 ? (current / target) * 100 : 0;
+    const percent = Math.min(100, Math.max(0, rawPercent));
+    
+    const accentColor = state.progressColor || (theme.bg === '#1a1a1a' || theme.bg === '#0d1117' ? '#7ee787' : '#0070f3');
+    
+    const W = 320;
+    const H = 80;
+    
+    const barWidth = 280;
+    const fillWidth = (percent / 100) * barWidth;
+    
+    let barSvg = '';
+    if (state.style === 'segmented') {
+      const segments = 10;
+      const segmentWidth = (barWidth - (segments - 1) * 2) / segments;
+      const activeSegments = Math.round((percent / 100) * segments);
+      
+      for (let i = 0; i < segments; i++) {
+        const x = 20 + i * (segmentWidth + 2);
+        const isActive = i < activeSegments;
+        const fill = isActive ? accentColor : `${theme.fg}20`;
+        barSvg += `<rect x="${x}" y="45" width="${segmentWidth}" height="12" rx="2" fill="${fill}"/>`;
+      }
+    } else if (state.style === 'gradient') {
+      barSvg = `
+        <defs>
+          <linearGradient id="gradProgressLocal" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${accentColor}" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="${accentColor}" stop-opacity="1" />
+          </linearGradient>
+        </defs>
+        <rect x="20" y="45" width="${barWidth}" height="12" rx="6" fill="${theme.fg}" opacity="0.1"/>
+        <rect x="20" y="45" width="${fillWidth}" height="12" rx="6" fill="url(#gradProgressLocal)"/>
+      `;
+    } else {
+      barSvg = `
+        <rect x="20" y="45" width="${barWidth}" height="12" rx="6" fill="${theme.fg}" opacity="0.1"/>
+        <rect x="20" y="45" width="${fillWidth}" height="12" rx="6" fill="${accentColor}"/>
+      `;
+    }
+
+    return `
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',ui-monospace,monospace;">
+      <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${rx}" ry="${rx}" fill="${bgFill}" ${borderStyle}/>
+      <text x="20" y="32" fill="${theme.fg}" font-size="13" font-weight="700">${escXml(title)}</text>
+      <text x="${W-20}" y="32" text-anchor="end" fill="${theme.fg}" font-size="12" font-weight="600" opacity="0.8">${current} / ${target} ${escXml(unit)} (${Math.round(percent)}%)</text>
+      ${barSvg}
+    </svg>`;
+  }
+
   function svgExtension(){
     const theme = themeObj(state.theme);
     const rx = state.radius !== undefined ? state.radius : 8;
@@ -2986,6 +3150,247 @@
   }
 
 
+  function svgContributors() {
+    const theme = themeObj(state.theme);
+    const rx = state.radius !== undefined ? state.radius : 8;
+    const bgFill = state.bgColor || theme.bg;
+    
+    let borderStyle = '';
+    if (state.borderColor) {
+      borderStyle = `stroke:${state.borderColor};stroke-width:2;`;
+    } else if (theme.border) {
+      borderStyle = `stroke:${theme.fg};stroke-width:2;`;
+    }
+
+    const mockList = [
+      { login: 'cu-sanjay', contributions: 124, initials: 'C' },
+      { login: 'MistryVishwa', contributions: 86, initials: 'M' },
+      { login: 'octocat', contributions: 45, initials: 'O' },
+      { login: 'Him-an-shi', contributions: 32, initials: 'H' },
+      { login: 'shubham2775', contributions: 18, initials: 'S' },
+      { login: 'dependabot', contributions: 12, initials: 'D' },
+      { login: 'collaborator', contributions: 8, initials: 'C' },
+      { login: 'tester', contributions: 5, initials: 'T' }
+    ];
+
+    let sortedList = [...mockList];
+    if (state.contribSort === 'name' || state.contribSort === 'login') {
+      sortedList.sort((a, b) => a.login.localeCompare(b.login));
+    } else {
+      sortedList.sort((a, b) => b.contributions - a.contributions);
+    }
+
+    const limitedList = sortedList.slice(0, parseInt(state.contribLimit, 10) || 12);
+    const S = parseInt(state.avatarSize, 10) || 50;
+    const layout = state.contribLayout || 'grid';
+    const showCount = state.showCount;
+
+    let W = 320;
+    let H = 200;
+    let innerSvg = '';
+    
+    const repoName = state.repo || 'cu-sanjay/Stylish-Readme';
+    const titleText = `${repoName.split('/')[1] || repoName} Contributors`;
+    const headerHeight = 45;
+    const paddingX = 20;
+
+    function renderMockAvatar(c, x, y, size) {
+      const initial = c.initials;
+      return `
+        <circle cx="${x + size/2}" cy="${y + size/2}" r="${size/2 + 2}" fill="${theme.fg}" opacity="0.12"/>
+        <circle cx="${x + size/2}" cy="${y + size/2}" r="${size/2}" fill="${theme.fg}" opacity="0.18"/>
+        <text x="${x + size/2}" y="${y + size/2 + size*0.14}" text-anchor="middle" fill="${theme.fg}" font-size="${size * 0.45}" font-weight="800" font-family="'JetBrains Mono', monospace">${escXml(initial)}</text>
+        <circle cx="${x + size/2}" cy="${y + size/2}" r="${size/2}" fill="none" stroke="${theme.fg}" stroke-width="1.5" opacity="0.8"/>
+      `;
+    }
+
+    if (layout === 'wall') {
+      const cols = 6;
+      const gap = 12;
+      const rows = Math.ceil(limitedList.length / cols);
+      W = paddingX * 2 + cols * (S + gap) - gap;
+      H = headerHeight + rows * (S + gap) - gap + 20;
+      
+      innerSvg += `
+        <text x="${paddingX}" y="28" fill="${theme.fg}" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace" letter-spacing="1.5" opacity="0.8">${escXml(titleText.toUpperCase())}</text>
+      `;
+
+      limitedList.forEach((c, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const x = paddingX + col * (S + gap);
+        const y = headerHeight + row * (S + gap);
+        innerSvg += renderMockAvatar(c, x, y, S);
+      });
+    }
+    else if (layout === 'card') {
+      const cols = 2;
+      const cardWidth = 160;
+      const cardHeight = S + 16;
+      const colGap = 15;
+      const rowGap = 12;
+      const rows = Math.ceil(limitedList.length / cols);
+      
+      W = paddingX * 2 + cols * (cardWidth + colGap) - colGap;
+      H = headerHeight + rows * (cardHeight + rowGap) - rowGap + 20;
+
+      innerSvg += `
+        <text x="${paddingX}" y="28" fill="${theme.fg}" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace" letter-spacing="1.5" opacity="0.8">${escXml(titleText.toUpperCase())}</text>
+      `;
+
+      limitedList.forEach((c, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const x = paddingX + col * (cardWidth + colGap);
+        const y = headerHeight + row * (cardHeight + rowGap);
+        
+        innerSvg += `
+          <rect x="${x}" y="${y}" width="${cardWidth}" height="${cardHeight}" rx="6" fill="${theme.fg}" opacity="0.04"/>
+          <rect x="${x}" y="${y}" width="${cardWidth}" height="${cardHeight}" rx="6" fill="none" stroke="${theme.fg}" stroke-width="1" opacity="0.15"/>
+        `;
+
+        const avX = x + 8;
+        const avY = y + 8;
+        innerSvg += renderMockAvatar(c, avX, avY, S);
+
+        const textX = x + S + 16;
+        const textY = y + 24;
+        const displayLogin = c.login.length > 12 ? c.login.substring(0, 10) + '..' : c.login;
+        innerSvg += `
+          <text x="${textX}" y="${textY}" fill="${theme.fg}" font-size="11" font-weight="700" font-family="'JetBrains Mono', monospace">${escXml(displayLogin)}</text>
+        `;
+
+        if (showCount) {
+          innerSvg += `
+            <text x="${textX}" y="${textY + 14}" fill="${theme.fg}" font-size="9" font-weight="500" font-family="'JetBrains Mono', monospace" opacity="0.6">${c.contributions} commits</text>
+          `;
+        }
+      });
+    }
+    else if (layout === 'spotlight') {
+      const spotlightS = S * 1.4;
+      const topContributor = limitedList[0];
+      const others = limitedList.slice(1);
+      
+      const cols = 5;
+      const gap = 12;
+      const rows = Math.ceil(others.length / cols);
+      
+      W = paddingX * 2 + cols * (S + gap) - gap;
+      if (W < 220) W = 220;
+
+      const topX = W / 2 - spotlightS / 2;
+      const topY = headerHeight + 15;
+      
+      const othersStartRowY = topY + spotlightS + 35;
+      H = othersStartRowY + (others.length > 0 ? rows * (S + gap) - gap : 0) + 20;
+
+      innerSvg += `
+        <text x="${paddingX}" y="28" fill="${theme.fg}" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace" letter-spacing="1.5" opacity="0.8">${escXml(titleText.toUpperCase())}</text>
+      `;
+
+      if (topContributor) {
+        const spotlightWidth = spotlightS + 80;
+        const spotlightHeight = spotlightS + 30;
+        const spotlightBoxX = W / 2 - spotlightWidth / 2;
+        const spotlightBoxY = topY - 10;
+        
+        innerSvg += `
+          <rect x="${spotlightBoxX}" y="${spotlightBoxY}" width="${spotlightWidth}" height="${spotlightHeight}" rx="10" fill="${theme.fg}" opacity="0.05"/>
+          <rect x="${spotlightBoxX}" y="${spotlightBoxY}" width="${spotlightWidth}" height="${spotlightHeight}" rx="10" fill="none" stroke="${theme.fg}" stroke-width="2" opacity="0.25"/>
+        `;
+
+        innerSvg += renderMockAvatar(topContributor, topX, topY, spotlightS);
+        
+        innerSvg += `
+          <path d="M ${topX + spotlightS/2 - 10} ${topY - 8} L ${topX + spotlightS/2 - 5} ${topY - 14} L ${topX + spotlightS/2} ${topY - 8} L ${topX + spotlightS/2 + 5} ${topY - 14} L ${topX + spotlightS/2 + 10} ${topY - 8} Z" fill="#FFD700" stroke="#B8860B" stroke-width="1"/>
+        `;
+
+        const displayLogin = topContributor.login.length > 15 ? topContributor.login.substring(0, 13) + '..' : topContributor.login;
+        innerSvg += `
+          <text x="${W/2}" y="${topY + spotlightS + 12}" text-anchor="middle" fill="${theme.fg}" font-size="10" font-weight="800" font-family="'JetBrains Mono', monospace">${escXml(displayLogin)}</text>
+        `;
+        if (showCount) {
+          innerSvg += `
+            <text x="${W/2}" y="${topY + spotlightS + 23}" text-anchor="middle" fill="${theme.fg}" font-size="8" font-weight="700" font-family="'JetBrains Mono', monospace" opacity="0.75">${topContributor.contributions} commits</text>
+          `;
+        }
+      }
+
+      others.forEach((c, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const rowColsCount = Math.min(others.length - row * cols, cols);
+        const rowWidth = rowColsCount * (S + gap) - gap;
+        const rowStartX = W / 2 - rowWidth / 2;
+        
+        const x = rowStartX + col * (S + gap);
+        const y = othersStartRowY + row * (S + gap);
+        innerSvg += renderMockAvatar(c, x, y, S);
+      });
+    }
+    else {
+      const cols = 4;
+      const cellWidth = S + 30;
+      const cellHeight = S + (showCount ? 35 : 20);
+      const colGap = 15;
+      const rowGap = 20;
+      const rows = Math.ceil(limitedList.length / cols);
+
+      W = paddingX * 2 + cols * (cellWidth + colGap) - colGap;
+      H = headerHeight + rows * (cellHeight + rowGap) - rowGap + 20;
+
+      innerSvg += `
+        <text x="${paddingX}" y="28" fill="${theme.fg}" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace" letter-spacing="1.5" opacity="0.8">${escXml(titleText.toUpperCase())}</text>
+      `;
+
+      limitedList.forEach((c, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const x = paddingX + col * (cellWidth + colGap);
+        const y = headerHeight + row * (cellHeight + rowGap);
+        
+        const avX = x + (cellWidth - S) / 2;
+        innerSvg += renderMockAvatar(c, avX, y, S);
+
+        const textX = x + cellWidth / 2;
+        const textY = y + S + 14;
+        const displayLogin = c.login.length > 12 ? c.login.substring(0, 10) + '..' : c.login;
+        innerSvg += `
+          <text x="${textX}" y="${textY}" text-anchor="middle" fill="${theme.fg}" font-size="9" font-weight="700" font-family="'JetBrains Mono', monospace">${escXml(displayLogin)}</text>
+        `;
+
+        if (showCount) {
+          innerSvg += `
+            <text x="${textX}" y="${textY + 12}" text-anchor="middle" fill="${theme.fg}" font-size="8" font-weight="500" font-family="'JetBrains Mono', monospace" opacity="0.6">${c.contributions} commits</text>
+          `;
+        }
+      });
+    }
+
+    let shadowFilterSvg = '';
+    let filterAttr = '';
+    if (state.shadow) {
+      const filterId = 'preview_sh_contrib';
+      shadowFilterSvg = `
+        <defs>
+          <filter id="${filterId}" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+          </filter>
+        </defs>
+      `;
+      filterAttr = `filter="url(#${filterId})"`;
+    }
+
+    return `
+      <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono', monospace;">
+        ${shadowFilterSvg}
+        <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${rx}" ry="${rx}" fill="${bgFill}" style="${borderStyle}" ${filterAttr}/>
+        ${innerSvg}
+      </svg>
+    `;
+  }
+
   function getSvg(){
     switch(state.widget){
       case 'time': return svgTimeBadge();
@@ -3004,7 +3409,9 @@
       case 'countdown': return svgCountdown();
       case 'weather': return svgWeather();
       case 'youtube': return svgYoutube();
+      case 'progress': return svgProgress();
       case 'extension': return svgExtension();
+      case 'contributors': return svgContributors();
     }
     return '';
   }
@@ -3063,7 +3470,9 @@
     countdown: ['eventName','targetDate','theme'],
     weather:   ['city','tempUnit','weatherStyle','theme'],
     youtube:   ['videoId','playlistId','videoIds','youtubeMode','showTitle','showChannel','showThumbnail','theme'],
-    extension: ['extensionName','extensionPlatform','extensionId','theme','radius','bgColor','borderColor','shadow']
+    progress:  ['title','current','target','unit','progressColor','style','theme'],
+    extension: ['extensionName','extensionPlatform','extensionId','theme','radius','bgColor','borderColor','shadow'],
+    contributors: ['repo','contribLayout','contribSort','contribLimit','avatarSize','showCount','theme','radius','bgColor','borderColor','shadow']
   };
   function buildUrl(){
     const protocol = window.location.protocol;
@@ -3147,8 +3556,11 @@
     { title:'Hacktoberfest', w:'countdown', overrides:{theme:'terminal',eventName:'Hacktoberfest',targetDate:'2026-10-31'} },
     { title:'Live Weather', w:'weather', overrides:{theme:'retro',city:'London',tempUnit:'C',weatherStyle:'detailed'} },
     { title:'YouTube Preview', w:'youtube', overrides:{videoId:'dQw4w9WgXcQ',theme:'classic',showTitle:true,showChannel:true} },
+    { title:'Goal Progress', w:'progress', overrides:{theme:'terminal',title:'React Mastery',current:75,target:100,unit:'%',style:'gradient'} },
     { title:'Chrome Badge', w:'extension', overrides:{extensionName:'Stylish Readme',extensionPlatform:'chrome',extensionId:'jdfhbghjdfg',theme:'classic'} },
-    { title:'Firefox Badge', w:'extension', overrides:{extensionName:'Stylish Readme',extensionPlatform:'firefox',extensionId:'stylish-readme',theme:'terminal'} }
+    { title:'Firefox Badge', w:'extension', overrides:{extensionName:'Stylish Readme',extensionPlatform:'firefox',extensionId:'stylish-readme',theme:'terminal'} },
+    { title:'Contributors Grid', w:'contributors', overrides:{repo:'cu-sanjay/Stylish-Readme',contribLayout:'grid',contribLimit:12,theme:'terminal'} },
+    { title:'Contributors Spotlight', w:'contributors', overrides:{repo:'cu-sanjay/Stylish-Readme',contribLayout:'spotlight',contribLimit:8,theme:'retro'} }
   ];
 
   function renderGallery(){

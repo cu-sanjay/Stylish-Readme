@@ -42,6 +42,7 @@
     },
     {
       "source": "/api/(date|quote|word|streak|profile|countdown|marker|glass|marketplace).svg",
+      "source": "/api/(date|quote|streak|profile|countdown|marker|glass|marketplace|progress).svg",
       "headers": [
         { "key": "Content-Type",                "value": "image/svg+xml; charset=utf-8" },
         { "key": "Cache-Control",               "value": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=600" },
