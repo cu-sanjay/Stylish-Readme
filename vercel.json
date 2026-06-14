@@ -11,6 +11,17 @@
     {
       "source": "/api/(time|clock|timezone|skyline).svg",
       "headers": [
+        { "key": "Content-Type",              "value": "image/svg+xml; charset=utf-8" },
+        { "key": "Cache-Control",             "value": "public, max-age=60, s-maxage=60, stale-while-revalidate=30" },
+        { "key": "Vary",                        "value": "Accept-Encoding" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/api/(date|quote|word|streak|profile).svg",
+      "headers": [
+        { "key": "Content-Type",              "value": "image/svg+xml; charset=utf-8" },
+        { "key": "Cache-Control",             "value": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=600" },
         { "key": "Content-Type",                "value": "image/svg+xml; charset=utf-8" },
         { "key": "Cache-Control",               "value": "public, max-age=60, s-maxage=60, stale-while-revalidate=30" },
         { "key": "Vary",                        "value": "Accept-Encoding" },
@@ -27,7 +38,7 @@
       ]
     },
     {
-      "source": "/api/(date|quote|streak|profile|countdown|marker|glass|marketplace).svg",
+      "source": "/api/(date|quote|streak|profile|countdown|marker|glass|marketplace|progress).svg",
       "headers": [
         { "key": "Content-Type",                "value": "image/svg+xml; charset=utf-8" },
         { "key": "Cache-Control",               "value": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=600" },

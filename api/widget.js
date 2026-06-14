@@ -22,7 +22,7 @@ const FALLBACK_AVATAR = `data:image/svg+xml;base64,${Buffer.from(`<svg xmlns="ht
  *                                60 s max-age keeps clocks fresh without hammering the origin.
  *   - date                    : Changes once per day; 1-hour cache is safe.
  *   - music                   : Static mock data; 5-minute cache balances freshness and load.
- *   - streak / quote / profile: Daily-changing or mostly-static data; 1-hour cache is appropriate.
+ *   - streak / quote / word / profile: Daily-changing or mostly-static data; 1-hour cache is appropriate.
  *   - flag                    : Country data never changes; 24-hour cache maximises CDN hits.
  */
 const CACHE_POLICIES = {
@@ -42,6 +42,13 @@ const CACHE_POLICIES = {
   weather:  'public, max-age=1800, s-maxage=1800, stale-while-revalidate=600',
 
   // Daily-change widgets — refresh every hour
+
+  date:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  quote:   'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  word:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  streak:  'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  profile: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+
   date:      'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   quote:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   streak:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
@@ -50,13 +57,19 @@ const CACHE_POLICIES = {
   glass:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   countdown: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
   marketplace: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  progress:    'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  extension:   'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+
   youtube:     'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  contributors: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
+  social:      'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
 
   // Static mock content — refresh every 5 minutes
   music: 'public, max-age=300, s-maxage=300, stale-while-revalidate=120',
 
   // Fully static content — refresh every 24 hours
   flag: 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=3600',
+  techstack: 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=3600',
 };
 
 /** Default fallback for any future widget types not yet in CACHE_POLICIES. */

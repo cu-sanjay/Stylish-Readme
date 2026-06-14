@@ -287,7 +287,7 @@
        <div class="grid grid-cols-2 gap-3 text-center">
         <div class="border-2 border-black p-3">
          <div class="font-serif font-black text-3xl" id="statCount">
-          8
+          10
          </div>
          <div class="font-mono text-[10px] uppercase tracking-wider mt-1">
           Widget Types
@@ -525,6 +525,7 @@
     { id:'clock',   label:'Digital Clock',    icon:'watch' },
     { id:'date',    label:'Date Stamp',       icon:'calendar' },
     { id:'quote',   label:'Daily Quote',      icon:'quote' },
+    { id:'word',    label:'Word of the Day',  icon:'book-open' },
     { id:'flag',    label:'Country Flag',     icon:'flag' },
     { id:'timezone',label:'Timezone Banner',  icon:'globe' },
     { id:'streak',  label:'Coding Streak',    icon:'flame' },
@@ -538,7 +539,11 @@
     { id:'weather', label:'Live Weather',     icon:'cloud' }
   ];
     { id:'weather', label:'Live Weather',     icon:'cloud' },
-    { id:'youtube', label:'YouTube Video',    icon:'youtube' }
+    { id:'youtube', label:'YouTube Video',    icon:'youtube' },
+    { id:'progress',label:'Goal Progress',    icon:'activity' },
+    { id:'extension',label:'Extension Badge',  icon:'puzzle' },
+    { id:'contributors',label:'Contributors Showcase', icon:'users' },
+    { id:'social',label:'Social Links Panel',  icon:'share-2' }
     ];
 
   // ----- Skills (24x24 brand-color badges) -----
@@ -732,6 +737,19 @@
     { q:'Simplicity is the soul of efficiency.', a:'Austin Freeman' }
   ];
 
+  const WORDS = [
+    { word:'Serendipity', pronunciation:'/ser-en-DIP-i-tee/', partOfSpeech:'Noun', definition:'The occurrence of finding something valuable or pleasant by chance.', example:'Meeting my mentor at the conference was pure serendipity.', synonyms:'chance, fortune, luck', origin:'Coined from The Three Princes of Serendip, a tale about accidental discoveries.' },
+    { word:'Eloquent', pronunciation:'/EL-uh-kwent/', partOfSpeech:'Adjective', definition:'Fluent, expressive, and persuasive in speech or writing.', example:'Her eloquent README made the project feel instantly approachable.', synonyms:'expressive, articulate, persuasive', origin:'From Latin eloqui, meaning to speak out.' },
+    { word:'Resilient', pronunciation:'/ri-ZIL-yent/', partOfSpeech:'Adjective', definition:'Able to recover quickly from difficulty or change.', example:'The resilient team shipped a cleaner fix after the outage.', synonyms:'adaptable, tough, flexible', origin:'From Latin resilire, meaning to spring back.' },
+    { word:'Lucid', pronunciation:'/LOO-sid/', partOfSpeech:'Adjective', definition:'Clear, easy to understand, or rational.', example:'A lucid explanation can make complex code feel friendly.', synonyms:'clear, coherent, intelligible', origin:'From Latin lucidus, meaning bright or clear.' },
+    { word:'Meticulous', pronunciation:'/meh-TIK-yuh-lus/', partOfSpeech:'Adjective', definition:'Showing great attention to detail.', example:'The meticulous review caught a subtle accessibility issue.', synonyms:'careful, precise, thorough', origin:'From Latin meticulosus, originally meaning fearful or timid.' },
+    { word:'Ephemeral', pronunciation:'/ih-FEM-er-uhl/', partOfSpeech:'Adjective', definition:'Lasting for a very short time.', example:'The ephemeral preview refreshed as soon as the settings changed.', synonyms:'brief, fleeting, temporary', origin:'From Greek ephemeros, meaning lasting only a day.' },
+    { word:'Pragmatic', pronunciation:'/prag-MAT-ik/', partOfSpeech:'Adjective', definition:'Focused on practical results and real-world usefulness.', example:'A pragmatic design kept the widget simple to customize.', synonyms:'practical, realistic, sensible', origin:'From Greek pragmatikos, meaning fit for action.' },
+    { word:'Tenacious', pronunciation:'/tuh-NAY-shus/', partOfSpeech:'Adjective', definition:'Persistent and determined, especially when facing obstacles.', example:'Her tenacious debugging turned a vague error into a clear fix.', synonyms:'persistent, determined, steadfast', origin:'From Latin tenere, meaning to hold.' },
+    { word:'Nuance', pronunciation:'/NOO-ahns/', partOfSpeech:'Noun', definition:'A subtle difference in meaning, feeling, or expression.', example:'Good documentation captures the nuance behind each option.', synonyms:'subtlety, shade, distinction', origin:'From French nuance, meaning shade or subtle variation.' },
+    { word:'Candid', pronunciation:'/KAN-did/', partOfSpeech:'Adjective', definition:'Truthful, direct, and sincere.', example:'The candid changelog explained both the fix and the tradeoff.', synonyms:'honest, frank, open', origin:'From Latin candidus, meaning white or shining.' }
+  ];
+
   const SONGS = [
     // Bollywood
     { title:'Tum Hi Ho', artist:'Arijit Singh', year:'2013', genre:'Bollywood' },
@@ -766,6 +784,8 @@
     country: 'IN',
     // Quote
     quoteCategory: 'programming',
+    // Word of the day
+    showOrigin: true,
     // Clock style
     clockStyle: 'digital',
     // Streak
@@ -810,13 +830,53 @@
     youtubeMode: 'single',
     showTitle: true,
     showChannel: true,
-    showThumbnail: true
+    showThumbnail: true,
+    // Progress Widget
+    title: 'Coding Journey',
+    current: '45',
+    target: '100',
+    unit: '%',
+    progressColor: '',
+    style: 'solid',
+    // Extension Badge
+    extensionName: 'My Extension',
+    extensionPlatform: 'chrome',
+    extensionId: '',
+    // Contributors Showcase
+    repo: 'cu-sanjay/Stylish-Readme',
+    contribLayout: 'grid',
+    contribSort: 'contributions',
+    contribLimit: 12,
+    avatarSize: 50,
+    showCount: true,
+    // Social Links
+    social_github: '',
+    social_twitter: '',
+    social_linkedin: '',
+    social_youtube: '',
+    social_discord: '',
+    social_instagram: '',
+    social_twitch: '',
+    social_website: '',
+    socialLayout: 'row',
+    socialStyle: 'standard',
+    useBrandColors: false
   };
 
   // ========== UTIL ==========
   function $(id){return document.getElementById(id);}
+  function escXml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+  }
   function scrollToId(id){ const el=$(id); if(el){el.scrollIntoView({behavior:'smooth',block:'start'});} }
   function pad(n){return String(n).padStart(2,'0');}
+  function escXml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+  }
   function getTzTime(tz){
     try{
       const d = new Date();
@@ -952,6 +1012,27 @@
         </div>
         <div class="note-box">
           <strong>Note:</strong> A new quote is fetched each day the widget is viewed.
+        </div>
+      `;
+    }
+    else if (state.widget==='word'){
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">Theme</label>
+          ${themeSwatches()}
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Header Label</label>
+          <input class="input-field" value="${state.label}" oninput="setField('label',this.value,false)" placeholder="e.g. Word of the Day"/>
+        </div>
+        <div class="mb-3 space-y-2">
+          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
+            <input type="checkbox" ${state.showOrigin?'checked':''} onchange="setField('showOrigin',this.checked)" class="w-4 h-4 accent-black"/>
+            <span class="uppercase tracking-wider">Show word origin</span>
+          </label>
+        </div>
+        <div class="note-box">
+          <strong>Note:</strong> A new vocabulary word is selected each day with pronunciation, definition, example, and synonyms.
         </div>
       `;
     }
@@ -1421,6 +1502,169 @@
         </div>
       `;
     }
+    else if (state.widget==='progress'){
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">Title</label>
+          <input type="text" class="input-field w-full" value="${escXml(state.title)}" onchange="setField('title',this.value)" placeholder="e.g. Coding Journey" />
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="label-tag">Current Value</label>
+            <input type="number" class="input-field w-full" value="${escXml(state.current)}" onchange="setField('current',this.value)" />
+          </div>
+          <div>
+            <label class="label-tag">Target Value</label>
+            <input type="number" class="input-field w-full" value="${escXml(state.target)}" onchange="setField('target',this.value)" />
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Unit</label>
+          <input type="text" class="input-field w-full" value="${escXml(state.unit)}" onchange="setField('unit',this.value)" placeholder="e.g. % or days" />
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Progress Style</label>
+          <div class="flex gap-2 flex-wrap">
+            <button onclick="setField('style','solid')" class="chip ${state.style==='solid'?'chip-active':''}"><span class="w-3 h-3 bg-black rounded-full inline-block"></span>Solid</button>
+            <button onclick="setField('style','gradient')" class="chip ${state.style==='gradient'?'chip-active':''}"><span class="w-3 h-3 bg-gradient-to-r from-gray-400 to-black rounded-full inline-block"></span>Gradient</button>
+            <button onclick="setField('style','segmented')" class="chip ${state.style==='segmented'?'chip-active':''}"><span class="w-3 h-3 border border-black rounded-full inline-block"></span>Segmented</button>
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Custom Progress Color (Hex)</label>
+          <input type="text" class="input-field w-full" value="${escXml(state.progressColor)}" onchange="setField('progressColor',this.value)" placeholder="#FF0000" />
+          <p class="font-mono text-[10px] text-neutral-500 mt-1">Leave empty to use theme default.</p>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Theme</label>
+          ${themeSwatches()}
+        </div>
+      `;
+    }
+    else if (state.widget==='extension'){
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">Extension Name</label>
+          <input class="input-field w-full" value="${escXml(state.extensionName)}" oninput="setField('extensionName',this.value,false)" placeholder="e.g. My Extension"/>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Store Platform</label>
+          <div class="flex gap-2">
+            <button onclick="setField('extensionPlatform','chrome')" class="chip ${state.extensionPlatform==='chrome'?'chip-active':''}">Chrome</button>
+            <button onclick="setField('extensionPlatform','edge')" class="chip ${state.extensionPlatform==='edge'?'chip-active':''}">Edge</button>
+            <button onclick="setField('extensionPlatform','firefox')" class="chip ${state.extensionPlatform==='firefox'?'chip-active':''}">Firefox</button>
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Extension Store ID</label>
+          <input class="input-field w-full" value="${escXml(state.extensionId)}" oninput="setField('extensionId',this.value,false)" placeholder="e.g. jdfhbgh..."/>
+          <p class="font-mono text-[10px] text-neutral-500 mt-1">Direct install link will be embedded. Leave empty to link to main store page.</p>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Theme</label>
+          ${themeSwatches()}
+        </div>
+      `;
+    }
+    else if (state.widget==='contributors'){
+      html += `
+        <div class="mb-5">
+          <label class="label-tag">Repository</label>
+          <input type="text" class="input-field w-full" value="${escXml(state.repo)}" onchange="setField('repo',this.value)" placeholder="e.g. cu-sanjay/Stylish-Readme" />
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Showcase Layout</label>
+          <div class="flex gap-2 flex-wrap">
+            <button onclick="setField('contribLayout','grid')" class="chip ${state.contribLayout==='grid'?'chip-active':''}">Grid</button>
+            <button onclick="setField('contribLayout','card')" class="chip ${state.contribLayout==='card'?'chip-active':''}">Card</button>
+            <button onclick="setField('contribLayout','wall')" class="chip ${state.contribLayout==='wall'?'chip-active':''}">Wall</button>
+            <button onclick="setField('contribLayout','spotlight')" class="chip ${state.contribLayout==='spotlight'?'chip-active':''}">Spotlight</button>
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Sort Contributors By</label>
+          <div class="flex gap-2">
+            <button onclick="setField('contribSort','contributions')" class="chip ${state.contribSort==='contributions'?'chip-active':''}">Commits</button>
+            <button onclick="setField('contribSort','login')" class="chip ${state.contribSort==='login'?'chip-active':''}">Name</button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="label-tag">Limit (Max 30)</label>
+            <input type="number" min="1" max="30" class="input-field w-full" value="${state.contribLimit}" onchange="setField('contribLimit',parseInt(this.value,10)||12)" />
+          </div>
+          <div>
+            <label class="label-tag">Avatar Size (px)</label>
+            <input type="number" min="30" max="100" class="input-field w-full" value="${state.avatarSize}" onchange="setField('avatarSize',parseInt(this.value,10)||50)" />
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
+            <input type="checkbox" ${state.showCount?'checked':''} onchange="setField('showCount',this.checked)" class="w-4 h-4 accent-black"/>
+            <span class="uppercase tracking-wider">Show Commit Counts</span>
+          </label>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Theme</label>
+          ${themeSwatches()}
+        </div>
+      `;
+    }
+    else if (state.widget==='social') {
+      html += `
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="label-tag flex items-center gap-2"><i data-lucide="github" class="w-4 h-4"></i> GitHub</label>
+            <input type="text" class="input-field w-full" value="${escXml(state.social_github)}" onchange="setField('social_github',this.value)" placeholder="username" />
+          </div>
+          <div>
+            <label class="label-tag flex items-center gap-2"><i data-lucide="twitter" class="w-4 h-4"></i> Twitter</label>
+            <input type="text" class="input-field w-full" value="${escXml(state.social_twitter)}" onchange="setField('social_twitter',this.value)" placeholder="username" />
+          </div>
+          <div>
+            <label class="label-tag flex items-center gap-2"><i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn</label>
+            <input type="text" class="input-field w-full" value="${escXml(state.social_linkedin)}" onchange="setField('social_linkedin',this.value)" placeholder="username" />
+          </div>
+          <div>
+            <label class="label-tag flex items-center gap-2"><i data-lucide="youtube" class="w-4 h-4"></i> YouTube</label>
+            <input type="text" class="input-field w-full" value="${escXml(state.social_youtube)}" onchange="setField('social_youtube',this.value)" placeholder="channel" />
+          </div>
+          <div>
+            <label class="label-tag flex items-center gap-2"><i data-lucide="instagram" class="w-4 h-4"></i> Instagram</label>
+            <input type="text" class="input-field w-full" value="${escXml(state.social_instagram)}" onchange="setField('social_instagram',this.value)" placeholder="username" />
+          </div>
+          <div>
+            <label class="label-tag flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4"></i> Website</label>
+            <input type="text" class="input-field w-full" value="${escXml(state.social_website)}" onchange="setField('social_website',this.value)" placeholder="domain.com" />
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Layout</label>
+          <div class="flex gap-2">
+            <button onclick="setField('socialLayout','row')" class="chip ${state.socialLayout==='row'?'chip-active':''}">Row</button>
+            <button onclick="setField('socialLayout','grid')" class="chip ${state.socialLayout==='grid'?'chip-active':''}">Grid</button>
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Style</label>
+          <div class="flex gap-2">
+            <button onclick="setField('socialStyle','standard')" class="chip ${state.socialStyle==='standard'?'chip-active':''}">Standard</button>
+            <button onclick="setField('socialStyle','pill')" class="chip ${state.socialStyle==='pill'?'chip-active':''}">Pill</button>
+            <button onclick="setField('socialStyle','minimal')" class="chip ${state.socialStyle==='minimal'?'chip-active':''}">Minimal</button>
+          </div>
+        </div>
+        <div class="mb-5">
+          <label class="flex items-center gap-3 cursor-pointer font-mono text-xs">
+            <input type="checkbox" ${state.useBrandColors?'checked':''} onchange="setField('useBrandColors',this.checked)" class="w-4 h-4 accent-black"/>
+            <span class="uppercase tracking-wider">Use Brand Colors</span>
+          </label>
+        </div>
+        <div class="mb-5">
+          <label class="label-tag">Theme</label>
+          ${themeSwatches()}
+        </div>
+      `;
+    }
     area.innerHTML = html;
     lucide.createIcons();
   }
@@ -1541,6 +1785,58 @@
       ${line2.length?`<text x="50" y="76" fill="${theme.fg}" font-size="15" font-weight="500" font-style="italic">${line2.join(' ')}</text>`:''}
       <line x1="50" y1="92" x2="100" y2="92" stroke="${theme.fg}" stroke-width="2"/>
       <text x="50" y="108" fill="${theme.fg}" font-size="11" font-weight="600" font-family="JetBrains Mono,monospace" opacity="0.85">${quote.a}</text>
+    </svg>`;
+  }
+
+  function wordLines(text, maxLen, maxLines){
+    const words = String(text||'').split(/\s+/).filter(Boolean);
+    const lines=[]; let line='';
+    words.forEach(w=>{
+      if(lines.length>=maxLines) return;
+      if((line+' '+w).trim().length>maxLen){
+        if(line) lines.push(line.trim());
+        line=w;
+      } else {
+        line=(line+' '+w).trim();
+      }
+    });
+    if(line && lines.length<maxLines) lines.push(line.trim());
+    return lines;
+  }
+
+  function wordOfDay(){
+    const dayKey = Math.floor(Date.now()/86400000);
+    return WORDS[dayKey % WORDS.length];
+  }
+
+  function svgWord(){
+    const theme = themeObj(state.theme);
+    const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
+    const item = wordOfDay();
+    const width=560, height=270;
+    const definition = wordLines(item.definition, 48, 2);
+    const example = wordLines(item.example, 50, 2);
+    const origin = wordLines(item.origin, 58, 2);
+    return `
+    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
+      <rect x="1" y="1" width="${width-2}" height="${height-2}" fill="${theme.bg}" style="${borderStyle}"/>
+      <rect x="18" y="18" width="160" height="${height-36}" fill="${theme.fg}" opacity="0.08"/>
+      <text x="28" y="42" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2.4" opacity="0.65">${(state.label||'WORD OF THE DAY').toUpperCase()}</text>
+      <text x="28" y="86" fill="${theme.fg}" font-size="30" font-weight="800" font-family="Fraunces,serif">${item.word}</text>
+      <text x="30" y="112" fill="${theme.fg}" font-size="12" font-weight="600" opacity="0.78">${item.pronunciation}</text>
+      <rect x="28" y="132" width="112" height="24" fill="none" stroke="${theme.fg}" stroke-width="1.4" opacity="0.5"/>
+      <text x="84" y="148" text-anchor="middle" fill="${theme.fg}" font-size="9" font-weight="800" letter-spacing="1.5">${item.partOfSpeech.toUpperCase()}</text>
+      <line x1="198" y1="24" x2="198" y2="${height-24}" stroke="${theme.fg}" stroke-width="1" opacity="0.22"/>
+      <text x="220" y="38" fill="${theme.fg}" font-size="8" font-weight="800" letter-spacing="2" opacity="0.5">DEFINITION</text>
+      ${definition.map((line,i)=>`<text x="220" y="${60+i*18}" fill="${theme.fg}" font-size="13" font-weight="600" opacity="0.88">${line}</text>`).join('')}
+      <text x="220" y="104" fill="${theme.fg}" font-size="8" font-weight="800" letter-spacing="2" opacity="0.5">EXAMPLE</text>
+      ${example.map((line,i)=>`<text x="220" y="${126+i*18}" fill="${theme.fg}" font-size="12" font-weight="500" font-style="italic" opacity="0.82">${line}</text>`).join('')}
+      <text x="220" y="166" fill="${theme.fg}" font-size="8" font-weight="800" letter-spacing="2" opacity="0.5">SYNONYMS</text>
+      <text x="220" y="188" fill="${theme.fg}" font-size="11" font-weight="700" opacity="0.8">${item.synonyms}</text>
+      ${state.showOrigin?`
+      <text x="220" y="216" fill="${theme.fg}" font-size="8" font-weight="800" letter-spacing="2" opacity="0.5">ORIGIN</text>
+      ${origin.map((line,i)=>`<text x="220" y="${238+i*15}" fill="${theme.fg}" font-size="10" font-weight="500" opacity="0.72">${line}</text>`).join('')}
+      `:''}
     </svg>`;
   }
 
@@ -1700,7 +1996,7 @@
     const W=580, H=320;
     const skillsRaw = (state.skills||'').split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
     const validSkills = skillsRaw.filter(s=>SKILLS[s]).slice(0,12);
-    const iconSize=30, gap=8, sx=220, sy=168;
+    const iconSize=30, gap=8, sx=232, sy=168;
     const skillNodes = validSkills.map((s,i)=>{
       const col=i%6, row=Math.floor(i/6);
       return skillIconSvg(s, sx + col*(iconSize+gap), sy + row*(iconSize+gap), iconSize);
@@ -1745,7 +2041,7 @@
       <line x1="232" y1="96" x2="280" y2="96" stroke="${theme.fg}" stroke-width="2"/>
       ${bioLines[0]?`<text x="232" y="120" fill="${theme.fg}" font-size="11" font-weight="500" opacity="0.85">${bioLines[0]}</text>`:''}
       ${bioLines[1]?`<text x="232" y="138" fill="${theme.fg}" font-size="11" font-weight="500" opacity="0.85">${bioLines[1]}</text>`:''}
-      <text x="220" y="${sy-8}" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2.5" opacity="0.55">◆ SKILLS &amp; STACK</text>
+      <text x="232" y="${sy-8}" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="2.5" opacity="0.55">◆ SKILLS &amp; STACK</text>
       ${skillNodes}
     </svg>`;
   }
@@ -2770,12 +3066,642 @@
     </svg>`;
   }
 
+  function svgProgress() {
+    const theme = themeObj(state.theme);
+    const rx = 6;
+    const bgFill = theme.bg;
+    const borderStyle = theme.border ? `stroke="${theme.fg}" stroke-width="2"` : '';
+    
+    const title = state.title || 'Progress';
+    const current = parseFloat(state.current) || 0;
+    const target = parseFloat(state.target) || 100;
+    const unit = state.unit || '%';
+    const rawPercent = target > 0 ? (current / target) * 100 : 0;
+    const percent = Math.min(100, Math.max(0, rawPercent));
+    
+    const accentColor = state.progressColor || (theme.bg === '#1a1a1a' || theme.bg === '#0d1117' ? '#7ee787' : '#0070f3');
+    
+    const W = 320;
+    const H = 80;
+    
+    const barWidth = 280;
+    const fillWidth = (percent / 100) * barWidth;
+    
+    let barSvg = '';
+    if (state.style === 'segmented') {
+      const segments = 10;
+      const segmentWidth = (barWidth - (segments - 1) * 2) / segments;
+      const activeSegments = Math.round((percent / 100) * segments);
+      
+      for (let i = 0; i < segments; i++) {
+        const x = 20 + i * (segmentWidth + 2);
+        const isActive = i < activeSegments;
+        const fill = isActive ? accentColor : `${theme.fg}20`;
+        barSvg += `<rect x="${x}" y="45" width="${segmentWidth}" height="12" rx="2" fill="${fill}"/>`;
+      }
+    } else if (state.style === 'gradient') {
+      barSvg = `
+        <defs>
+          <linearGradient id="gradProgressLocal" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${accentColor}" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="${accentColor}" stop-opacity="1" />
+          </linearGradient>
+        </defs>
+        <rect x="20" y="45" width="${barWidth}" height="12" rx="6" fill="${theme.fg}" opacity="0.1"/>
+        <rect x="20" y="45" width="${fillWidth}" height="12" rx="6" fill="url(#gradProgressLocal)"/>
+      `;
+    } else {
+      barSvg = `
+        <rect x="20" y="45" width="${barWidth}" height="12" rx="6" fill="${theme.fg}" opacity="0.1"/>
+        <rect x="20" y="45" width="${fillWidth}" height="12" rx="6" fill="${accentColor}"/>
+      `;
+    }
+
+    return `
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',ui-monospace,monospace;">
+      <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${rx}" ry="${rx}" fill="${bgFill}" ${borderStyle}/>
+      <text x="20" y="32" fill="${theme.fg}" font-size="13" font-weight="700">${escXml(title)}</text>
+      <text x="${W-20}" y="32" text-anchor="end" fill="${theme.fg}" font-size="12" font-weight="600" opacity="0.8">${current} / ${target} ${escXml(unit)} (${Math.round(percent)}%)</text>
+      ${barSvg}
+    </svg>`;
+  }
+
+  function svgExtension(){
+    const theme = themeObj(state.theme);
+    const rx = state.radius !== undefined ? state.radius : 8;
+    const bgFill = state.bgColor || theme.bg;
+    
+    let borderStyle = '';
+    if (state.borderColor) {
+      borderStyle = `stroke:${state.borderColor};stroke-width:2;`;
+    } else if (theme.border) {
+      borderStyle = `stroke:${theme.fg};stroke-width:2;`;
+    }
+
+    const platform = (state.extensionPlatform || 'chrome').toLowerCase();
+    const name = state.extensionName || 'My Extension';
+    const id = state.extensionId || '';
+
+    const configs = {
+      chrome: {
+        name: 'Chrome Web Store',
+        color: '#4285F4',
+        url: id ? `https://chromewebstore.google.com/detail/${id}` : 'https://chromewebstore.google.com/',
+        path: 'M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z'
+      },
+      edge: {
+        name: 'Edge Add-ons',
+        color: '#0078D7',
+        url: id ? `https://microsoftedge.microsoft.com/addons/detail/${id}` : 'https://microsoftedge.microsoft.com/addons/',
+        path: 'M21.86 17.86q.14 0 .25.12.1.13.1.25t-.11.33l-.32.46-.43.53-.44.5q-.21.25-.38.42l-.22.23q-.58.53-1.34 1.04-.76.51-1.6.91-.86.4-1.74.64t-1.67.24q-.9 0-1.69-.28-.8-.28-1.48-.78-.68-.5-1.22-1.17-.53-.66-.92-1.44-.38-.77-.58-1.6-.2-.83-.2-1.67 0-1 .32-1.96.33-.97.87-1.8.14.95.55 1.77.41.82 1.02 1.5.6.68 1.38 1.21.78.54 1.64.9.86.36 1.77.56.92.2 1.8.2 1.12 0 2.18-.24 1.06-.23 2.06-.72l.2-.1.2-.05zm-15.5-1.27q0 1.1.27 2.15.27 1.06.78 2.03.51.96 1.24 1.77.74.82 1.66 1.4-1.47-.2-2.8-.74-1.33-.55-2.48-1.37-1.15-.83-2.08-1.9-.92-1.07-1.58-2.33T.36 14.94Q0 13.54 0 12.06q0-.81.32-1.49.31-.68.83-1.23.53-.55 1.2-.96.66-.4 1.35-.66.74-.27 1.5-.39.78-.12 1.55-.12.7 0 1.42.1.72.12 1.4.35.68.23 1.32.57.63.35 1.16.83-.35 0-.7.07-.33.07-.65.23v-.02q-.63.28-1.2.74-.57.46-1.05 1.04-.48.58-.87 1.26-.38.67-.65 1.39-.27.71-.42 1.44-.15.72-.15 1.38zM11.96.06q1.7 0 3.33.39 1.63.38 3.07 1.15 1.43.77 2.62 1.93 1.18 1.16 1.98 2.7.49.94.76 1.96.28 1 .28 2.08 0 .89-.23 1.7-.24.8-.69 1.48-.45.68-1.1 1.22-.64.53-1.45.88-.54.24-1.11.36-.58.13-1.16.13-.42 0-.97-.03-.54-.03-1.1-.12-.55-.1-1.05-.28-.5-.19-.84-.5-.12-.09-.23-.24-.1-.16-.1-.33 0-.15.16-.35.16-.2.35-.5.2-.28.36-.68.16-.4.16-.95 0-1.06-.4-1.96-.4-.91-1.06-1.64-.66-.74-1.52-1.28-.86-.55-1.79-.89-.84-.3-1.72-.44-.87-.14-1.76-.14-1.55 0-3.06.45T.94 7.55q.71-1.74 1.81-3.13 1.1-1.38 2.52-2.35Q6.68 1.1 8.37.58q1.7-.52 3.58-.52Z'
+      },
+      firefox: {
+        name: 'Firefox Add-ons',
+        color: '#FF5A00',
+        url: id ? `https://addons.mozilla.org/en-US/firefox/addon/${id}` : 'https://addons.mozilla.org/',
+        path: 'M20.452 3.445a11.002 11.002 0 00-2.482-1.908C16.944.997 15.098.093 12.477.032c-.734-.017-1.457.03-2.174.144-.72.114-1.398.292-2.118.56-1.017.377-1.996.975-2.574 1.554.583-.349 1.476-.733 2.55-.992a10.083 10.083 0 013.729-.167c2.341.34 4.178 1.381 5.48 2.625a8.066 8.066 0 011.298 1.587c1.468 2.382 1.33 5.376.184 7.142-.85 1.312-2.67 2.544-4.37 2.53-.583-.023-1.438-.152-2.25-.566-2.629-1.343-3.021-4.688-1.118-6.306-.632-.136-1.82.13-2.646 1.363-.742 1.107-.7 2.816-.242 4.028a6.473 6.473 0 01-.59-1.895 7.695 7.695 0 01.416-3.845A8.212 8.212 0 019.45 5.399c.896-1.069 1.908-1.72 2.75-2.005-.54-.471-1.411-.738-2.421-.767C8.31 2.583 6.327 3.061 4.7 4.41a8.148 8.148 0 00-1.976 2.414c-.455.836-.691 1.659-.697 1.678.122-1.445.704-2.994 1.248-4.055-.79.413-1.827 1.668-2.41 3.042C.095 9.37-.2 11.608.14 13.989c.966 5.668 5.9 9.982 11.843 9.982C18.62 23.971 24 18.591 24 11.956a11.93 11.93 0 00-3.548-8.511z'
+      }
+    };
+
+    const config = configs[platform] || configs.chrome;
+    const W = 320, H = 80;
+    const logoSize = 40;
+    
+    let shadowFilterSvg = '';
+    let filterAttr = '';
+    if (state.shadow) {
+      const filterId = 'preview_sh_ext';
+      shadowFilterSvg = `
+        <defs>
+          <filter id="${filterId}" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+          </filter>
+        </defs>
+      `;
+      filterAttr = `filter="url(#${filterId})"`;
+    }
+
+    const body = `
+      ${shadowFilterSvg}
+      <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${rx}" ry="${rx}" fill="${bgFill}" style="${borderStyle}" ${filterAttr}/>
+      <g transform="translate(20, 20)">
+        <path d="${config.path}" fill="${config.color}" transform="scale(${logoSize / 24})"/>
+      </g>
+      <text x="76" y="28" fill="${theme.fg}" font-size="9" font-weight="700" letter-spacing="1.5" opacity="0.6">ADD TO ${platform.toUpperCase()}</text>
+      <text x="76" y="48" fill="${theme.fg}" font-size="14" font-weight="700">${escXml(name)}</text>
+      <text x="76" y="65" fill="${theme.fg}" font-size="10" font-weight="500" opacity="0.8">Available in ${config.name}</text>
+    `;
+
+    return `
+      <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono', ui-monospace, monospace;">
+        <a href="${escXml(config.url)}" target="_blank" style="text-decoration: none; cursor: pointer;">
+          ${body}
+        </a>
+      </svg>
+    `;
+  }
+
+  function svgContributors() {
+    const theme = themeObj(state.theme);
+    const rx = state.radius !== undefined ? state.radius : 8;
+    const bgFill = state.bgColor || theme.bg;
+    
+    let borderStyle = '';
+    if (state.borderColor) {
+      borderStyle = `stroke:${state.borderColor};stroke-width:2;`;
+    } else if (theme.border) {
+      borderStyle = `stroke:${theme.fg};stroke-width:2;`;
+    }
+
+    const mockList = [
+      { login: 'cu-sanjay', contributions: 124, initials: 'C' },
+      { login: 'MistryVishwa', contributions: 86, initials: 'M' },
+      { login: 'octocat', contributions: 45, initials: 'O' },
+      { login: 'Him-an-shi', contributions: 32, initials: 'H' },
+      { login: 'shubham2775', contributions: 18, initials: 'S' },
+      { login: 'dependabot', contributions: 12, initials: 'D' },
+      { login: 'collaborator', contributions: 8, initials: 'C' },
+      { login: 'tester', contributions: 5, initials: 'T' }
+    ];
+
+    let sortedList = [...mockList];
+    if (state.contribSort === 'name' || state.contribSort === 'login') {
+      sortedList.sort((a, b) => a.login.localeCompare(b.login));
+    } else {
+      sortedList.sort((a, b) => b.contributions - a.contributions);
+    }
+
+    const limitedList = sortedList.slice(0, parseInt(state.contribLimit, 10) || 12);
+    const S = parseInt(state.avatarSize, 10) || 50;
+    const layout = state.contribLayout || 'grid';
+    const showCount = state.showCount;
+
+    let W = 320;
+    let H = 200;
+    let innerSvg = '';
+    
+    const repoName = state.repo || 'cu-sanjay/Stylish-Readme';
+    const titleText = `${repoName.split('/')[1] || repoName} Contributors`;
+    const headerHeight = 45;
+    const paddingX = 20;
+
+    function renderMockAvatar(c, x, y, size) {
+      const initial = c.initials;
+      return `
+        <circle cx="${x + size/2}" cy="${y + size/2}" r="${size/2 + 2}" fill="${theme.fg}" opacity="0.12"/>
+        <circle cx="${x + size/2}" cy="${y + size/2}" r="${size/2}" fill="${theme.fg}" opacity="0.18"/>
+        <text x="${x + size/2}" y="${y + size/2 + size*0.14}" text-anchor="middle" fill="${theme.fg}" font-size="${size * 0.45}" font-weight="800" font-family="'JetBrains Mono', monospace">${escXml(initial)}</text>
+        <circle cx="${x + size/2}" cy="${y + size/2}" r="${size/2}" fill="none" stroke="${theme.fg}" stroke-width="1.5" opacity="0.8"/>
+      `;
+    }
+
+    if (layout === 'wall') {
+      const cols = 6;
+      const gap = 12;
+      const rows = Math.ceil(limitedList.length / cols);
+      W = paddingX * 2 + cols * (S + gap) - gap;
+      H = headerHeight + rows * (S + gap) - gap + 20;
+      
+      innerSvg += `
+        <text x="${paddingX}" y="28" fill="${theme.fg}" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace" letter-spacing="1.5" opacity="0.8">${escXml(titleText.toUpperCase())}</text>
+      `;
+
+      limitedList.forEach((c, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const x = paddingX + col * (S + gap);
+        const y = headerHeight + row * (S + gap);
+        innerSvg += renderMockAvatar(c, x, y, S);
+      });
+    }
+    else if (layout === 'card') {
+      const cols = 2;
+      const cardWidth = 160;
+      const cardHeight = S + 16;
+      const colGap = 15;
+      const rowGap = 12;
+      const rows = Math.ceil(limitedList.length / cols);
+      
+      W = paddingX * 2 + cols * (cardWidth + colGap) - colGap;
+      H = headerHeight + rows * (cardHeight + rowGap) - rowGap + 20;
+
+      innerSvg += `
+        <text x="${paddingX}" y="28" fill="${theme.fg}" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace" letter-spacing="1.5" opacity="0.8">${escXml(titleText.toUpperCase())}</text>
+      `;
+
+      limitedList.forEach((c, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const x = paddingX + col * (cardWidth + colGap);
+        const y = headerHeight + row * (cardHeight + rowGap);
+        
+        innerSvg += `
+          <rect x="${x}" y="${y}" width="${cardWidth}" height="${cardHeight}" rx="6" fill="${theme.fg}" opacity="0.04"/>
+          <rect x="${x}" y="${y}" width="${cardWidth}" height="${cardHeight}" rx="6" fill="none" stroke="${theme.fg}" stroke-width="1" opacity="0.15"/>
+        `;
+
+        const avX = x + 8;
+        const avY = y + 8;
+        innerSvg += renderMockAvatar(c, avX, avY, S);
+
+        const textX = x + S + 16;
+        const textY = y + 24;
+        const displayLogin = c.login.length > 12 ? c.login.substring(0, 10) + '..' : c.login;
+        innerSvg += `
+          <text x="${textX}" y="${textY}" fill="${theme.fg}" font-size="11" font-weight="700" font-family="'JetBrains Mono', monospace">${escXml(displayLogin)}</text>
+        `;
+
+        if (showCount) {
+          innerSvg += `
+            <text x="${textX}" y="${textY + 14}" fill="${theme.fg}" font-size="9" font-weight="500" font-family="'JetBrains Mono', monospace" opacity="0.6">${c.contributions} commits</text>
+          `;
+        }
+      });
+    }
+    else if (layout === 'spotlight') {
+      const spotlightS = S * 1.4;
+      const topContributor = limitedList[0];
+      const others = limitedList.slice(1);
+      
+      const cols = 5;
+      const gap = 12;
+      const rows = Math.ceil(others.length / cols);
+      
+      W = paddingX * 2 + cols * (S + gap) - gap;
+      if (W < 220) W = 220;
+
+      const topX = W / 2 - spotlightS / 2;
+      const topY = headerHeight + 15;
+      
+      const othersStartRowY = topY + spotlightS + 35;
+      H = othersStartRowY + (others.length > 0 ? rows * (S + gap) - gap : 0) + 20;
+
+      innerSvg += `
+        <text x="${paddingX}" y="28" fill="${theme.fg}" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace" letter-spacing="1.5" opacity="0.8">${escXml(titleText.toUpperCase())}</text>
+      `;
+
+      if (topContributor) {
+        const spotlightWidth = spotlightS + 80;
+        const spotlightHeight = spotlightS + 30;
+        const spotlightBoxX = W / 2 - spotlightWidth / 2;
+        const spotlightBoxY = topY - 10;
+        
+        innerSvg += `
+          <rect x="${spotlightBoxX}" y="${spotlightBoxY}" width="${spotlightWidth}" height="${spotlightHeight}" rx="10" fill="${theme.fg}" opacity="0.05"/>
+          <rect x="${spotlightBoxX}" y="${spotlightBoxY}" width="${spotlightWidth}" height="${spotlightHeight}" rx="10" fill="none" stroke="${theme.fg}" stroke-width="2" opacity="0.25"/>
+        `;
+
+        innerSvg += renderMockAvatar(topContributor, topX, topY, spotlightS);
+        
+        innerSvg += `
+          <path d="M ${topX + spotlightS/2 - 10} ${topY - 8} L ${topX + spotlightS/2 - 5} ${topY - 14} L ${topX + spotlightS/2} ${topY - 8} L ${topX + spotlightS/2 + 5} ${topY - 14} L ${topX + spotlightS/2 + 10} ${topY - 8} Z" fill="#FFD700" stroke="#B8860B" stroke-width="1"/>
+        `;
+
+        const displayLogin = topContributor.login.length > 15 ? topContributor.login.substring(0, 13) + '..' : topContributor.login;
+        innerSvg += `
+          <text x="${W/2}" y="${topY + spotlightS + 12}" text-anchor="middle" fill="${theme.fg}" font-size="10" font-weight="800" font-family="'JetBrains Mono', monospace">${escXml(displayLogin)}</text>
+        `;
+        if (showCount) {
+          innerSvg += `
+            <text x="${W/2}" y="${topY + spotlightS + 23}" text-anchor="middle" fill="${theme.fg}" font-size="8" font-weight="700" font-family="'JetBrains Mono', monospace" opacity="0.75">${topContributor.contributions} commits</text>
+          `;
+        }
+      }
+
+      others.forEach((c, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const rowColsCount = Math.min(others.length - row * cols, cols);
+        const rowWidth = rowColsCount * (S + gap) - gap;
+        const rowStartX = W / 2 - rowWidth / 2;
+        
+        const x = rowStartX + col * (S + gap);
+        const y = othersStartRowY + row * (S + gap);
+        innerSvg += renderMockAvatar(c, x, y, S);
+      });
+    }
+    else {
+      const cols = 4;
+      const cellWidth = S + 30;
+      const cellHeight = S + (showCount ? 35 : 20);
+      const colGap = 15;
+      const rowGap = 20;
+      const rows = Math.ceil(limitedList.length / cols);
+
+      W = paddingX * 2 + cols * (cellWidth + colGap) - colGap;
+      H = headerHeight + rows * (cellHeight + rowGap) - rowGap + 20;
+
+      innerSvg += `
+        <text x="${paddingX}" y="28" fill="${theme.fg}" font-size="12" font-weight="700" font-family="'JetBrains Mono', monospace" letter-spacing="1.5" opacity="0.8">${escXml(titleText.toUpperCase())}</text>
+      `;
+
+      limitedList.forEach((c, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const x = paddingX + col * (cellWidth + colGap);
+        const y = headerHeight + row * (cellHeight + rowGap);
+        
+        const avX = x + (cellWidth - S) / 2;
+        innerSvg += renderMockAvatar(c, avX, y, S);
+
+        const textX = x + cellWidth / 2;
+        const textY = y + S + 14;
+        const displayLogin = c.login.length > 12 ? c.login.substring(0, 10) + '..' : c.login;
+        innerSvg += `
+          <text x="${textX}" y="${textY}" text-anchor="middle" fill="${theme.fg}" font-size="9" font-weight="700" font-family="'JetBrains Mono', monospace">${escXml(displayLogin)}</text>
+        `;
+
+        if (showCount) {
+          innerSvg += `
+            <text x="${textX}" y="${textY + 12}" text-anchor="middle" fill="${theme.fg}" font-size="8" font-weight="500" font-family="'JetBrains Mono', monospace" opacity="0.6">${c.contributions} commits</text>
+          `;
+        }
+      });
+    }
+
+    let shadowFilterSvg = '';
+    let filterAttr = '';
+    if (state.shadow) {
+      const filterId = 'preview_sh_contrib';
+      shadowFilterSvg = `
+        <defs>
+          <filter id="${filterId}" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+          </filter>
+        </defs>
+      `;
+      filterAttr = `filter="url(#${filterId})"`;
+    }
+
+    return `
+      <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono', monospace;">
+        ${shadowFilterSvg}
+        <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${rx}" ry="${rx}" fill="${bgFill}" style="${borderStyle}" ${filterAttr}/>
+        ${innerSvg}
+      </svg>
+    `;
+  }
+  const SOCIAL_CONFIGS = {
+    github: {
+      name: 'GitHub',
+      color: '#24292e',
+      path: 'M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z'
+    },
+    twitter: {
+      name: 'Twitter',
+      color: '#1DA1F2',
+      path: 'M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z'
+    },
+    linkedin: {
+      name: 'LinkedIn',
+      color: '#0077B5',
+      path: 'M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z'
+    },
+    youtube: {
+      name: 'YouTube',
+      color: '#FF0000',
+      path: 'M23.498 6.163a3.003 3.003 0 0 0-2.11-2.108C19.53 3.5 12 3.5 12 3.5s-7.53 0-9.388.555A3.002 3.002 0 0 0 .503 6.163C0 8.024 0 12 0 12s0 3.976.503 5.837a3.002 3.002 0 0 0 2.109 2.108C4.47 20.5 12 20.5 12 20.5s7.53 0 9.388-.555a3.002 3.002 0 0 0 2.11-2.108C24 15.976 24 12 24 12s0-3.976-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z'
+    },
+    discord: {
+      name: 'Discord',
+      color: '#5865F2',
+      path: 'M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.094 13.094 0 0 1-1.873-.894.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.011c3.92 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.246.195.373.289a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.156 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.156 2.418z'
+    },
+    instagram: {
+      name: 'Instagram',
+      color: '#E1306C',
+      path: 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z'
+    },
+    twitch: {
+      name: 'Twitch',
+      color: '#9146FF',
+      path: 'M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z'
+    },
+    website: {
+      name: 'Website',
+      color: '#4A90E2',
+      path: 'M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm9.36 8.4h-3.32c-.36-1.55-.89-3.03-1.58-4.39 2.06.84 3.73 2.37 4.9 4.39zm-6.23 0H8.87c-.31-1.5-.72-2.95-1.24-4.3 1.05-.33 2.19-.5 3.37-.5s2.32.17 3.37.5c-.52 1.35-.93 2.8-1.24 4.3zM4.64 8.4C5.81 6.38 7.48 4.85 9.54 4.01c-.69 1.36-1.22 2.84-1.58 4.39H4.64zm-.84 3.6c0-.62.07-1.22.18-1.8h3.81c-.07.59-.11 1.19-.11 1.8s.04 1.21.11 1.8H3.98c-.11-.58-.18-1.18-.18-1.8zm.84 3.6h3.32c.36 1.55.89 3.03 1.58 4.39-2.06-.84-3.73-2.37-4.9-4.39zm6.23 0h6.26c.31 1.5.72 2.95 1.24 4.3-1.05.33-2.19.5-3.37.5s-2.32-.17-3.37-.5c.52-1.35.93-2.8 1.24-4.3zm6.23-3.6c0-.59.04-1.19.11-1.8h3.81c.11.58.18 1.18.18 1.8s-.07 1.22-.18 1.8h-3.81c-.07-.59-.11-1.19-.11-1.8zm-1.78 3.6c.69-1.36 1.22-2.84 1.58-4.39h3.38c-1.17 2.02-2.84 3.55-4.9 4.39z'
+    }
+  };
+
+  function getSocialUrl(platform, value) {
+    if (!value) return '';
+    let val = String(value).trim();
+    if (val.startsWith('http://') || val.startsWith('https://')) return val;
+    const bases = {
+      github: 'https://github.com/',
+      twitter: 'https://twitter.com/',
+      linkedin: 'https://linkedin.com/in/',
+      youtube: 'https://youtube.com/@',
+      discord: 'https://discord.gg/',
+      instagram: 'https://instagram.com/',
+      twitch: 'https://twitch.tv/',
+      website: 'https://'
+    };
+    return (bases[platform] || 'https://') + val;
+  }
+
+  function svgSocial() {
+    const th = themeObj(state.theme);
+    const rx = 8;
+    const bgFill = th.bg;
+    const borderStyle = th.border ? `stroke="${th.fg}" stroke-width="2"` : '';
+
+    const active = [];
+    ['github', 'twitter', 'linkedin', 'youtube', 'discord', 'instagram', 'twitch', 'website'].forEach(plat => {
+      const val = state['social_' + plat];
+      if (val) {
+        let url = getSocialUrl(plat, val);
+        active.push({
+          key: plat,
+          url,
+          ...SOCIAL_CONFIGS[plat]
+        });
+      }
+    });
+
+    if (active.length === 0) {
+      ['github', 'linkedin', 'twitter', 'website'].forEach(plat => {
+        active.push({
+          key: plat,
+          url: '#',
+          ...SOCIAL_CONFIGS[plat]
+        });
+      });
+    }
+
+    const layout = state.socialLayout;
+    const style = state.socialStyle;
+    const useBrand = state.useBrandColors;
+
+    let W = 320;
+    let H = 80;
+    let innerSvg = '';
+
+    const hoverStyles = `
+      <style>
+        .social-link-badge {
+          transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease;
+        }
+        .social-link-badge:hover {
+          transform: translateY(-2px) scale(1.05);
+          filter: brightness(1.15) drop-shadow(0px 3px 6px rgba(0,0,0,0.15));
+        }
+      </style>
+    `;
+
+    if (style === 'minimal') {
+      const itemW = 32;
+      const gap = 12;
+      if (layout === 'grid') {
+        const cols = Math.min(active.length, 4);
+        const rows = Math.ceil(active.length / cols);
+        W = 40 + cols * (itemW + gap) - gap;
+        H = 30 + rows * (itemW + gap) - gap + 10;
+
+        active.forEach((item, i) => {
+          const row = Math.floor(i / cols);
+          const col = i % cols;
+          const x = 20 + col * (itemW + gap);
+          const y = 20 + row * (itemW + gap);
+          const color = useBrand ? item.color : th.fg;
+
+          innerSvg += `
+            <a href="${escXml(item.url)}" target="_blank" class="social-link-badge">
+              <rect x="${x}" y="${y}" width="${itemW}" height="${itemW}" rx="6" fill="${color}" opacity="0.1"/>
+              <path d="${item.path}" fill="${color}" transform="translate(${x + 6}, ${y + 6}) scale(${20/24})"/>
+            </a>
+          `;
+        });
+      } else {
+        W = 40 + active.length * (itemW + gap) - gap;
+        H = 64;
+
+        active.forEach((item, i) => {
+          const x = 20 + i * (itemW + gap);
+          const y = 16;
+          const color = useBrand ? item.color : th.fg;
+
+          innerSvg += `
+            <a href="${escXml(item.url)}" target="_blank" class="social-link-badge">
+              <rect x="${x}" y="${y}" width="${itemW}" height="${itemW}" rx="6" fill="${color}" opacity="0.1"/>
+              <path d="${item.path}" fill="${color}" transform="translate(${x + 6}, ${y + 6}) scale(${20/24})"/>
+            </a>
+          `;
+        });
+      }
+    }
+    else if (style === 'pill') {
+      const itemW = 110;
+      const itemH = 30;
+      const colGap = 10;
+      const rowGap = 10;
+
+      if (layout === 'grid') {
+        const cols = 2;
+        const rows = Math.ceil(active.length / cols);
+        W = 40 + cols * (itemW + colGap) - colGap;
+        H = 30 + rows * (itemH + rowGap) - rowGap + 10;
+
+        active.forEach((item, i) => {
+          const row = Math.floor(i / cols);
+          const col = i % cols;
+          const x = 20 + col * (itemW + colGap);
+          const y = 20 + row * (itemH + rowGap);
+          const fill = useBrand ? item.color : th.fg;
+          const textCol = useBrand ? '#ffffff' : th.bg;
+
+          innerSvg += `
+            <a href="${escXml(item.url)}" target="_blank" class="social-link-badge">
+              <rect x="${x}" y="${y}" width="${itemW}" height="${itemH}" rx="15" fill="${fill}"/>
+              <path d="${item.path}" fill="${textCol}" transform="translate(${x + 12}, ${y + 7}) scale(${16/24})"/>
+              <text x="${x + 36}" y="${y + 19}" fill="${textCol}" font-size="10" font-weight="700" font-family="'JetBrains Mono', monospace">${escXml(item.name)}</text>
+            </a>
+          `;
+        });
+      } else {
+        W = 40 + active.length * (itemW + colGap) - colGap;
+        H = 70;
+
+        active.forEach((item, i) => {
+          const x = 20 + i * (itemW + colGap);
+          const y = 20;
+          const fill = useBrand ? item.color : th.fg;
+          const textCol = useBrand ? '#ffffff' : th.bg;
+
+          innerSvg += `
+            <a href="${escXml(item.url)}" target="_blank" class="social-link-badge">
+              <rect x="${x}" y="${y}" width="${itemW}" height="${itemH}" rx="15" fill="${fill}"/>
+              <path d="${item.path}" fill="${textCol}" transform="translate(${x + 12}, ${y + 7}) scale(${16/24})"/>
+              <text x="${x + 36}" y="${y + 19}" fill="${textCol}" font-size="10" font-weight="700" font-family="'JetBrains Mono', monospace">${escXml(item.name)}</text>
+            </a>
+          `;
+        });
+      }
+    }
+    else {
+      const itemW = 110;
+      const itemH = 30;
+      const colGap = 10;
+      const rowGap = 10;
+
+      if (layout === 'grid') {
+        const cols = 2;
+        const rows = Math.ceil(active.length / cols);
+        W = 40 + cols * (itemW + colGap) - colGap;
+        H = 30 + rows * (itemH + rowGap) - rowGap + 10;
+
+        active.forEach((item, i) => {
+          const row = Math.floor(i / cols);
+          const col = i % cols;
+          const x = 20 + col * (itemW + colGap);
+          const y = 20 + row * (itemH + rowGap);
+          const color = useBrand ? item.color : th.fg;
+
+          innerSvg += `
+            <a href="${escXml(item.url)}" target="_blank" class="social-link-badge">
+              <rect x="${x}" y="${y}" width="${itemW}" height="${itemH}" rx="6" fill="none" stroke="${color}" stroke-width="1.5"/>
+              <path d="${item.path}" fill="${color}" transform="translate(${x + 12}, ${y + 7}) scale(${16/24})"/>
+              <text x="${x + 36}" y="${y + 19}" fill="${color}" font-size="10" font-weight="700" font-family="'JetBrains Mono', monospace">${escXml(item.name)}</text>
+            </a>
+          `;
+        });
+      } else {
+        W = 40 + active.length * (itemW + colGap) - colGap;
+        H = 70;
+
+        active.forEach((item, i) => {
+          const x = 20 + i * (itemW + colGap);
+          const y = 20;
+          const color = useBrand ? item.color : th.fg;
+
+          innerSvg += `
+            <a href="${escXml(item.url)}" target="_blank" class="social-link-badge">
+              <rect x="${x}" y="${y}" width="${itemW}" height="${itemH}" rx="6" fill="none" stroke="${color}" stroke-width="1.5"/>
+              <path d="${item.path}" fill="${color}" transform="translate(${x + 12}, ${y + 7}) scale(${16/24})"/>
+              <text x="${x + 36}" y="${y + 19}" fill="${color}" font-size="10" font-weight="700" font-family="'JetBrains Mono', monospace">${escXml(item.name)}</text>
+            </a>
+          `;
+        });
+      }
+    }
+
+    return `
+      <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:'JetBrains Mono',monospace;">
+        ${hoverStyles}
+        <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="${rx}" ry="${rx}" fill="${bgFill}" style="${borderStyle}"/>
+        ${innerSvg}
+      </svg>
+    `;
+  }
+
   function getSvg(){
     switch(state.widget){
       case 'time': return svgTimeBadge();
       case 'clock': return svgClock();
       case 'date': return svgDate();
       case 'quote': return svgQuote();
+      case 'word': return svgWord();
       case 'flag': return svgFlag();
       case 'timezone': return svgTimezone();
       case 'streak': return svgStreak();
@@ -2788,6 +3714,10 @@
       case 'book': return svgBook();
       case 'weather': return svgWeather();
       case 'youtube': return svgYoutube();
+      case 'progress': return svgProgress();
+      case 'extension': return svgExtension();
+      case 'contributors': return svgContributors();
+      case 'social': return svgSocial();
     }
     return '';
   }
@@ -2805,6 +3735,7 @@
     clock:    ['timezone','theme','timeFormat','showSeconds','label'],
     date:     ['timezone','theme','label'],
     quote:    ['theme','quoteCategory','label'],
+    word:     ['theme','label','showOrigin'],
     flag:     ['country','theme','label'],
     timezone: ['timezone','theme','timeFormat'],
     streak:   ['startDate','unit','theme','customLabel','platform'],
@@ -2817,7 +3748,11 @@
     book:      ['bookPlatform','bookUsername','bookStatus','theme']
     weather:   ['city','tempUnit','weatherStyle','theme']
     weather:   ['city','tempUnit','weatherStyle','theme'],
-    youtube:   ['videoId','playlistId','videoIds','youtubeMode','showTitle','showChannel','showThumbnail','theme']
+    youtube:   ['videoId','playlistId','videoIds','youtubeMode','showTitle','showChannel','showThumbnail','theme'],
+    progress:  ['title','current','target','unit','progressColor','style','theme'],
+    extension: ['extensionName','extensionPlatform','extensionId','theme','radius','bgColor','borderColor','shadow'],
+    contributors: ['repo','contribLayout','contribSort','contribLimit','avatarSize','showCount','theme','radius','bgColor','borderColor','shadow'],
+    social: ['social_github','social_twitter','social_linkedin','social_youtube','social_discord','social_instagram','social_twitch','social_website','socialLayout','socialStyle','useBrandColors','theme']
   };
   function buildUrl(){
     const protocol = window.location.protocol;
@@ -2885,6 +3820,7 @@
     { title:'Tokyo Time', w:'time', overrides:{timezone:'Asia/Tokyo',theme:'terminal',label:'Tokyo'} },
     { title:'New York Clock', w:'clock', overrides:{timezone:'America/New_York',theme:'paper',label:'Eastern'} },
     { title:'Daily Quote', w:'quote', overrides:{theme:'crimson',label:'Today'} },
+    { title:'Word of the Day', w:'word', overrides:{theme:'paper',label:'Vocabulary',showOrigin:true} },
     { title:'London Date', w:'date', overrides:{theme:'retro',timezone:'Europe/London',label:'Today'} },
     { title:'NYC Timezone', w:'timezone', overrides:{theme:'ocean',timezone:'America/New_York'} },
     { title:'India Flag', w:'flag', overrides:{country:'IN',theme:'forest',label:'From'} },
@@ -2901,7 +3837,13 @@
     { title:'Currently Reading', w:'book', overrides:{theme:'retro',bookPlatform:'goodreads',bookUsername:'12345678',bookStatus:'currently-reading'} },
     { title:'Live Weather', w:'weather', overrides:{theme:'retro',city:'London',tempUnit:'C',weatherStyle:'detailed'} },
     { title:'YouTube Preview', w:'youtube', overrides:{videoId:'dQw4w9WgXcQ',theme:'classic',showTitle:true,showChannel:true} },
-    { title:'Profile Card', w:'profile', overrides:{theme:'paper',name:'Sanjay',role:'Full-Stack Developer',bio:'Building cool things with code n coffee.',skills:'HTML,JS,REACT,NODE,PYTHON,GIT,SQL',handle:'cu-sanjay',avatar:'https://pluspng.com/img-png/coder-png-coder-png-file-354.png'} }
+    { title:'Goal Progress', w:'progress', overrides:{theme:'terminal',title:'React Mastery',current:75,target:100,unit:'%',style:'gradient'} },
+    { title:'Chrome Badge', w:'extension', overrides:{extensionName:'Stylish Readme',extensionPlatform:'chrome',extensionId:'jdfhbghjdfg',theme:'classic'} },
+    { title:'Firefox Badge', w:'extension', overrides:{extensionName:'Stylish Readme',extensionPlatform:'firefox',extensionId:'stylish-readme',theme:'terminal'} },
+    { title:'Contributors Grid', w:'contributors', overrides:{repo:'cu-sanjay/Stylish-Readme',contribLayout:'grid',contribLimit:12,theme:'terminal'} },
+    { title:'Contributors Spotlight', w:'contributors', overrides:{repo:'cu-sanjay/Stylish-Readme',contribLayout:'spotlight',contribLimit:8,theme:'retro'} },
+    { title:'Social Links Panel', w:'social', overrides:{social_github:'cu-sanjay',social_twitter:'sanjay',social_linkedin:'sanjay',socialLayout:'row',socialStyle:'standard',useBrandColors:true,theme:'ocean'} },
+    { title:'Social Pill Grid', w:'social', overrides:{social_github:'cu-sanjay',social_youtube:'sanjay',social_discord:'sanjay',socialLayout:'grid',socialStyle:'pill',useBrandColors:false,theme:'retro'} }
   ];
 
   function renderGallery(){
