@@ -723,16 +723,69 @@
     return `<svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 60 40" preserveAspectRatio="xMidYMid meet"><rect width="60" height="40" fill="#eee"/>${FLAGS[code]||FLAGS.IN}<rect width="60" height="40" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="0.6"/></svg>`;
   }
 
-  const QUOTES = [
-    { q:'Programs must be written for people to read, and only incidentally for machines to execute.', a:'Harold Abelson' },
-    { q:'First, solve the problem. Then, write the code.', a:'John Johnson' },
-    { q:'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.', a:'Martin Fowler' },
-    { q:'Deleted code is debugged code.', a:'Jeff Sickel' },
-    { q:'Make it work, make it right, make it fast.', a:'Kent Beck' },
-    { q:'The best error message is the one that never shows up.', a:'Thomas Fuchs' },
-    { q:'Code is like humor. When you have to explain it, it is bad.', a:'Cory House' },
-    { q:'Simplicity is the soul of efficiency.', a:'Austin Freeman' }
-  ];
+  const QUOTE_SETS = {
+    programming: [
+      { q:'Simplicity is the soul of efficiency.', a:'Austin Freeman' },
+      { q:'Code is like humor. When you have to explain it, it is bad.', a:'Cory House' },
+      { q:'Make it work, make it right, make it fast.', a:'Kent Beck' },
+      { q:'The best error message is the one that never shows up.', a:'Thomas Fuchs' },
+      { q:'Programs must be written for people to read.', a:'Harold Abelson' },
+      { q:'First, solve the problem. Then, write the code.', a:'John Johnson' },
+      { q:'Any fool can write code a computer can understand.', a:'Martin Fowler' },
+      { q:'Deleted code is debugged code.', a:'Jeff Sickel' },
+      { q:'Talk is cheap. Show me the code.', a:'Linus Torvalds' },
+      { q:'Premature optimization is the root of all evil.', a:'Donald Knuth' }
+    ],
+    motivation: [
+      { q:'The only way to do great work is to love what you do.', a:'Steve Jobs' },
+      { q:'Success is not final, failure is not fatal.', a:'Winston Churchill' },
+      { q:'Believe you can and you are halfway there.', a:'Theodore Roosevelt' },
+      { q:'It always seems impossible until it is done.', a:'Nelson Mandela' },
+      { q:'Do not watch the clock. Do what it does. Keep going.', a:'Sam Levenson' },
+      { q:'The future depends on what you do today.', a:'Mahatma Gandhi' },
+      { q:'Dream big. Start small. Act now.', a:'Robin Sharma' }
+    ],
+    wisdom: [
+      { q:'Knowing yourself is the beginning of all wisdom.', a:'Aristotle' },
+      { q:'The only true wisdom is in knowing you know nothing.', a:'Socrates' },
+      { q:'In the middle of difficulty lies opportunity.', a:'Albert Einstein' },
+      { q:'Patience is bitter, but its fruit is sweet.', a:'Aristotle' },
+      { q:'A journey of a thousand miles begins with a single step.', a:'Lao Tzu' },
+      { q:'He who knows others is wise; he who knows himself is enlightened.', a:'Lao Tzu' }
+    ],
+    openSource: [
+      { q:'In open source, we feel strongly that to really do something well, you have to get a lot of people involved.', a:'Linus Torvalds' },
+      { q:'Free software is a matter of liberty, not price.', a:'Richard Stallman' },
+      { q:'Open source is about collaborating and sharing knowledge.', a:'Unknown' }
+    ],
+    startup: [
+      { q:'Move fast and break things.', a:'Mark Zuckerberg' },
+      { q:'Ideas are easy. Execution is everything.', a:'John Doerr' },
+      { q:'Don’t worry about failure; you only have to be right once.', a:'Drew Houston' }
+    ],
+    science: [
+      { q:'Science is magic that works.', a:'Kurt Vonnegut' },
+      { q:'The important thing is to never stop questioning.', a:'Albert Einstein' },
+      { q:'Equipped with his five senses, man explores the universe around him.', a:'Edwin Hubble' }
+    ],
+    productivity: [
+      { q:'Until we can manage time, we can manage nothing else.', a:'Peter Drucker' },
+      { q:'Focus on being productive instead of busy.', a:'Tim Ferriss' },
+      { q:'Productivity is never an accident. It is always the result of a commitment to excellence.', a:'Paul J. Meyer' }
+    ],
+    inspirational: [
+      { q:'The best way to predict the future is to invent it.', a:'Alan Kay' },
+      { q:'Do what you can, with what you have, where you are.', a:'Theodore Roosevelt' },
+      { q:'Your time is limited, so don’t waste it living someone else’s life.', a:'Steve Jobs' }
+    ]
+  };
+  QUOTE_SETS.random = [].concat(QUOTE_SETS.programming, QUOTE_SETS.motivation, QUOTE_SETS.wisdom, QUOTE_SETS.openSource, QUOTE_SETS.startup, QUOTE_SETS.science, QUOTE_SETS.productivity, QUOTE_SETS.inspirational);
+
+  function pickQuote(category){
+    const list = QUOTE_SETS[category] || QUOTE_SETS.programming;
+    const dayKey = Math.floor(Date.now() / 86400000);
+    return list[dayKey % list.length];
+  }
 
   const WORDS = [
     { word:'Serendipity', pronunciation:'/ser-en-DIP-i-tee/', partOfSpeech:'Noun', definition:'The occurrence of finding something valuable or pleasant by chance.', example:'Meeting my mentor at the conference was pure serendipity.', synonyms:'chance, fortune, luck', origin:'Coined from The Three Princes of Serendip, a tale about accidental discoveries.' },
@@ -989,10 +1042,15 @@
       html += `
         <div class="mb-5">
           <label class="label-tag">Category</label>
-          <select class="input-field" onchange="setField('quoteCategory',this.value)">
+<select class="input-field" onchange="setField('quoteCategory',this.value)">
             <option value="programming" ${state.quoteCategory==='programming'?'selected':''}>Programming</option>
             <option value="motivation" ${state.quoteCategory==='motivation'?'selected':''}>Motivation</option>
             <option value="wisdom" ${state.quoteCategory==='wisdom'?'selected':''}>Wisdom</option>
+            <option value="openSource" ${state.quoteCategory==='openSource'?'selected':''}>Open Source</option>
+            <option value="startup" ${state.quoteCategory==='startup'?'selected':''}>Startup</option>
+            <option value="science" ${state.quoteCategory==='science'?'selected':''}>Science</option>
+            <option value="productivity" ${state.quoteCategory==='productivity'?'selected':''}>Productivity</option>
+            <option value="inspirational" ${state.quoteCategory==='inspirational'?'selected':''}>Inspirational</option>
             <option value="random" ${state.quoteCategory==='random'?'selected':''}>Random</option>
           </select>
         </div>
@@ -1742,8 +1800,8 @@
   function svgQuote(){
     const theme = themeObj(state.theme);
     const borderStyle = theme.border?`stroke:${theme.fg};stroke-width:2;`:'';
-    const today = new Date().getDate();
-    const quote = QUOTES[today % QUOTES.length];
+    
+   const quote = pickQuote(state.quoteCategory);
     const width=440, height=130;
     // split quote
     const words = quote.q.split(' ');
